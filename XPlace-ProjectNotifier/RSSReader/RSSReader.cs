@@ -22,7 +22,10 @@
 
 		public RSSReader(string rssUrl)
 		{
+			// Instanciate the Document
 			_rssDocumnet = new XmlDocument();
+
+			// Load the RSS document 
 			_rssDocumnet.Load(rssUrl);
 
 			_rssXmlUrl = rssUrl;
