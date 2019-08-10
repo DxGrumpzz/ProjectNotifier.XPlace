@@ -23,7 +23,7 @@
 
 
 		<!--The project's publishing date-->
-		<TextBlock Text="{Binding ProjectModel.Title}" />
+		<TextBlock Text="{Binding ProjectModel.PublishingDate}" />
 
 		<!-- Project link-->
 		<TextBlock Text="{Binding ProjectModel.Link}" />
