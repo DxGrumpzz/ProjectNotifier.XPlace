@@ -20,6 +20,12 @@
 			Padding="5">
 
 
+		<Border.InputBindings>
+			<MouseBinding MouseAction="LeftClick"
+						  Command="{Binding OpenProjectUrlCommand}"/>
+
+		</Border.InputBindings>
+		
 		<!-- Drop shadow -->
 		<Border.Effect>
 
@@ -34,15 +40,18 @@
 							  ShadowDepth="1"/>
 		</Border.Effect>
 
-
+		
 		<Border.Style>
 			<Style TargetType="{x:Type Border}">
 
 				<Style.Triggers>
 
-					<!-- Change bakcground on mouse hover-->
 					<Trigger Property="IsMouseOver" Value="True">
 
+						<!-- Change cursor to hand pointer on mouse hover-->
+						<Setter Property="Cursor" Value="Hand"/>
+
+						<!-- Change bakcground on mouse hover-->
 						<Trigger.EnterActions>
 							<BeginStoryboard>
 								<Storyboard>
@@ -116,7 +125,7 @@
 
 
 			<!-- Project link-->
-			<TextBlock>         
+			<!--<TextBlock>         
 			
 					<Hyperlink NavigateUri="{Binding ProjectModel.Link}"
 					   
@@ -125,8 +134,7 @@
 						<TextBlock Text="{Binding ProjectModel.Link}"/>
 				
 					</Hyperlink>
-				</TextBlock>
-
+				</TextBlock>-->
 
 		</StackPanel>
 	</Border>
