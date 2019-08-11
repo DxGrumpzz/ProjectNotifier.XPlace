@@ -12,7 +12,7 @@
 				
 			 d:DataContext="{x:Static local:ProjectItemViewModel.DesignTimeInstance}">
 
-	<StackPanel Background="White">
+	<StackPanel>
 
 		<!-- The project title -->
 		<TextBlock Text="{Binding ProjectModel.Title}" />
