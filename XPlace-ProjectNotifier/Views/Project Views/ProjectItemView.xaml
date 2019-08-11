@@ -7,27 +7,46 @@
              
 			 mc:Ignorable="d" 
 			 
-             d:DesignHeight="450" 
-			 d:DesignWidth="800"
+             d:DesignHeight="100" 
+			 d:DesignWidth="400"
 				
 			 d:DataContext="{x:Static local:ProjectItemViewModel.DesignTimeInstance}">
 
-	<StackPanel>
+	<StackPanel Background="White">
 
 		<!-- The project title -->
-		<TextBlock Text="{Binding ProjectModel.Title}" />
+		<TextBlock Text="{Binding ProjectModel.Title}"
+				   TextWrapping="Wrap"/>
 
 		<!-- The project description-->
-		<TextBlock Text="{Binding ProjectModel.Description}" />
+		<TextBlock Text="{Binding ProjectModel.Description}" 
+				   TextWrapping="Wrap"
+				   />
 
 
 
 		<!--The project's publishing date-->
-		<TextBlock Text="{Binding ProjectModel.PublishingDate}" />
+		<TextBlock Text="{Binding ProjectModel.PublishingDate}"
+				   TextWrapping="Wrap" />
 
 		<!-- Project link-->
-		<TextBlock Text="{Binding ProjectModel.Link}" />
+		<!--<TextBlock 
+				   TextWrapping="Wrap">
+			
+			<Hyperlink NavigateUri="{Binding ProjectModel.Link}"/>
 
+		</TextBlock>-->
+
+		<!-- Project link-->
+		<TextBlock>           
+
+			<Hyperlink NavigateUri="{Binding ProjectModel.Link}"
+					   
+					   Command="{Binding OpenProjectUrlCommand}">
+			
+				<TextBlock Text="{Binding ProjectModel.Link}"/>
+			</Hyperlink>
+		</TextBlock>
 
 	</StackPanel>
 </UserControl>
