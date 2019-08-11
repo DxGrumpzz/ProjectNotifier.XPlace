@@ -1,10 +1,7 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Diagnostics;
-	using System.Text;
-	using System.Windows;
 
 	/// <summary>
 	/// 
@@ -25,14 +22,14 @@
 			},
 		};
 
-
-
 		#region Private fields
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private ProjectModel _projectModel;
 
 		#endregion
+
+		#region Public properties
 
 		/// <summary>
 		/// A model containing data about the project
@@ -48,9 +45,40 @@
 		}
 
 
+		#endregion
+
+		#region Commands
+		public RelayCommand OpenProjectUrlCommand { get; }
+
+		#endregion
+
 		public ProjectItemViewModel()
 		{
-
+			OpenProjectUrlCommand = new RelayCommand(ExecuteOpenProjectUrlCommand);
 		}
+
+		#region Command callbacks
+
+
+		/// <summary>
+		/// Opens the browser with the associated project
+		/// </summary>
+		private void ExecuteOpenProjectUrlCommand()
+		{
+			// Open project link in Default browser
+			// (thank you .net core 3 for needing to open a cmd to launch a url)
+			Process.Start(new ProcessStartInfo
+			{
+				FileName = "cmd",
+				Arguments = $"/c start {ProjectModel.Link}",
+				// Ensures that the user doesn't see the cmd window opening
+				WindowStyle = ProcessWindowStyle.Hidden,
+				UseShellExecute = false,
+				CreateNoWindow = true,
+			});
+		}
+
+		#endregion
+
 	};
 }
