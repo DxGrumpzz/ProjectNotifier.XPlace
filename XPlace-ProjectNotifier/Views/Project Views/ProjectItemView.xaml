@@ -123,19 +123,6 @@
 			<TextBlock Text="{Binding ProjectModel.PublishingDate}"
 						   TextWrapping="Wrap" />
 
-
-			<!-- Project link-->
-			<!--<TextBlock>         
-			
-					<Hyperlink NavigateUri="{Binding ProjectModel.Link}"
-					   
-							   Command="{Binding OpenProjectUrlCommand}">
-			
-						<TextBlock Text="{Binding ProjectModel.Link}"/>
-				
-					</Hyperlink>
-				</TextBlock>-->
-
 		</StackPanel>
 	</Border>
 </UserControl>
