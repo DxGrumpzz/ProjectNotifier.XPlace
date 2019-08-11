@@ -57,9 +57,10 @@
 				var descriptionNode = node.SelectSingleNode("description").InnerText;
 				var publishDateNode = node.SelectSingleNode("pubDate").InnerText;
 
-				// Replace xml &quot; with actuall text quotes
-				titleNode.Replace("&quot;", "\"");
-				descriptionNode.Replace("&quot;", "\"");
+				// Replace unicode identifiers(?) string literals
+				titleNode = FormatString(titleNode);
+				descriptionNode = FormatString(descriptionNode);
+
 
 				return new ProjectModel()
 				{
@@ -90,5 +91,18 @@
 
 		#endregion
 
+
+		#region Private helpers
+
+		/// <summary>
+		/// Replaced unicode strings with string literalls
+		/// </summary>
+		/// <param name="stringToFormat"></param>
+		private string FormatString(string stringToFormat)
+		{
+			return stringToFormat.Replace("&#39;", "\'").Replace("&quot;", "\"");
+		}
+
+		#endregion
 	}
 }
