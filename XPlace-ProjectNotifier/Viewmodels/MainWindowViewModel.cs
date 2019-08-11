@@ -6,10 +6,19 @@
 	using System.Collections.ObjectModel;
 	using System.Text;
 	using System.Xml;
+	using System.Diagnostics;
+	using System.Windows;
 
 	public class MainWindowViewModel : BaseViewModel
 	{
+
+		#region Private fields
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private MainWindowModel _model;
+
+		#endregion
+
 		public MainWindowModel Model
 		{
 			get => _model;
@@ -75,5 +84,6 @@
 		}
 
 		#endregion
+
 	}
 }
