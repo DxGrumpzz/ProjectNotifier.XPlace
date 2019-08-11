@@ -2,12 +2,10 @@
 {
 	using System;
 	using System.Linq;
-	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
-	using System.Text;
 	using System.Xml;
 	using System.Diagnostics;
-	using System.Windows;
+	using System.Threading.Tasks;
 
 	public class MainWindowViewModel : BaseViewModel
 	{
@@ -16,6 +14,12 @@
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private MainWindowModel _model;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private bool _isLoading = true;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private ProjectListViewModel projectListViewModel;
 
 		#endregion
 
@@ -29,64 +33,91 @@
 			}
 		}
 
-		public ProjectListViewModel ProjectList { get; private set; }
+		public ProjectListViewModel ProjectList
+		{
+			get => projectListViewModel;
+			set
+			{
+				projectListViewModel = value;
+				OnPoropertyChanged();
+
+			}
+		}
+
+
+		public bool IsLoading
+		{
+			get => _isLoading;
+			set
+			{
+				_isLoading = value;
+				OnPoropertyChanged();
+			}
+		}
 
 
 		public MainWindowViewModel()
 		{
-			SetupRSSProjectList();
+			Task.Run(SetupRSSProjectListAsync);
 		}
+
 
 
 		#region Private methods
 
-		private void SetupRSSProjectList()
+		/// <summary>
+		/// Asynchrounsly loads rss feed content
+		/// </summary>
+		/// <returns></returns>
+		private async Task SetupRSSProjectListAsync()
 		{
-			// Read rss feed
-			RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
-			var nodes = rssReader.GetNodeFromRssDocument();
-
-			// Select first 25 results
-			var projects = nodes.Cast<XmlNode>().Take(25)
-			// "Convert" the xml data to a ProjectModel
-			.Select(node =>
+			await Task.Run(() =>
 			{
-				// Select required nodes
-				var titleNode = node.SelectSingleNode("title").InnerText;
-				var linkNode = node.SelectSingleNode("link").InnerText;
-				var descriptionNode = node.SelectSingleNode("description").InnerText;
-				var publishDateNode = node.SelectSingleNode("pubDate").InnerText;
+				// Read rss feed
+				RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
+				var nodes = rssReader.GetNodeFromRssDocument();
 
-				// Replace unicode identifiers(?) string literals
-				titleNode = FormatString(titleNode);
-				descriptionNode = FormatString(descriptionNode);
-
-
-				return new ProjectModel()
+				// Select first 25 results
+				var projects = nodes.Cast<XmlNode>().Take(25)
+				// "Convert" the xml data to a ProjectModel
+				.Select(node =>
 				{
-					Title = titleNode,
+					// Select required nodes
+					var titleNode = node.SelectSingleNode("title").InnerText;
+					var linkNode = node.SelectSingleNode("link").InnerText;
+					var descriptionNode = node.SelectSingleNode("description").InnerText;
+					var publishDateNode = node.SelectSingleNode("pubDate").InnerText;
 
-					Link = linkNode,
+					// Replace unicode identifiers(?) string literals
+					titleNode = FormatString(titleNode);
+					descriptionNode = FormatString(descriptionNode);
 
-					Description = descriptionNode,
+					return new ProjectModel()
+					{
+						Title = titleNode,
 
-					PublishingDate = DateTime.Parse(publishDateNode),
-				};
-			})
-			// Further convert the ProjectModel into a ProjectItemViewModel;
-			.Select(project =>
-			{
-				return new ProjectItemViewModel()
+						Link = linkNode,
+
+						Description = descriptionNode,
+
+						PublishingDate = DateTime.Parse(publishDateNode),
+					};
+				})
+				// Further convert the ProjectModel into a ProjectItemViewModel;
+				.Select(project => new ProjectItemViewModel()
 				{
 					ProjectModel = project,
+				});
+
+
+				ProjectList = new ProjectListViewModel()
+				{
+					ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
 				};
 			});
 
-
-			ProjectList = new ProjectListViewModel()
-			{
-				ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
-			};
+			// Finished loading content
+			IsLoading = false;
 		}
 
 		#endregion
