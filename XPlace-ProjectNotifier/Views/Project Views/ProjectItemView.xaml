@@ -12,24 +12,23 @@
 				
 			 d:DataContext="{x:Static local:ProjectItemViewModel.DesignTimeInstance}">
 
-
-	<Border Background="White"
+		<Border Background="White"
 			
 			CornerRadius="12"
 				
 			Padding="5">
 
 
-		<Border.InputBindings>
-			<MouseBinding MouseAction="LeftClick"
+			<Border.InputBindings>
+				<MouseBinding MouseAction="LeftClick"
 						  Command="{Binding OpenProjectUrlCommand}"/>
 
-		</Border.InputBindings>
-		
-		<!-- Drop shadow -->
-		<Border.Effect>
+			</Border.InputBindings>
 
-			<DropShadowEffect Color="#000"
+			<!-- Drop shadow -->
+			<Border.Effect>
+
+				<DropShadowEffect Color="#000"
 							  Opacity="0.2" 
 							  BlurRadius="3"
 							    
@@ -38,64 +37,64 @@
 							  Direction="270"
 								  
 							  ShadowDepth="1"/>
-		</Border.Effect>
+			</Border.Effect>
 
-		
-		<Border.Style>
-			<Style TargetType="{x:Type Border}">
 
-				<Style.Triggers>
+			<Border.Style>
+				<Style TargetType="{x:Type Border}">
 
-					<Trigger Property="IsMouseOver" Value="True">
+					<Style.Triggers>
 
-						<!-- Change cursor to hand pointer on mouse hover-->
-						<Setter Property="Cursor" Value="Hand"/>
+						<Trigger Property="IsMouseOver" Value="True">
 
-						<!-- Change bakcground on mouse hover-->
-						<Trigger.EnterActions>
-							<BeginStoryboard>
-								<Storyboard>
+							<!-- Change cursor to hand pointer on mouse hover-->
+							<Setter Property="Cursor" Value="Hand"/>
 
-									<ColorAnimation Duration="0:0:0.2" 
+							<!-- Change bakcground on mouse hover-->
+							<Trigger.EnterActions>
+								<BeginStoryboard>
+									<Storyboard>
+
+										<ColorAnimation Duration="0:0:0.2" 
 												
 													To="#DDDDDD" 
 													  
 													Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" />
 
-								</Storyboard>
-							</BeginStoryboard>
-						</Trigger.EnterActions>
+									</Storyboard>
+								</BeginStoryboard>
+							</Trigger.EnterActions>
 
-						<Trigger.ExitActions>
-							<BeginStoryboard>
-								<Storyboard>
+							<Trigger.ExitActions>
+								<BeginStoryboard>
+									<Storyboard>
 
-									<ColorAnimation Duration="0:0:0.2" 
+										<ColorAnimation Duration="0:0:0.2" 
 													
 													To="White" 
 													
                                                     Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" />
 
-								</Storyboard>
-							</BeginStoryboard>
-						</Trigger.ExitActions>
+									</Storyboard>
+								</BeginStoryboard>
+							</Trigger.ExitActions>
 
-					</Trigger>
-					
-				</Style.Triggers>
-			</Style>
-		</Border.Style>
+						</Trigger>
+
+					</Style.Triggers>
+				</Style>
+			</Border.Style>
 
 
-		<StackPanel HorizontalAlignment="Center"
+			<StackPanel HorizontalAlignment="Center"
 				
 					TextBlock.Foreground="#111"
 					TextBlock.FontFamily="Open Sans Hebrew">
 
 
 
-			<!-- The project title -->
-			<TextBlock Text="{Binding ProjectModel.Title}"
+				<!-- The project title -->
+				<TextBlock Text="{Binding ProjectModel.Title}"
 						   FontSize="17"
 						   FontWeight="Bold"
 						   FlowDirection="{Binding ProjectModel.Description,
@@ -106,12 +105,12 @@
 
 
 
-			<!-- The project description-->
-			<TextBlock Text="{Binding ProjectModel.Description}" 
+				<!-- The project description-->
+				<TextBlock Text="{Binding ProjectModel.Description}" 
 						   TextWrapping="Wrap"
 				   
-						   HorizontalAlignment="Center"
-				   
+						   TextAlignment="Center"
+					   
 						   FlowDirection="{Binding ProjectModel.Description,
 						   Converter={local:FlowDirectionConverter}}"
 				   
@@ -119,10 +118,10 @@
 
 
 
-			<!--The project's publishing date-->
-			<TextBlock Text="{Binding ProjectModel.PublishingDate}"
+				<!--The project's publishing date-->
+				<TextBlock Text="{Binding ProjectModel.PublishingDate}"
 						   TextWrapping="Wrap" />
 
-		</StackPanel>
-	</Border>
+			</StackPanel>
+		</Border>
 </UserControl>
