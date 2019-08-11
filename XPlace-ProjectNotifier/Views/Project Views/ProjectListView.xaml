@@ -11,7 +11,7 @@
              d:DesignHeight="450" 
 			 d:DesignWidth="800"
 			 
-			 DataContext="{x:Static local:ProjectListViewModel.DesignTimeInstance}">
+			 d:DataContext="{x:Static local:ProjectListViewModel.DesignTimeInstance}">
 
 	<Grid>
 		
@@ -20,24 +20,27 @@
 			<!-- The list of projects -->
 			<ItemsControl ItemsSource="{Binding ProjectList}"
 						
+						  VirtualizingStackPanel.IsVirtualizing="True"
+						  ScrollViewer.CanContentScroll="True"
+						  
 						  AlternationCount="100">
 
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 
-						<StackPanel Orientation="Horizontal">
+						<Grid>
 
 							<!-- Display project count -->
-							<TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+							<!--<TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, 
 									   Converter={local:IncrementNumberValueConverter},
 									   ConverterParameter=1,
 									   Path=(ItemsControl.AlternationIndex), 
-									   StringFormat={}{0}.}"/>
+									   StringFormat={}{0}.}"/>-->
 
 							<!-- The actual project-->
 							<local:ProjectItemView Grid.Column="1"
-												   Margin="5,0,0,0"/>
-						</StackPanel>
+												   Margin="10"/>
+						</Grid>
 
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
