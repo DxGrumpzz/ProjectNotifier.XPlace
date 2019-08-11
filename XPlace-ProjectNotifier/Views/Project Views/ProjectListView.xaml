@@ -5,28 +5,43 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:XPlace_ProjectNotifier"
              
+			 
 			 mc:Ignorable="d" 
 			 
              d:DesignHeight="450" 
 			 d:DesignWidth="800"
 			 
-			 d:DataContext="{x:Static local:ProjectListViewModel.DesignTimeInstance}">
+			 DataContext="{x:Static local:ProjectListViewModel.DesignTimeInstance}">
 
 	<Grid>
+		
+		<ScrollViewer>
 
-		<ItemsControl ItemsSource="{Binding ProjectList}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
+			<!-- The list of projects -->
+			<ItemsControl ItemsSource="{Binding ProjectList}"
+						
+						  AlternationCount="100">
 
-					<StackPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
 
-						<local:ProjectItemView/>
+						<StackPanel Orientation="Horizontal">
 
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+							<!-- Display project count -->
+							<TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+									   Converter={local:IncrementNumberValueConverter},
+									   ConverterParameter=1,
+									   Path=(ItemsControl.AlternationIndex), 
+									   StringFormat={}{0}.}"/>
 
+							<!-- The actual project-->
+							<local:ProjectItemView Grid.Column="1"
+												   Margin="5,0,0,0"/>
+						</StackPanel>
+
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
 	</Grid>
-
 </UserControl>
