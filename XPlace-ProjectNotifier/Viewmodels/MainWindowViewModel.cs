@@ -57,6 +57,10 @@
 				var descriptionNode = node.SelectSingleNode("description").InnerText;
 				var publishDateNode = node.SelectSingleNode("pubDate").InnerText;
 
+				// Replace xml &quot; with actuall text quotes
+				titleNode.Replace("&quot;", "\"");
+				descriptionNode.Replace("&quot;", "\"");
+
 				return new ProjectModel()
 				{
 					Title = titleNode,
@@ -68,7 +72,7 @@
 					PublishingDate = DateTime.Parse(publishDateNode),
 				};
 			})
-			// Further convert the Project model into a ProjectItemViewModel;
+			// Further convert the ProjectModel into a ProjectItemViewModel;
 			.Select(project =>
 			{
 				return new ProjectItemViewModel()
@@ -76,6 +80,7 @@
 					ProjectModel = project,
 				};
 			});
+
 
 			ProjectList = new ProjectListViewModel()
 			{
