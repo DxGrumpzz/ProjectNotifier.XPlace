@@ -12,15 +12,16 @@
 		{
 			ProjectModel = new ProjectModel()
 			{
-				Title = "Project title",
+				Title = "כותרת פרוייקט",
 
 				PublishingDate = DateTime.Now,
 
-				Link = "project link",
+				Link = "https://www.xplace.com/il/job/123456",
 
-				Description = "Project descritpion",
+				Description = "תיאור פרוייקט",
 			},
 		};
+
 
 		#region Private fields
 
@@ -52,10 +53,13 @@
 
 		#endregion
 
+
 		public ProjectItemViewModel()
 		{
 			OpenProjectUrlCommand = new RelayCommand(ExecuteOpenProjectUrlCommand);
 		}
+
+
 
 		#region Command callbacks
 
