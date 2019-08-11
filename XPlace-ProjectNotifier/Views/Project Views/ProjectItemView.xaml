@@ -19,6 +19,7 @@
 				
 			Padding="5">
 
+
 		<!-- Drop shadow -->
 		<Border.Effect>
 
@@ -28,17 +29,59 @@
 							    
 							  RenderingBias="Quality"
 							    
-								  Direction="270"
+							  Direction="270"
 								  
 							  ShadowDepth="1"/>
 		</Border.Effect>
 
-		<StackPanel Background="White" 
+
+		<Border.Style>
+			<Style TargetType="{x:Type Border}">
+
+				<Style.Triggers>
+
+					<!-- Change bakcground on mouse hover-->
+					<Trigger Property="IsMouseOver" Value="True">
+
+						<Trigger.EnterActions>
+							<BeginStoryboard>
+								<Storyboard>
+
+									<ColorAnimation Duration="0:0:0.2" 
+												
+													To="#DDDDDD" 
+													  
+													Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" />
+
+								</Storyboard>
+							</BeginStoryboard>
+						</Trigger.EnterActions>
+
+						<Trigger.ExitActions>
+							<BeginStoryboard>
+								<Storyboard>
+
+									<ColorAnimation Duration="0:0:0.2" 
+													
+													To="White" 
+													
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" />
+
+								</Storyboard>
+							</BeginStoryboard>
+						</Trigger.ExitActions>
+
+					</Trigger>
+					
+				</Style.Triggers>
+			</Style>
+		</Border.Style>
+
+
+		<StackPanel HorizontalAlignment="Center"
 				
-						HorizontalAlignment="Center"
-				
-						TextBlock.Foreground="#111"
-						TextBlock.FontFamily="Open Sans Hebrew">
+					TextBlock.Foreground="#111"
+					TextBlock.FontFamily="Open Sans Hebrew">
 
 
 
