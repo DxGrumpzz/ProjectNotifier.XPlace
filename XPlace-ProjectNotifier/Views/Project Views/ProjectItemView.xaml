@@ -12,41 +12,79 @@
 				
 			 d:DataContext="{x:Static local:ProjectItemViewModel.DesignTimeInstance}">
 
-	<StackPanel Background="White">
 
-		<!-- The project title -->
-		<TextBlock Text="{Binding ProjectModel.Title}"
-				   TextWrapping="Wrap"/>
-
-		<!-- The project description-->
-		<TextBlock Text="{Binding ProjectModel.Description}" 
-				   TextWrapping="Wrap"
-				   />
-
-
-
-		<!--The project's publishing date-->
-		<TextBlock Text="{Binding ProjectModel.PublishingDate}"
-				   TextWrapping="Wrap" />
-
-		<!-- Project link-->
-		<!--<TextBlock 
-				   TextWrapping="Wrap">
+	<Border Background="White"
 			
-			<Hyperlink NavigateUri="{Binding ProjectModel.Link}"/>
+			CornerRadius="12"
+				
+			Padding="5">
 
-		</TextBlock>-->
+		<!-- Drop shadow -->
+		<Border.Effect>
 
-		<!-- Project link-->
-		<TextBlock>           
+			<DropShadowEffect Color="#000"
+							  Opacity="0.2" 
+							  BlurRadius="3"
+							    
+							  RenderingBias="Quality"
+							    
+								  Direction="270"
+								  
+							  ShadowDepth="1"/>
+		</Border.Effect>
 
-			<Hyperlink NavigateUri="{Binding ProjectModel.Link}"
+		<StackPanel Background="White" 
+				
+						HorizontalAlignment="Center"
+				
+						TextBlock.Foreground="#111"
+						TextBlock.FontFamily="Open Sans Hebrew">
+
+
+
+			<!-- The project title -->
+			<TextBlock Text="{Binding ProjectModel.Title}"
+						   FontSize="17"
+						   FontWeight="Bold"
+						   FlowDirection="{Binding ProjectModel.Description,
+						   Converter={local:FlowDirectionConverter}}"
+
+						   Margin="0,5"
+						   HorizontalAlignment="Center"/>
+
+
+
+			<!-- The project description-->
+			<TextBlock Text="{Binding ProjectModel.Description}" 
+						   TextWrapping="Wrap"
+				   
+						   HorizontalAlignment="Center"
+				   
+						   FlowDirection="{Binding ProjectModel.Description,
+						   Converter={local:FlowDirectionConverter}}"
+				   
+						   MaxWidth="700"/>
+
+
+
+			<!--The project's publishing date-->
+			<TextBlock Text="{Binding ProjectModel.PublishingDate}"
+						   TextWrapping="Wrap" />
+
+
+			<!-- Project link-->
+			<TextBlock>         
+			
+					<Hyperlink NavigateUri="{Binding ProjectModel.Link}"
 					   
-					   Command="{Binding OpenProjectUrlCommand}">
+							   Command="{Binding OpenProjectUrlCommand}">
 			
-				<TextBlock Text="{Binding ProjectModel.Link}"/>
-			</Hyperlink>
-		</TextBlock>
+						<TextBlock Text="{Binding ProjectModel.Link}"/>
+				
+					</Hyperlink>
+				</TextBlock>
 
-	</StackPanel>
+
+		</StackPanel>
+	</Border>
 </UserControl>
