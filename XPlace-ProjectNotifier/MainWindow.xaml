@@ -9,7 +9,7 @@
         Title="{Binding Model.Title}" 
 		
 		Height="450"
-		Width="800">
+		Width="900">
 
 	<d:Window.DataContext>
 		<local:MainWindowViewModel/>
@@ -17,7 +17,20 @@
 	
 	<Grid>
 
-		
+		<!-- Loading text, Displayed before project list is loaded-->
+		<TextBlock Text=". . . טוען" 
+				   FontSize="30"
+				   FontFamily="Open Sans Hebrew"
+				   FontWeight="Bold"
+				   
+				   HorizontalAlignment="Center"
+				   VerticalAlignment="Center"
+				   
+				   Visibility="{Binding IsLoading, 
+				   Converter={local:BoolToVisibilityValueConverter}}"
+				   />
+
+		<local:ProjectListView DataContext="{Binding ProjectList}"/>
 
 	</Grid>
 </Window>
