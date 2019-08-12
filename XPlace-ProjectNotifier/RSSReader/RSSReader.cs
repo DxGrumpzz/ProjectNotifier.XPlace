@@ -3,6 +3,8 @@
     using System.Xml;
     using System.Xml.Linq;
 	using System.Linq;
+    using System.Diagnostics;
+    using System.Collections.Generic;
 
     /// <summary>
     /// An RSS reader/prases
@@ -24,7 +26,6 @@
 		{
 			// Instanciate the Document
 			_rssDocumnet = new XmlDocument();
-
 			// Load the RSS document 
 			_rssDocumnet.Load(rssUrl);
 
@@ -36,13 +37,28 @@
 		/// Returns an <see cref="XmlNodeList"/> that contains information about items in the document
 		/// </summary>
 		/// <param name="nodesToSelect"> node selection "filter" </param>
-		public XmlNodeList GetNodeFromRssDocument(string nodesToSelect = "rss/channel/item")
+		public IEnumerable<XmlNode> GetXmlNodeList(string nodesToSelect = "rss/channel/item", int count = 25)
 		{
-			// Select XML nodes from the RSS document
-			XmlNodeList rssNodes = _rssDocumnet.SelectNodes(nodesToSelect);
+			var rssNodes = _rssDocumnet.SelectNodes(nodesToSelect)
+				.Cast<XmlNode>()
+				.Take(count);
 
 			return rssNodes;
 		}
 
+		/// <summary>
+		/// Returns an IEnumerable of XElement
+		/// </summary>
+		/// <param name="descendantsSelection"> The type of descendatns to select </param>
+		/// <param name="count"> How many from the top to select </param>
+		/// <returns></returns>
+		public IEnumerable<XElement> GetXElementNodeList(string descendantsSelection = "item", int count = 25)
+		{
+			// Select XML nodes from the RSS document
+			var descendatsNodes = XDocument.Load(_rssXmlUrl).Descendants(descendantsSelection)
+				.Take(count);
+
+			return descendatsNodes;
+		}
 	}
 }
