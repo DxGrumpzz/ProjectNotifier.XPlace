@@ -6,8 +6,9 @@
 	using System.Xml;
 	using System.Diagnostics;
 	using System.Threading.Tasks;
+    using System.Xml.Linq;
 
-	public class MainWindowViewModel : BaseViewModel
+    public class MainWindowViewModel : BaseViewModel
 	{
 
 		#region Private fields
@@ -75,18 +76,17 @@
 			{
 				// Read rss feed
 				RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
-				var nodes = rssReader.GetNodeFromRssDocument();
 
-				// Select first 25 results
-				var projects = nodes.Cast<XmlNode>().Take(25)
+				// Grab the first 25 results from the RSS feed
+				var projects = rssReader.GetXElementNodeList(count: 25)
 				// "Convert" the xml data to a ProjectModel
-				.Select(node =>
+				.Select(element =>
 				{
 					// Select required nodes
-					var titleNode = node.SelectSingleNode("title").InnerText;
-					var linkNode = node.SelectSingleNode("link").InnerText;
-					var descriptionNode = node.SelectSingleNode("description").InnerText;
-					var publishDateNode = node.SelectSingleNode("pubDate").InnerText;
+					var titleNode = element.Element("title").Value;
+					var linkNode = element.Element("link").Value;
+					var descriptionNode = element.Element("description").Value;
+					var publishDateNode = element.Element("pubDate").Value;
 
 					// Replace unicode identifiers(?) string literals
 					titleNode = FormatString(titleNode);
