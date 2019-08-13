@@ -45,6 +45,7 @@
 			}
 		}
 
+		public SettingsModel SettingsModel { get; }
 
 		public bool IsLoading
 		{
@@ -56,6 +57,12 @@
 			}
 		}
 
+
+		public MainWindowViewModel(SettingsModel settingsModel) : 
+			this()
+		{
+			SettingsModel = settingsModel;
+		}
 
 		public MainWindowViewModel()
 		{
@@ -77,7 +84,7 @@
 				RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
 
 				// Grab the first 25 results from the RSS feed
-				var projects = rssReader.GetXElementNodeList(count: 100)
+				var projects = rssReader.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
 				// "Convert" the xml data to a ProjectModel
 				.Select(element =>
 				{
