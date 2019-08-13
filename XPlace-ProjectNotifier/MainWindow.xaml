@@ -14,7 +14,7 @@
 	<d:Window.DataContext>
 		<local:MainWindowViewModel/>
 	</d:Window.DataContext>
-	
+
 	<Grid>
 
 		<!-- Loading text, Displayed before project list is loaded-->
@@ -27,10 +27,14 @@
 				   VerticalAlignment="Center"
 				   
 				   Visibility="{Binding IsLoading, 
-				   Converter={local:BoolToVisibilityValueConverter}}"
-				   />
+				   Converter={local:BoolToVisibilityValueConverter}}"/>
 
+		
+		<!-- Projects list -->
 		<local:ProjectListView DataContext="{Binding ProjectList}"/>
+
+		<!-- Settings view -->
+		<local:SettingsView DataContext="{Binding SettingsViewModel}"/>
 
 	</Grid>
 </Window>
