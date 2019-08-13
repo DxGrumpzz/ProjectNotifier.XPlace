@@ -12,7 +12,7 @@
 		/// Updates the UI when a property's value changes
 		/// </summary>
 		/// <param name="propertyName"> The name of the property </param>
-		public void OnPoropertyChanged([CallerMemberName]string propertyName = "")
+		public void OnPropertyChanged([CallerMemberName]string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

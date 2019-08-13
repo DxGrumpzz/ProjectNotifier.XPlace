@@ -41,7 +41,7 @@
 			set
 			{
 				_projectModel = value;
-				OnPoropertyChanged();
+				OnPropertyChanged();
 			}
 		}
 

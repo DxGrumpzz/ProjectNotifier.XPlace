@@ -30,7 +30,7 @@
 			set
 			{
 				_model = value;
-				OnPoropertyChanged();
+				OnPropertyChanged();
 			}
 		}
 
@@ -40,12 +40,14 @@
 			set
 			{
 				projectListViewModel = value;
-				OnPoropertyChanged();
+				OnPropertyChanged();
 
 			}
 		}
 
 		public SettingsModel SettingsModel { get; }
+
+		public SettingsViewModel SettingsViewModel { get; }
 
 		public bool IsLoading
 		{
@@ -53,15 +55,16 @@
 			private set
 			{
 				_isLoading = value;
-				OnPoropertyChanged();
+				OnPropertyChanged();
 			}
 		}
 
 
-		public MainWindowViewModel(SettingsModel settingsModel) : 
+		public MainWindowViewModel(SettingsModel settingsModel) :
 			this()
 		{
 			SettingsModel = settingsModel;
+			SettingsViewModel = new SettingsViewModel(settingsModel);
 		}
 
 		public MainWindowViewModel()
@@ -80,16 +83,16 @@
 		{
 			await Task.Run(() =>
 			{
-				// Read rss feed
-				RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
+			// Read rss feed
+			RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
 
-				// Grab the first 25 results from the RSS feed
-				var projects = rssReader.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
-				// "Convert" the xml data to a ProjectModel
-				.Select(element =>
-				{
-					// Select required nodes
-					var titleNode = element.Element("title").Value;
+			// Grab the first 25 results from the RSS feed
+			var projects = rssReader.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
+		// "Convert" the xml data to a ProjectModel
+		.Select(element =>
+		{
+				// Select required nodes
+				var titleNode = element.Element("title").Value;
 					var linkNode = element.Element("link").Value;
 					var descriptionNode = element.Element("description").Value;
 					var publishDateNode = element.Element("pubDate").Value;
@@ -98,14 +101,14 @@
 					{
 						ProjectModel = new ProjectModel()
 						{
-							// Replace unicode identifiers(?) string literals
-							Title = FormatString(titleNode),
+						// Replace unicode identifiers(?) string literals
+						Title = FormatString(titleNode),
 							Description = FormatString(descriptionNode),
 
 							Link = linkNode,
 
-							// Convert the date time to israel standard time
-							PublishingDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(publishDateNode), "Israel Standard Time"),
+						// Convert the date time to israel standard time
+						PublishingDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(publishDateNode), "Israel Standard Time"),
 						},
 					};
 				});

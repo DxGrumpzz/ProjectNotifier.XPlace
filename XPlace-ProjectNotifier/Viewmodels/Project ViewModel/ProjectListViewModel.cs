@@ -84,7 +84,7 @@
 			set
 			{
 				_projectList = value;
-				OnPoropertyChanged();
+				OnPropertyChanged();
 			}
 		}
 
