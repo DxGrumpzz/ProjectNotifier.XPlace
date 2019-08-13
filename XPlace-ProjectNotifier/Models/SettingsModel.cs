@@ -13,7 +13,7 @@
 		/// <summary>
 		/// How many projects to read/display
 		/// </summary>
-		public int ProjectsCount { get; set; }
+		public int ProjectsToDisplay { get; set; }
 
 
 	};
