@@ -9,7 +9,10 @@
         Title="{Binding Model.Title}" 
 		
 		Height="450"
-		Width="900">
+		Width="900"
+		
+		MinHeight="400" 
+	    MinWidth="600">
 
 	<d:Window.DataContext>
 		<local:MainWindowViewModel/>
