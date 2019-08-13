@@ -119,8 +119,7 @@
 
 
 				<!--The project's publishing date-->
-				<TextBlock Text="{Binding ProjectModel.PublishingDate}"
-						   TextWrapping="Wrap" />
+			<TextBlock Text="{Binding ProjectModel.PublishingDate, StringFormat=HH:mm - d/M/yy}"/>
 
 			</StackPanel>
 		</Border>
