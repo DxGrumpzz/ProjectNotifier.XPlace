@@ -1,8 +1,8 @@
 ﻿namespace XPlace_ProjectNotifier
 {
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using System;
+	using Microsoft.Extensions.Configuration;
+	using Microsoft.Extensions.DependencyInjection;
+	using System;
 	using System.Collections.Generic;
 	using System.Configuration;
 	using System.Data;
@@ -21,28 +21,35 @@
 
 			ServiceCollection serviceCollection = new ServiceCollection();
 
+			// Bind services
 
-			IConfigurationRoot configurationBuilder = new ConfigurationBuilder()
+			var configurationBuilder = new ConfigurationBuilder()
 			.AddJsonFile("Config.json", true, true)
 			.Build();
 
-
 			serviceCollection.AddSingleton(configurationBuilder);
-			
-
-			IServiceProvider provider = serviceCollection.BuildServiceProvider();
-
-			var config = provider.GetService<IConfigurationRoot>();
 
 
-			Current.MainWindow = new MainWindow(new MainWindowViewModel
+			serviceCollection.AddSingleton(new SettingsModel()
+			{
+				// Get number of project to display
+				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection("ProjectsToDisplay").Value),
+			});
+
+
+			// Build provider
+			DI.SetupDI(serviceCollection.BuildServiceProvider());
+
+
+			// Setup MainWindow
+			(Current.MainWindow = new MainWindow(new MainWindowViewModel(DI.GetSettings())
 			{
 				Model = new MainWindowModel()
 				{
 					Title = "XPlace Project Notifier",
 				},
-			});
-			Current.MainWindow.Show();
+			}))
+			.Show();
 		}
 	}
 }

@@ -1,15 +1,19 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
+	using Microsoft.Extensions.Configuration;
+	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	/// Main DI class for this application
 	/// </summary>
 	public static class DI
 	{
-		public static ServiceProvider Provider;
+		/// <summary>
+		/// Main provider
+		/// </summary>
+		public static ServiceProvider Provider { get; private set; } 
+
 
 		/// <summary>
 		/// Returns a service from the <see cref="Provider"/>
@@ -32,21 +36,15 @@
 		}
 
 
-
 		/// <summary>
-		/// Returns the configuration root file and a <see cref="SettingsModel"/>
+		/// Returns the main settings model
 		/// </summary>
 		/// <returns></returns>
-		public static SettingsModel GetConfigSettings()
+		public static SettingsModel GetSettings()
 		{
-			// Get number of project to display
-			int projectsCount = Convert.ToInt32(GetConfigurationRoot().GetSection("ProjectsCount").Value);
-
-			return new SettingsModel()
-			{
-				ProjectsCount = projectsCount,
-			};
+			return GetService<SettingsModel>();
 		}
+
 
 		/// <summary>
 		/// Sets up the injecting service provider 
