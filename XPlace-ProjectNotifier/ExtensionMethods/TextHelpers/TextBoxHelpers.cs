@@ -13,8 +13,9 @@
         /// <returns> Returns true of false whether the text contaned any illegal characters </returns>
         public static bool IsTextValid(this TextBox textBox, string regexPattern)
         {
-            // Loops through the text
-            for (int a = 0; a < textBox.Text.Length; a++)
+
+			// Loops through the text
+			for (int a = 0; a < textBox.Text.Length; a++)
             {
                 // If the character matches the regex pattern
                 if (Regex.IsMatch(textBox.Text[a].ToString(), regexPattern) == false)
@@ -22,13 +23,11 @@
                     // Remove that character
                     textBox.Text = textBox.Text.Remove(a, 1);
 
-                    // Sets the caret index to the correct position
-                    // if the index of the caret is 0, set it a 0 as to not cause an exception
-                    // If the index is bigger than 0 remove 1 to save the location after deleting 1 character
-                    textBox.CaretIndex = (textBox.CaretIndex == 0) ? 0 : textBox.CaretIndex - 1;
+					// Sets the caret index to the correct position
+					textBox.CaretIndex = textBox.Text.Length;
 
-                    // Returns false because text contains invalid characters
-                    return false;
+					// Returns false because text contains invalid characters
+					return false;
                 };
             };
             // Returns true because the text was valid
