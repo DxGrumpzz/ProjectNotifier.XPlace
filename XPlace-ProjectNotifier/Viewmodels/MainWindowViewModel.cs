@@ -6,9 +6,9 @@
 	using System.Xml;
 	using System.Diagnostics;
 	using System.Threading.Tasks;
-    using System.Xml.Linq;
+	using System.Xml.Linq;
 
-    public class MainWindowViewModel : BaseViewModel
+	public class MainWindowViewModel : BaseViewModel
 	{
 
 		#region Private fields
@@ -49,7 +49,7 @@
 		public bool IsLoading
 		{
 			get => _isLoading;
-			set
+			private set
 			{
 				_isLoading = value;
 				OnPoropertyChanged();
@@ -61,7 +61,6 @@
 		{
 			Task.Run(SetupRSSProjectListAsync);
 		}
-
 
 
 		#region Private methods
@@ -78,7 +77,7 @@
 				RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
 
 				// Grab the first 25 results from the RSS feed
-				var projects = rssReader.GetXElementNodeList(count: 25)
+				var projects = rssReader.GetXElementNodeList(count: 100)
 				// "Convert" the xml data to a ProjectModel
 				.Select(element =>
 				{
@@ -88,27 +87,21 @@
 					var descriptionNode = element.Element("description").Value;
 					var publishDateNode = element.Element("pubDate").Value;
 
-					// Replace unicode identifiers(?) string literals
-					titleNode = FormatString(titleNode);
-					descriptionNode = FormatString(descriptionNode);
-
-					return new ProjectModel()
+					return new ProjectItemViewModel()
 					{
-						Title = titleNode,
+						ProjectModel = new ProjectModel()
+						{
+							// Replace unicode identifiers(?) string literals
+							Title = FormatString(titleNode),
+							Description = FormatString(descriptionNode),
 
-						Link = linkNode,
+							Link = linkNode,
 
-						Description = descriptionNode,
-
-						PublishingDate = DateTime.Parse(publishDateNode),
+							// Convert the date time to israel standard time
+							PublishingDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(publishDateNode), "Israel Standard Time"),
+						},
 					};
-				})
-				// Further convert the ProjectModel into a ProjectItemViewModel;
-				.Select(project => new ProjectItemViewModel()
-				{
-					ProjectModel = project,
 				});
-
 
 				ProjectList = new ProjectListViewModel()
 				{
