@@ -4,7 +4,6 @@
 	using System.Collections.Generic;
 	using System.Text;
 
-
 	/// <summary>
 	/// A model class that contains the app's settings
 	/// </summary>
