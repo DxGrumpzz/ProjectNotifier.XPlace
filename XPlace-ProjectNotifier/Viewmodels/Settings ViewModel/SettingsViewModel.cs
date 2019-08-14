@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Text;
+	using System.Windows.Controls;
 	using System.Windows.Input;
 
 	/// <summary>
@@ -14,6 +15,10 @@
 		#region Private fields
 
 		private SettingsModel _settingsModel;
+
+		public int _currentDisplayedProjectCcount;
+
+		public int _previousProjectCount;
 
 		#endregion
 
@@ -33,11 +38,6 @@
 			}
 		}
 
-
-		public int PreviousProjectCount { get; private set; }
-
-
-		public int _currentDisplayedProjectCcount;
 		public int CurrentDisplayedProjectCcount
 		{
 			get => _currentDisplayedProjectCcount;
@@ -54,10 +54,9 @@
 		#region Commands
 
 		public RelayCommand SaveProjectCountCommnad { get; }
-
 		public RelayCommand LostFocusCommand { get; set; }
 		public RelayCommand RemoveFocusCommand { get; set; }
-		
+
 		#endregion
 
 
@@ -67,7 +66,7 @@
 
 
 			CurrentDisplayedProjectCcount = settings.ProjectsToDisplay;
-			PreviousProjectCount = CurrentDisplayedProjectCcount;
+			_previousProjectCount = CurrentDisplayedProjectCcount;
 
 
 			SaveProjectCountCommnad = new RelayCommand(ExecuteSaveProjectCountCommnad);
@@ -75,32 +74,49 @@
 			RemoveFocusCommand = new RelayCommand(ExecuteRemoveFocusCommand);
 		}
 
-		private void ExecuteRemoveFocusCommand()
-		{
-			// Remove focus
-			Keyboard.ClearFocus();
-			ExecuteLostFocusCommand();
-		}
-
 		public SettingsViewModel()
 		{
 
 		}
 
-
 		private void ExecuteLostFocusCommand()
 		{
-			if(CurrentDisplayedProjectCcount != PreviousProjectCount)
+			if(CurrentDisplayedProjectCcount != _previousProjectCount)
 			{
-				CurrentDisplayedProjectCcount = PreviousProjectCount;
+				CurrentDisplayedProjectCcount = _previousProjectCount;
 			};
 		}
 
 
 		private void ExecuteSaveProjectCountCommnad()
 		{
+			// value validation
+			if(CurrentDisplayedProjectCcount > 100)
+			{
+				CurrentDisplayedProjectCcount = 100;
+			}
+			else if(CurrentDisplayedProjectCcount < 25)
+			{
+				CurrentDisplayedProjectCcount = 25;
+			};
+
+
+			// Update value
 			SettingsModel.ProjectsToDisplay = CurrentDisplayedProjectCcount;
-			PreviousProjectCount = CurrentDisplayedProjectCcount;
+			_previousProjectCount = CurrentDisplayedProjectCcount;
+
+			// Remove focus 
+			ExecuteRemoveFocusCommand();
 		}
+
+		private void ExecuteRemoveFocusCommand()
+		{
+			// Remove focus
+			Keyboard.ClearFocus();
+
+			// Reset value
+			ExecuteLostFocusCommand();
+		}
+
 	};
 };
