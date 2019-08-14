@@ -8,40 +8,43 @@
 			 
 			 mc:Ignorable="d" 
 			 
-             d:DesignHeight="450" 
-			 d:DesignWidth="800">
+             d:DesignHeight="200" 
+			 d:DesignWidth="400">
+
+	<d:UserControl.DataContext>
+		<local:TextEntryViewModel/>
+	</d:UserControl.DataContext>
 	
     <Border>
 
-		<TextBox Text="{Binding CurrentDisplayedProjectCcount, 
+		<TextBox Text="{Binding Value, 
 				 Mode=TwoWay,
 				 UpdateSourceTrigger=PropertyChanged}"
 				 FontWeight="Light"
 				    		
-				 local:IsOnlyNumericTextBlock.Value="True"
-				 		 
-				 Width="200"
-				 		 
-				 HorizontalContentAlignment="Center"
-				 		 
-				 HorizontalAlignment="Center"
-				 VerticalAlignment="Center">
+				 local:IsOnlyNumericTextBlock.Value="{Binding IsNumericOnly}"
+				 
+				 Background="#F0F0F0"
+				 
+				 HorizontalContentAlignment="Center">
 
-		<i:Interaction.Triggers>
-			<i:EventTrigger EventName="LostFocus">
-				<i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
-			</i:EventTrigger>
-		</i:Interaction.Triggers>
+			
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="LostFocus">
+					<i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
 
-		<TextBox.InputBindings>
+			<TextBox.InputBindings>
 
-			<KeyBinding Key="Return"
-							Command="{Binding SaveProjectCountCommnad}"/>
+				<KeyBinding Key="Return"
+								Command="{Binding SaveProjectCountCommnad}"/>
 
-			<KeyBinding Key="Esc"
-							Command="{Binding RemoveFocusCommand}"/>
+				<KeyBinding Key="Esc"
+								Command="{Binding RemoveFocusCommand}"/>
 
-		</TextBox.InputBindings>
+			</TextBox.InputBindings>
+
 		</TextBox>
 
 	</Border>
