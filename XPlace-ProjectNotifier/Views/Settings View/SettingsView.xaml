@@ -4,20 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:XPlace_ProjectNotifier"
-             
+
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+
 			 mc:Ignorable="d" 
 			 
              d:DesignHeight="450" 
 			 d:DesignWidth="500">
 
-	
-	<Border Background="White"
-			Padding="10">
+	<Border>
+
+		<Border.Background>
+			<SolidColorBrush Color="#111" Opacity="0.2"/>
+		</Border.Background>
 
 		<Border Background="White"
 				
 				CornerRadius="12"
 				
+				MinHeight="250"
+				MinWidth="250"
+
+				MaxHeight="500"
+				MaxWidth="500"
+				
+				Margin="50"
 				Padding="5">
 
 			<!-- Drop shadow -->
@@ -25,7 +36,7 @@
 
 				<DropShadowEffect Color="#000"
 								  Opacity="0.5" 
-								  BlurRadius="5"
+								  BlurRadius="10"
 							    
 								  RenderingBias="Quality"
 							    
@@ -33,34 +44,72 @@
 								  
 								  ShadowDepth="1"/>
 			</Border.Effect>
-			
+
 
 			<Grid Background="White">
 
 				<!-- Settings title -->
 				<TextBlock Text="הגדרות"
-						   FontWeight="Light"
-						   FontSize="25"
-				   
-						   FontFamily="Open Sans Hebrew"
-						   
-						   HorizontalAlignment="Center"
-						   VerticalAlignment="Top"
-				   
-						   Foreground="#111"/>
-				
-				
-				<TextBlock Text="{Binding Text}"
-						   FontWeight="Light"
-						   FontSize="25"
-				   
-						   HorizontalAlignment="Center"
-						   VerticalAlignment="Center"
-				   
-						   Foreground="#FFFFFF"/>
+					   FontWeight="Light"
+					   FontSize="25"
+				   	   
+					   FontFamily="Open Sans Hebrew"
+					      
+					   HorizontalAlignment="Center"
+					   VerticalAlignment="Top"
+				   	   
+					   Foreground="#111"/>
 
 
+				<TextBox Text="{Binding CurrentDisplayedProjectCcount, 
+						 Mode=TwoWay,
+						 UpdateSourceTrigger=PropertyChanged}"
+						 FontWeight="Light"
+				   	 
+						 Width="200"
+					    
+						 local:IsOnlyNumericTextBlock.Value="True"
+					 	
+						 HorizontalContentAlignment="Center"
+						 
+						 HorizontalAlignment="Center"
+						 VerticalAlignment="Center">
 
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="LostFocus">
+							<i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+					
+					<TextBox.InputBindings>
+
+						<KeyBinding Key="Return"
+									Command="{Binding SaveProjectCountCommnad}"/>
+
+						<KeyBinding Key="Esc"
+									Command="{Binding RemoveFocusCommand}"/>
+						
+					</TextBox.InputBindings>
+				</TextBox>
+
+
+				<TextBox Text="{Binding SettingsModel.ProjectsToDisplay, 
+						 Mode=OneWay,
+					     UpdateSourceTrigger=PropertyChanged}"
+						 
+						 Width="200"
+						 
+						 Margin="0,50,0,0"
+						 VerticalAlignment="Center"/>
+
+				<TextBox Text="{Binding SettingsModel.ProjectsToDisplay, 
+						 Mode=OneWay,
+					     UpdateSourceTrigger=PropertyChanged}"
+						 
+						 Width="200"
+						 
+						 Margin="0,100,0,0"
+						 VerticalAlignment="Center"/>
 			</Grid>
 		</Border>
 	</Border>

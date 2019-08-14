@@ -56,7 +56,8 @@
 		public RelayCommand SaveProjectCountCommnad { get; }
 
 		public RelayCommand LostFocusCommand { get; set; }
-
+		public RelayCommand RemoveFocusCommand { get; set; }
+		
 		#endregion
 
 
@@ -71,8 +72,15 @@
 
 			SaveProjectCountCommnad = new RelayCommand(ExecuteSaveProjectCountCommnad);
 			LostFocusCommand = new RelayCommand(ExecuteLostFocusCommand);
+			RemoveFocusCommand = new RelayCommand(ExecuteRemoveFocusCommand);
 		}
 
+		private void ExecuteRemoveFocusCommand()
+		{
+			// Remove focus
+			Keyboard.ClearFocus();
+			ExecuteLostFocusCommand();
+		}
 
 		public SettingsViewModel()
 		{
