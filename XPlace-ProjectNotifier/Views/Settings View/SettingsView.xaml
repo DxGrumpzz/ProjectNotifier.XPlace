@@ -65,11 +65,13 @@
 						 Mode=TwoWay,
 						 UpdateSourceTrigger=PropertyChanged}"
 						 FontWeight="Light"
-				   	 
-						 Width="200"
-					    
+				   		
+						 MaxLength="3"
+						 
 						 local:IsOnlyNumericTextBlock.Value="True"
-					 	
+						 
+						 Width="200"
+						 
 						 HorizontalContentAlignment="Center"
 						 
 						 HorizontalAlignment="Center"
@@ -80,7 +82,7 @@
 							<i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
-					
+
 					<TextBox.InputBindings>
 
 						<KeyBinding Key="Return"
@@ -88,7 +90,7 @@
 
 						<KeyBinding Key="Esc"
 									Command="{Binding RemoveFocusCommand}"/>
-						
+
 					</TextBox.InputBindings>
 				</TextBox>
 
