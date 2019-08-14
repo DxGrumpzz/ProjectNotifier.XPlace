@@ -1,31 +1,35 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Text;
-    using System.Windows.Input;
+	using System.Windows.Input;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public class TextEntryViewModel : BaseViewModel
+	/// <summary>
+	/// 
+	/// </summary>
+	public class TextEntryViewModel : BaseViewModel
 	{
 
 		#region Private fields
 
 		private string _value;
 
-		private string _previousValue;
-
 		#endregion
 
 
 		#region Public properties
 
+		public string PreviousValue { get; set; }
+
+
 		/// <summary>
 		/// A Boolean flag that indicates if this <see cref="TextEntryControl"/> accept only numeric characters
 		/// </summary>
 		public bool IsNumericOnly { get; set; }
+
+		/// <summary>
+		/// How many characters/numbers are allowed to be entered
+		/// </summary>
+		public int MaxLength { get; set; } = 10;
 
 		public string Value
 		{
@@ -37,6 +41,11 @@
 			}
 		}
 
+
+		/// <summary>
+		/// A validation action that will be executed before the value changes
+		/// </summary>
+		public Func<TextEntryViewModel, bool> ValueValidationAction { get; set; }
 
 		#endregion
 
@@ -50,8 +59,12 @@
 		#endregion
 
 
-		public TextEntryViewModel()
+		public TextEntryViewModel(string value)
 		{
+			Value = value;
+			PreviousValue = value;
+
+
 			SaveProjectCountCommnad = new RelayCommand(ExecuteSaveProjectCountCommnad);
 			LostFocusCommand = new RelayCommand(ExecuteLostFocusCommand);
 			RemoveFocusCommand = new RelayCommand(ExecuteRemoveFocusCommand);
@@ -62,20 +75,25 @@
 
 		private void ExecuteLostFocusCommand()
 		{
-			if(Value != _previousValue)
+			// If focus was lost before changing the value
+			// set current value to previous
+			if(Value != PreviousValue)
 			{
-				Value = _previousValue;
+				Value = PreviousValue;
 			};
 		}
 
-
 		private void ExecuteSaveProjectCountCommnad()
 		{
-			// Update value
-			_previousValue = Value;
+			// Validate setting value
+			if(ValueValidationAction?.Invoke(this) == true)
+			{
+				// Update value
+				PreviousValue = Value;
+			}
 
 			// Remove focus 
-			ExecuteRemoveFocusCommand();
+			Keyboard.ClearFocus();
 		}
 
 		private void ExecuteRemoveFocusCommand()
