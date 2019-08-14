@@ -13,9 +13,9 @@
 
 		#region Private fields
 
-		public string _value;
+		private string _value;
 
-		public string _previousValue;
+		private string _previousValue;
 
 		#endregion
 
