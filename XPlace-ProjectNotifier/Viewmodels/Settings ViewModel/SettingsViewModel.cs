@@ -18,29 +18,30 @@
 		/// </summary>
 		public SettingsModel SettingsModel { get; private set; }
 
-		public TextEntryViewModel ProjectCountSetting { get; set; }
+		public TextEntryViewModel<int> ProjectCountSetting { get; set; }
 
 
 		public SettingsViewModel(SettingsModel settings)
 		{
 			SettingsModel = settings;
 
-			ProjectCountSetting = new TextEntryViewModel(SettingsModel.ProjectsToDisplay.ToString())
+			ProjectCountSetting = new TextEntryViewModel<int>(SettingsModel.ProjectsToDisplay)
 			{
 				IsNumericOnly = true,
 
-				ValueValidationAction = new Func<TextEntryViewModel, bool>(value =>
-				{
-					int intValue = Convert.ToInt32(value.Value);
+				MaxLength = 3,
 
-					if(intValue > 100)
+				ValueValidationAction = new Func<TextEntryViewModel<int>, bool>(value =>
+				{
+
+					if(value.Value > 100)
 					{
-						value.Value = "100";
+						value.Value = 100;
 						return false;
 					}
-					else if(intValue < 25)
+					else if(value.Value < 25)
 					{
-						value.Value = "25";
+						value.Value = 25;
 						return false;
 					};
 

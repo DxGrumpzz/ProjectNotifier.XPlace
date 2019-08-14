@@ -1,25 +1,24 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.Windows.Input;
+    using System.Collections.Generic;
+    using System.Windows.Input;
 
 	/// <summary>
 	/// 
 	/// </summary>
-	public class TextEntryViewModel : BaseViewModel
+	public class TextEntryViewModel<T> : BaseViewModel
 	{
 
 		#region Private fields
 
-		private string _value;
+		private T _value;
+		private T _previousValue { get; set; }
 
 		#endregion
 
 
 		#region Public properties
-
-		public string PreviousValue { get; set; }
-
 
 		/// <summary>
 		/// A Boolean flag that indicates if this <see cref="TextEntryControl"/> accept only numeric characters
@@ -31,7 +30,7 @@
 		/// </summary>
 		public int MaxLength { get; set; } = 10;
 
-		public string Value
+		public T Value
 		{
 			get => _value;
 			set
@@ -45,7 +44,7 @@
 		/// <summary>
 		/// A validation action that will be executed before the value changes
 		/// </summary>
-		public Func<TextEntryViewModel, bool> ValueValidationAction { get; set; }
+		public Func<TextEntryViewModel<T>, bool> ValueValidationAction { get; set; }
 
 		#endregion
 
@@ -59,16 +58,18 @@
 		#endregion
 
 
-		public TextEntryViewModel(string value)
+		public TextEntryViewModel(T value)
 		{
 			Value = value;
-			PreviousValue = value;
+			_previousValue = value;
 
 
 			SaveProjectCountCommnad = new RelayCommand(ExecuteSaveProjectCountCommnad);
 			LostFocusCommand = new RelayCommand(ExecuteLostFocusCommand);
 			RemoveFocusCommand = new RelayCommand(ExecuteRemoveFocusCommand);
 		}
+
+		public TextEntryViewModel() { }
 
 
 		#region Command callbacks
@@ -77,9 +78,10 @@
 		{
 			// If focus was lost before changing the value
 			// set current value to previous
-			if(Value != PreviousValue)
+			//Value.Equals(_previousValue);
+			if(!Value.Equals(_previousValue))
 			{
-				Value = PreviousValue;
+				Value = _previousValue;
 			};
 		}
 
@@ -89,7 +91,7 @@
 			if(ValueValidationAction?.Invoke(this) == true)
 			{
 				// Update value
-				PreviousValue = Value;
+				_previousValue = Value;
 			}
 
 			// Remove focus 
