@@ -60,58 +60,7 @@
 				   	   
 					   Foreground="#111"/>
 
-
-				<TextBox Text="{Binding CurrentDisplayedProjectCcount, 
-						 Mode=TwoWay,
-						 UpdateSourceTrigger=PropertyChanged}"
-						 FontWeight="Light"
-				   		
-						 MaxLength="3"
-						 
-						 local:IsOnlyNumericTextBlock.Value="True"
-						 
-						 Width="200"
-						 
-						 HorizontalContentAlignment="Center"
-						 
-						 HorizontalAlignment="Center"
-						 VerticalAlignment="Center">
-
-					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="LostFocus">
-							<i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
-						</i:EventTrigger>
-					</i:Interaction.Triggers>
-
-					<TextBox.InputBindings>
-
-						<KeyBinding Key="Return"
-									Command="{Binding SaveProjectCountCommnad}"/>
-
-						<KeyBinding Key="Esc"
-									Command="{Binding RemoveFocusCommand}"/>
-
-					</TextBox.InputBindings>
-				</TextBox>
-
-
-				<TextBox Text="{Binding SettingsModel.ProjectsToDisplay, 
-						 Mode=OneWay,
-					     UpdateSourceTrigger=PropertyChanged}"
-						 
-						 Width="200"
-						 
-						 Margin="0,50,0,0"
-						 VerticalAlignment="Center"/>
-
-				<TextBox Text="{Binding SettingsModel.ProjectsToDisplay, 
-						 Mode=OneWay,
-					     UpdateSourceTrigger=PropertyChanged}"
-						 
-						 Width="200"
-						 
-						 Margin="0,100,0,0"
-						 VerticalAlignment="Center"/>
+				
 			</Grid>
 		</Border>
 	</Border>
