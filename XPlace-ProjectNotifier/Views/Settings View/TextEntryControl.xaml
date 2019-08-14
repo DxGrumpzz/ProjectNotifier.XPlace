@@ -19,8 +19,7 @@
 
 		<TextBox Text="{Binding Value, 
 				 Mode=TwoWay,
-				 UpdateSourceTrigger=PropertyChanged,
-			TargetNullValue=46531}"
+				 UpdateSourceTrigger=PropertyChanged}"
 				 
 				 local:IsOnlyNumericTextBlock.Value="{Binding IsNumericOnly}">
 
@@ -49,6 +48,7 @@
 
 					<Setter Property="BorderThickness" Value="0"/>
 
+					<Setter Property="MaxLength" Value="{Binding MaxLength}"/>
 					<Setter Property="FontFamily" Value="Open Sans Hebrew"/>
 					<Setter Property="FontSize" Value="15"/>
 
@@ -96,3 +96,4 @@
 
 	</Border>
 </UserControl>
+ 
