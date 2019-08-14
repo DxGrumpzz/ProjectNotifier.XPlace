@@ -13,31 +13,30 @@
 
 		#region Private fields
 
-		private SettingsModel _settingsModel;
+		public string _value;
 
-		public int _currentDisplayedProjectCcount;
-
-		public int _previousProjectCount;
+		public string _previousValue;
 
 		#endregion
 
 
 		#region Public properties
-		public int CurrentDisplayedProjectCcount
-		{
-			get => _currentDisplayedProjectCcount;
-			set
-			{
-				_currentDisplayedProjectCcount = value;
-				OnPropertyChanged();
-			}
-		}
-
 
 		/// <summary>
 		/// A Boolean flag that indicates if this <see cref="TextEntryControl"/> accept only numeric characters
 		/// </summary>
 		public bool IsNumericOnly { get; set; }
+
+		public string Value
+		{
+			get => _value;
+			set
+			{
+				_value = value;
+				OnPropertyChanged();
+			}
+		}
+
 
 		#endregion
 
@@ -63,28 +62,17 @@
 
 		private void ExecuteLostFocusCommand()
 		{
-			if(CurrentDisplayedProjectCcount != _previousProjectCount)
+			if(Value != _previousValue)
 			{
-				CurrentDisplayedProjectCcount = _previousProjectCount;
+				Value = _previousValue;
 			};
 		}
 
 
 		private void ExecuteSaveProjectCountCommnad()
 		{
-			// value validation
-			if(CurrentDisplayedProjectCcount > 100)
-			{
-				CurrentDisplayedProjectCcount = 100;
-			}
-			else if(CurrentDisplayedProjectCcount < 25)
-			{
-				CurrentDisplayedProjectCcount = 25;
-			};
-
-
 			// Update value
-			_previousProjectCount = CurrentDisplayedProjectCcount;
+			_previousValue = Value;
 
 			// Remove focus 
 			ExecuteRemoveFocusCommand();
@@ -100,7 +88,6 @@
 		}
 
 		#endregion
-
 
 	};
 };
