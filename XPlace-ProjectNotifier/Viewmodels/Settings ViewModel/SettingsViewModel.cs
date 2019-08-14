@@ -47,6 +47,11 @@
 
 					return true;
 				}),
+
+				SaveChangesAction = new Action<TextEntryViewModel<int>>(value =>
+				{
+
+				}),
 			};
 		}
 

@@ -1,7 +1,8 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-    using System.Collections.Generic;
+	using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Windows.Input;
 
 	/// <summary>
@@ -46,12 +47,17 @@
 		/// </summary>
 		public Func<TextEntryViewModel<T>, bool> ValueValidationAction { get; set; }
 
+		/// <summary>
+		/// An action that will be executed if the changes are valid 
+		/// </summary>
+		public Action<TextEntryViewModel<T>> SaveChangesAction { get; set; }
+
 		#endregion
 
 
 		#region Commands
 
-		public RelayCommand SaveProjectCountCommnad { get; }
+		public RelayCommand SaveChangesCommnad { get; }
 		public RelayCommand LostFocusCommand { get; set; }
 		public RelayCommand RemoveFocusCommand { get; set; }
 
@@ -64,7 +70,7 @@
 			_previousValue = value;
 
 
-			SaveProjectCountCommnad = new RelayCommand(ExecuteSaveProjectCountCommnad);
+			SaveChangesCommnad = new RelayCommand(ExecuteSaveChangesCommnad);
 			LostFocusCommand = new RelayCommand(ExecuteLostFocusCommand);
 			RemoveFocusCommand = new RelayCommand(ExecuteRemoveFocusCommand);
 		}
@@ -76,22 +82,24 @@
 
 		private void ExecuteLostFocusCommand()
 		{
-			// If focus was lost before changing the value
+			// If focus was lost before updating the value
 			// set current value to previous
-			//Value.Equals(_previousValue);
 			if(!Value.Equals(_previousValue))
 			{
 				Value = _previousValue;
 			};
 		}
 
-		private void ExecuteSaveProjectCountCommnad()
+		private void ExecuteSaveChangesCommnad()
 		{
 			// Validate setting value
 			if(ValueValidationAction?.Invoke(this) == true)
 			{
 				// Update value
 				_previousValue = Value;
+
+				//
+				SaveChangesAction?.Invoke(this);
 			}
 
 			// Remove focus 
