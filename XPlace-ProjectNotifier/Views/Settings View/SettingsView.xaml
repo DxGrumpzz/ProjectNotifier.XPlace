@@ -50,17 +50,34 @@
 
 				<!-- Settings title -->
 				<TextBlock Text="הגדרות"
-					   FontWeight="Light"
-					   FontSize="25"
+						   FontWeight="Light"
+						   FontSize="25"
 				   	   
-					   FontFamily="Open Sans Hebrew"
+						   FontFamily="Open Sans Hebrew"
 					      
-					   HorizontalAlignment="Center"
-					   VerticalAlignment="Top"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Top"
 				   	   
-					   Foreground="#111"/>
+						   Foreground="#111"/>
 
-				
+
+				<!-- Project count setting -->
+				<local:TextEntryControl DataContext="{Binding ProjectCountSetting}"
+
+										VerticalAlignment="Center"
+										
+										Width="200"/>
+
+				<TextBox Width="200"
+						   Height="20"
+						   
+						   Margin="0,50,0,0"/>
+
+				<Button Width="50"
+						Height="20"
+						
+						Margin="0,100,0,0"
+						Command="{Binding Command}"/>
 			</Grid>
 		</Border>
 	</Border>
