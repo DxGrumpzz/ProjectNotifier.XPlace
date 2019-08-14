@@ -6,29 +6,25 @@
              xmlns:local="clr-namespace:XPlace_ProjectNotifier"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 			 
-			 mc:Ignorable="d" 
+			 d:DesignWidth="200"
 			 
-             d:DesignHeight="200" 
-			 d:DesignWidth="400">
+			 mc:Ignorable="d" >
+
 
 	<d:UserControl.DataContext>
 		<local:TextEntryViewModel/>
 	</d:UserControl.DataContext>
-	
-    <Border>
+
+	<Border>
 
 		<TextBox Text="{Binding Value, 
 				 Mode=TwoWay,
-				 UpdateSourceTrigger=PropertyChanged}"
-				 FontWeight="Light"
-				    		
-				 local:IsOnlyNumericTextBlock.Value="{Binding IsNumericOnly}"
+				 UpdateSourceTrigger=PropertyChanged,
+			TargetNullValue=46531}"
 				 
-				 Background="#F0F0F0"
-				 
-				 HorizontalContentAlignment="Center">
+				 local:IsOnlyNumericTextBlock.Value="{Binding IsNumericOnly}">
 
-			
+
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="LostFocus">
 					<i:InvokeCommandAction Command="{Binding LostFocusCommand}" />
@@ -44,6 +40,57 @@
 								Command="{Binding RemoveFocusCommand}"/>
 
 			</TextBox.InputBindings>
+
+			<TextBox.Style>
+				<Style TargetType="{x:Type TextBox}">
+
+					<Setter Property="Background" Value="Transparent"/>
+					<Setter Property="Foreground" Value="#111"/>
+
+					<Setter Property="BorderThickness" Value="0"/>
+
+					<Setter Property="FontFamily" Value="Open Sans Hebrew"/>
+					<Setter Property="FontSize" Value="15"/>
+
+					<Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+					<Setter Property="AllowDrop" Value="true"/>
+					<Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+
+					<Setter Property="Template">
+
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type TextBox}">
+
+
+								<Border x:Name="border" 
+										Background="{TemplateBinding Background}" 
+										BorderThickness="{TemplateBinding BorderThickness}" 
+										BorderBrush="{TemplateBinding BorderBrush}" 
+										SnapsToDevicePixels="True">
+
+									<Grid>
+
+										<!-- Text presenter -->
+										<ScrollViewer x:Name="PART_ContentHost"
+												  
+													  Focusable="false"
+													  
+													  HorizontalScrollBarVisibility="Hidden" 
+													  VerticalScrollBarVisibility="Hidden"/>
+
+										<Rectangle MinHeight="2"
+
+												   VerticalAlignment="Bottom"
+
+												   Fill="#111"/>
+									</Grid>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</TextBox.Style>
 
 		</TextBox>
 
