@@ -9,8 +9,8 @@
 
 			 mc:Ignorable="d" 
 			 
-             d:DesignHeight="450" 
-			 d:DesignWidth="500">
+             d:DesignHeight="500" 
+			 d:DesignWidth="600">
 
 	<Border>
 
@@ -24,9 +24,9 @@
 				
 				MinHeight="250"
 				MinWidth="250"
-
-				MaxHeight="500"
-				MaxWidth="500"
+			 
+				MaxHeight="600"
+				MaxWidth="600"
 				
 				Margin="50"
 				Padding="5">
@@ -48,6 +48,12 @@
 
 			<Grid Background="White">
 
+				<Grid.RowDefinitions>
+					<RowDefinition Height="AUTO"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+
+
 				<!-- Settings title -->
 				<TextBlock Text="הגדרות"
 						   FontWeight="Light"
@@ -56,28 +62,62 @@
 						   FontFamily="Open Sans Hebrew"
 					      
 						   HorizontalAlignment="Center"
-						   VerticalAlignment="Top"
 				   	   
 						   Foreground="#111"/>
 
 
-				<!-- Project count setting -->
-				<local:TextEntryControl DataContext="{Binding ProjectCountSetting}"
+				<Grid Grid.Row="1">
 
-										VerticalAlignment="Center"
-										
-										Width="200"/>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
 
-				<TextBox Width="200"
-						   Height="20"
-						   
-						   Margin="0,50,0,0"/>
 
-				<Button Width="50"
-						Height="20"
-						
-						Margin="0,100,0,0"
-						Command="{Binding Command}"/>
+					<StackPanel Grid.Column="2">
+
+						<!-- App settings title -->
+						<TextBlock Text="הגדרות תוכנה"
+								   FontWeight="Light"
+								   FontSize="20"
+								   FontFamily="Open Sans Hebrew"
+					      
+								   HorizontalAlignment="Center"
+								   Margin="0,0,0,10"
+								   
+								   Foreground="#111" />
+
+
+						<!-- Project count -->
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="AUTO"/>
+							</Grid.ColumnDefinitions>
+
+							<!-- Project count setting -->
+							<local:TextEntryControl DataContext="{Binding ProjectCountSetting}"
+
+													Margin="0,0,5,0"/>
+
+							<TextBlock Text="כמות פרוייקטים להציג"
+									   FontWeight="Light"
+									   FontSize="14"
+									   FontFamily="Open Sans Hebrew"
+					      
+									   Grid.Column="1"
+									   
+									   Foreground="#111"/>
+
+						</Grid>
+
+					</StackPanel>
+
+
+				</Grid>
+
+
 			</Grid>
 		</Border>
 	</Border>
