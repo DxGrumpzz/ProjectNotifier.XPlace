@@ -2,7 +2,7 @@
 {
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
-	using System;
+    using System;
 	using System.Collections.Generic;
 	using System.Configuration;
 	using System.Data;
@@ -36,6 +36,7 @@
 				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection("ProjectsToDisplay").Value),
 			});
 
+			serviceCollection.AddSingleton(new JsonConfigManager("Config.json"));
 
 			// Build provider
 			DI.SetupDI(serviceCollection.BuildServiceProvider());
