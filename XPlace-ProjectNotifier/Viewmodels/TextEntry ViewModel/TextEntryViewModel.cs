@@ -1,8 +1,6 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Windows.Input;
 
 	/// <summary>
@@ -14,7 +12,6 @@
 		#region Private fields
 
 		private T _value;
-		private T _previousValue { get; set; }
 
 		#endregion
 
@@ -30,6 +27,9 @@
 		/// How many characters/numbers are allowed to be entered
 		/// </summary>
 		public int MaxLength { get; set; } = 10;
+
+
+		public T PreviousValue { get; private set; }
 
 		public T Value
 		{
@@ -67,7 +67,7 @@
 		public TextEntryViewModel(T value)
 		{
 			Value = value;
-			_previousValue = value;
+			PreviousValue = value;
 
 
 			SaveChangesCommnad = new RelayCommand(ExecuteSaveChangesCommnad);
@@ -84,9 +84,9 @@
 		{
 			// If focus was lost before updating the value
 			// set current value to previous
-			if(!Value.Equals(_previousValue))
+			if(!Value.Equals(PreviousValue))
 			{
-				Value = _previousValue;
+				Value = PreviousValue;
 			};
 		}
 
@@ -96,7 +96,7 @@
 			if(ValueValidationAction?.Invoke(this) == true)
 			{
 				// Update value
-				_previousValue = Value;
+				PreviousValue = Value;
 
 				//
 				SaveChangesAction?.Invoke(this);
