@@ -31,26 +31,34 @@
 
 				MaxLength = 3,
 
-				ValueValidationAction = new Func<TextEntryViewModel<int>, bool>(value =>
+				ValueValidationAction = new Func<TextEntryViewModel<int>, bool>(setting =>
 				{
-
-					if(value.Value > 100)
+					// If value didn't change don't update
+					if(setting.Value == setting.PreviousValue)
 					{
-						value.Value = 100;
-						return false;
-					}
-					else if(value.Value < 25)
-					{
-						value.Value = 25;
 						return false;
 					};
+
+					// Boundry validation
+					if(setting.Value > 100)
+					{
+						setting.Value = 100;
+						return false;
+					}
+					else if(setting.Value < 25)
+					{
+						setting.Value = 25;
+						return false;
+					};
+
 
 					return true;
 				}),
 
 				SaveChangesAction = new Action<TextEntryViewModel<int>>(value =>
 				{
-
+					// Update config value if succesfull
+					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.ProjectsToDisplay), value.Value);
 				}),
 			};
 		}
