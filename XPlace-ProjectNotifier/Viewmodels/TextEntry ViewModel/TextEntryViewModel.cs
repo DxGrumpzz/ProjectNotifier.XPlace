@@ -29,8 +29,14 @@
 		public int MaxLength { get; set; } = 10;
 
 
+		/// <summary>
+		/// The previous value
+		/// </summary>
 		public T PreviousValue { get; private set; }
 
+		/// <summary>
+		/// The current value
+		/// </summary>
 		public T Value
 		{
 			get => _value;
