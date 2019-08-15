@@ -1,17 +1,19 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Diagnostics;
-	using System.Text;
-	using System.Windows.Controls;
-	using System.Windows.Input;
+    using System.Diagnostics;
 
-	/// <summary>
-	/// 
-	/// </summary>
-	public class SettingsViewModel : BaseViewModel
+    /// <summary>
+    /// 
+    /// </summary>
+    public class SettingsViewModel : BaseViewModel
 	{
+
+		#region Private fields
+
+		private bool _isOpen;
+
+		#endregion
 
 		/// <summary>
 		/// Application settings
@@ -20,6 +22,25 @@
 
 		public TextEntryViewModel<int> ProjectCountSetting { get; set; }
 
+
+		/// <summary>
+		/// A boolean flag that indicates if this control is open or in view
+		/// </summary>
+		public bool IsOpen
+		{
+			get => _isOpen;
+			set
+			{
+				_isOpen = value;
+				OnPropertyChanged();
+			}
+		}
+
+
+		public RelayCommand CloseSettingsCommand { get; }
+
+
+		public SettingsViewModel() { }
 
 		public SettingsViewModel(SettingsModel settings)
 		{
@@ -61,11 +82,15 @@
 					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.ProjectsToDisplay), value.Value);
 				}),
 			};
+
+			CloseSettingsCommand = new RelayCommand(ExecuteCloseSettingsCommand);
 		}
 
-		public SettingsViewModel()
+
+		private void ExecuteCloseSettingsCommand()
 		{
-
+			IsOpen = false;
 		}
+
 	};
 };

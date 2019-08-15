@@ -20,6 +20,20 @@
 
 	<Grid>
 
+		<Button Content="הגדרות" 
+				
+				VerticalAlignment="Top"
+				HorizontalAlignment="Center"
+				
+				MinWidth="50"
+				MinHeight="20"
+				
+				Panel.ZIndex="1"
+				
+				Command="{Binding OpenSettingsCommand}"/>
+
+
+
 		<!-- Loading text, Displayed before project list is loaded-->
 		<TextBlock Text=". . . טוען" 
 				   FontSize="30"

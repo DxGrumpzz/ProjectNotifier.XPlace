@@ -12,12 +12,26 @@
              d:DesignHeight="500" 
 			 d:DesignWidth="600">
 
-	<Border>
+	
+	<Grid Visibility="{Binding IsOpen, 
+			Converter={local:BoolToVisibilityValueConverter}}">
 
-		<Border.Background>
-			<SolidColorBrush Color="#111" Opacity="0.2"/>
-		</Border.Background>
+		
+		<!-- Overlay beside the control -->
+		<Border Background="#111"
+				
+				Opacity="0.2">
 
+			<Border.InputBindings>
+			
+				<MouseBinding MouseAction="LeftClick"
+							  Command="{Binding CloseSettingsCommand}"/>
+
+			</Border.InputBindings>
+
+		</Border>
+
+		
 		<Border Background="White"
 				
 				CornerRadius="12"
@@ -120,5 +134,5 @@
 
 			</Grid>
 		</Border>
-	</Border>
+	</Grid>
 </UserControl>
