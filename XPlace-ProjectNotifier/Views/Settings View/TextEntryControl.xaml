@@ -33,7 +33,7 @@
 			<TextBox.InputBindings>
 
 				<KeyBinding Key="Return"
-								Command="{Binding SaveProjectCountCommnad}"/>
+								Command="{Binding SaveChangesCommnad}"/>
 
 				<KeyBinding Key="Esc"
 								Command="{Binding RemoveFocusCommand}"/>
@@ -79,6 +79,7 @@
 													  HorizontalScrollBarVisibility="Hidden" 
 													  VerticalScrollBarVisibility="Hidden"/>
 
+										<!-- The small black line under the text --> 
 										<Rectangle MinHeight="2"
 
 												   VerticalAlignment="Bottom"
