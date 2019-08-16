@@ -12,26 +12,114 @@
              d:DesignHeight="500" 
 			 d:DesignWidth="600">
 
-	
-	<Grid Visibility="{Binding IsOpen, 
-			Converter={local:BoolToVisibilityValueConverter}}">
 
-		
-		<!-- Overlay beside the control -->
-		<Border Background="#111"
-				
-				Opacity="0.2">
+
+	<Grid Visibility="{Binding IsOpen,
+		  Converter={local:BoolToVisibilityValueConverter}}">
+
+		<Grid.Style>
+
+			<Style TargetType="Grid">
+
+				<Style.Triggers>
+
+					<DataTrigger Binding="{Binding IsOpen}" Value="True">
+
+						<!-- Set visibility to hidden only after the animations have been completed -->
+						<DataTrigger.EnterActions>
+
+							<BeginStoryboard>
+
+								<Storyboard>
+
+									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
+
+										<DiscreteObjectKeyFrame KeyTime="00:00:00.0" 
+																Value="{x:Static Visibility.Visible}"/>
+
+									</ObjectAnimationUsingKeyFrames>
+								</Storyboard>
+							</BeginStoryboard>
+						</DataTrigger.EnterActions>
+						
+						<DataTrigger.ExitActions>
+
+							<BeginStoryboard>
+
+								<Storyboard>
+
+									<ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" 
+																   Storyboard.TargetProperty="(UIElement.Visibility)">
+
+										<DiscreteObjectKeyFrame KeyTime="00:00:00.0" 
+																Value="{x:Static Visibility.Hidden}"/>
+
+									</ObjectAnimationUsingKeyFrames>
+								</Storyboard>
+							</BeginStoryboard>
+						</DataTrigger.ExitActions>
+						
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
+
+		</Grid.Style>
+
+		<!-- Overlay around the control -->
+		<Border Background="#111">
 
 			<Border.InputBindings>
-			
+
 				<MouseBinding MouseAction="LeftClick"
 							  Command="{Binding CloseSettingsCommand}"/>
 
 			</Border.InputBindings>
 
+			<Border.Style>
+				<Style TargetType="Border">
+
+					<Style.Triggers>
+
+						<DataTrigger Binding="{Binding IsOpen}" Value="True">
+
+							<DataTrigger.EnterActions>
+								<BeginStoryboard>
+
+									<Storyboard>
+
+										<DoubleAnimation Storyboard.TargetProperty="Opacity"
+														 From="0"
+														 To="0.2"
+														 
+														 Duration="0:0:0.5" />
+									</Storyboard>
+
+								</BeginStoryboard>
+							</DataTrigger.EnterActions>
+
+							<DataTrigger.ExitActions>
+								<BeginStoryboard>
+
+									<Storyboard>
+
+										<DoubleAnimation Storyboard.TargetProperty="Opacity"
+														 From="0.2"
+														 To="0"
+														 
+														 Duration="0:0:0.5" />
+									</Storyboard>
+
+								</BeginStoryboard>
+							</DataTrigger.ExitActions>
+
+						</DataTrigger>
+
+					</Style.Triggers>
+				</Style>
+			</Border.Style>
 		</Border>
 
-		
+
 		<Border Background="White"
 				
 				CornerRadius="12"
@@ -39,10 +127,9 @@
 				MinHeight="250"
 				MinWidth="250"
 			 
-				MaxHeight="600"
-				MaxWidth="600"
+				MaxHeight="400"
+				MaxWidth="450"
 				
-				Margin="50"
 				Padding="5">
 
 			<!-- Drop shadow -->
@@ -59,8 +146,70 @@
 								  ShadowDepth="1"/>
 			</Border.Effect>
 
+			
+			<Border.RenderTransform>
+				<!-- In order to make storyboard use translation animations TranslateTransform 
+					 must be created -->
+				<TranslateTransform/>
+			</Border.RenderTransform>
 
-			<Grid Background="White">
+			<Border.Style>
+				<Style TargetType="Border">
+					
+					<Style.Triggers>
+
+						<DataTrigger Binding="{Binding IsOpen}" Value="True">
+
+							<DataTrigger.EnterActions>
+								<BeginStoryboard>
+
+									<Storyboard>
+
+										<DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+														 From="-400"
+														 To="0"
+														 
+														 Duration="0:0:0.5" />
+
+										<DoubleAnimation Storyboard.TargetProperty="Opacity"
+														 From="0"
+														 To="1"
+														 
+														 Duration="0:0:0.5" />
+									</Storyboard>
+
+								</BeginStoryboard>
+							</DataTrigger.EnterActions>
+
+							<DataTrigger.ExitActions>
+								<BeginStoryboard>
+
+									<Storyboard>
+
+										<DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+														 From="0"
+														 To="-400"
+														 
+														 Duration="0:0:0.5" />
+
+										<DoubleAnimation Storyboard.TargetProperty="Opacity"
+														 From="1"
+														 To="0"
+														 
+														 Duration="0:0:0.5" />
+									</Storyboard>
+
+								</BeginStoryboard>
+							</DataTrigger.ExitActions>
+
+						</DataTrigger>
+
+					</Style.Triggers>
+				</Style>
+			</Border.Style>
+
+
+			<Grid>
 
 				<Grid.RowDefinitions>
 					<RowDefinition Height="AUTO"/>
@@ -73,7 +222,6 @@
 						   FontWeight="Light"
 						   FontSize="25"
 				   	   
-						   FontFamily="Open Sans Hebrew"
 					      
 						   HorizontalAlignment="Center"
 				   	   
@@ -127,12 +275,10 @@
 						</Grid>
 
 					</StackPanel>
-
-
 				</Grid>
-
-
 			</Grid>
+
 		</Border>
+		
 	</Grid>
 </UserControl>
