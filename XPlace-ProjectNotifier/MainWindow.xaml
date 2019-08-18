@@ -9,7 +9,7 @@
         Title="{Binding Model.Title}" 
 		
 		Height="450"
-		Width="900"
+		Width="700"
 		
 		MinHeight="400" 
 	    MinWidth="600">
@@ -19,20 +19,6 @@
 	</d:Window.DataContext>
 
 	<Grid>
-
-		<Button Content="הגדרות" 
-				
-				VerticalAlignment="Top"
-				HorizontalAlignment="Center"
-				
-				MinWidth="50"
-				MinHeight="20"
-				
-				Panel.ZIndex="1"
-				
-				Command="{Binding OpenSettingsCommand}"/>
-
-
 
 		<!-- Loading text, Displayed before project list is loaded-->
 		<TextBlock Text=". . . טוען" 
@@ -46,9 +32,21 @@
 				   Visibility="{Binding IsLoading, 
 				   Converter={local:BoolToVisibilityValueConverter}}"/>
 
-		
+
+
 		<!-- Projects list -->
 		<local:ProjectListView DataContext="{Binding ProjectList}"/>
+
+
+		<Button Content="הגדרות" 
+				
+				VerticalAlignment="Top"
+				HorizontalAlignment="Center"
+				
+				MinWidth="50"
+				MinHeight="20"
+				
+				Command="{Binding OpenSettingsCommand}"/>
 
 		<!-- Settings view -->
 		<local:SettingsView DataContext="{Binding SettingsViewModel}"/>
