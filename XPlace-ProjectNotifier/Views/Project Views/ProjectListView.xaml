@@ -19,29 +19,28 @@
 
 			<!-- The list of projects -->
 			<ItemsControl ItemsSource="{Binding ProjectList}"
-						
-						  VirtualizingStackPanel.IsVirtualizing="True"
-						  ScrollViewer.CanContentScroll="True"
+						  
+						  Margin="0,30,0,0"
 						  
 						  AlternationCount="100">
 
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<VirtualizingStackPanel VirtualizingPanel.IsVirtualizing="True"
+												VirtualizingPanel.VirtualizationMode="Recycling"
+												VirtualizingPanel.IsContainerVirtualizable="True"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 
 						<Grid>
 
-							<!-- Display project count -->
-							<!--<TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, 
-									   Converter={local:IncrementNumberValueConverter},
-									   ConverterParameter=1,
-									   Path=(ItemsControl.AlternationIndex), 
-									   StringFormat={}{0}.}"/>-->
-
 							<!-- The actual project-->
 							<local:ProjectItemView Grid.Column="1"
 												   Margin="10"/>
 						</Grid>
-
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
