@@ -136,7 +136,7 @@
 
 				ProjectList = new ProjectListViewModel()
 				{
-					//ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
+					ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
 				};
 			});
 
