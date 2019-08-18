@@ -34,15 +34,11 @@
 				   Converter={local:BoolToVisibilityValueConverter}}"/>
 
 
+			
+			<!-- Projects list -->
+			<local:ProjectListView DataContext="{Binding ProjectList}"/>
 
-		<Grid>
-
-			<Grid.RowDefinitions>
-				<RowDefinition Height="AUTO"/>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
-
-
+			<!-- Settings display button -->
 			<Button Content="הגדרות" 
 				
 					VerticalAlignment="Top"
@@ -54,17 +50,9 @@
 				
 					Command="{Binding OpenSettingsCommand}"/>
 
-			
-			<!-- Projects list -->
-			<local:ProjectListView DataContext="{Binding ProjectList}"
-								   
-								   Grid.Row="1"/>
 
 			<!-- Settings view -->
-			<local:SettingsView DataContext="{Binding SettingsViewModel}"
-								
-								Grid.RowSpan="2"/>
+			<local:SettingsView DataContext="{Binding SettingsViewModel}"/>
 
-		</Grid>
 	</Grid>
 </Window>
