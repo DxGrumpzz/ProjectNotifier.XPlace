@@ -13,12 +13,5 @@
 		{
 			InitializeComponent();
 		}
-
-
-		public ProjectItemView(ProjectItemViewModel viewModel) :
-			this()
-		{
-			DataContext = viewModel;
-		}
 	};
 }
