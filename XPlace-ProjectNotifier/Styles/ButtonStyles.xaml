@@ -11,8 +11,10 @@
 
 		<Setter  Property="FontSize" Value="16"/>
 		<Setter  Property="FontFamily" Value="Open Sans Hebrew"/>
-		
+
 		<Setter Property="Background" Value="#FFF"/>
+
+		<Setter  Property="Margin" Value="0"/>
 
 		<Setter  Property="Padding" Value="10"/>
 
@@ -33,6 +35,10 @@
 							Padding="{TemplateBinding Padding}"
 							
 							SnapsToDevicePixels="True">
+
+						<Border.RenderTransform>
+							<TranslateTransform/>
+						</Border.RenderTransform>
 
 						<!-- Drop shadow effect -->
 						<Border.Effect>
@@ -59,6 +65,48 @@
 										  Focusable="False"/>
 
 					</Border>
+
+					<ControlTemplate.Triggers>
+
+						
+						<EventTrigger RoutedEvent="MouseEnter">
+
+							<!-- When mouse enters the control move it down -->
+							<BeginStoryboard>
+								<Storyboard >
+
+									<DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" 
+													 Storyboard.TargetName="MainBorder"
+													
+													 To="5"
+													
+													 DecelerationRatio="0.45"
+													 
+													 Duration="0:0:0.2"/>
+
+								</Storyboard>
+							</BeginStoryboard>
+						</EventTrigger>
+
+						<EventTrigger RoutedEvent="MouseLeave">
+							
+							<!-- When mouse leaves the control move it back to original position -->
+							<BeginStoryboard>
+								<Storyboard >
+
+									<DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" 
+													 Storyboard.TargetName="MainBorder"
+													
+													 To="0"
+													
+													 DecelerationRatio="0.45"
+													 
+													 Duration="0:0:0.2"/>
+
+								</Storyboard>
+							</BeginStoryboard>
+						</EventTrigger>
+					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
