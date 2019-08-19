@@ -39,7 +39,7 @@
 		/// <param name="callerOrigin"> Where the logger was called from </param>
 		/// <param name="filePath"> The path where the log came from </param>
 		/// <param name="lineNumber"> The line number where the log was called </param>
-		public void Log(string logMessage, LogLevel logLevel = LogLevel.Normal, [CallerMemberName]string callerOrigin = "", string filePath = "", int lineNumber = 0);
+		public void Log(string logMessage, LogLevel logLevel = LogLevel.Normal, [CallerMemberName]string callerOrigin = "", [CallerFilePath]string filePath = "", [CallerLineNumber]int lineNumber = 0);
 
 		#endregion
 
