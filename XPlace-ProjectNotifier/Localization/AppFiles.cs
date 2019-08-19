@@ -1,8 +1,6 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Text;
 
 	/// <summary>
 	/// A static class that contains Files and paths to files that are used/required by this app
@@ -23,6 +21,12 @@
 
 		#endregion
 
+		#region private fields
+
+		private static string _pathToApp = Environment.CurrentDirectory;
+
+		#endregion
+
 
 		/// <summary>
 		/// The name of the main config file
@@ -30,9 +34,9 @@
 		public static string ConfigFileName => CONFIG_FILE_NAME;
 
 		/// <summary>
-		/// The name of the log file
+		/// The path to the app's log file
 		/// </summary>
-		public static string LogFileName => LOG_FILE_NAME;
+		public static string LogFilePath => $"{_pathToApp}\\{LOG_FILE_NAME }";
 
 	};
 };
