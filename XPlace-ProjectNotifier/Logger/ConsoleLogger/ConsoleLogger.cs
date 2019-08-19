@@ -1,16 +1,16 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Runtime.CompilerServices;
+	using System.Diagnostics;
+	using System.IO;
+	using System.Runtime.CompilerServices;
 
 	/// <summary>
 	/// 
 	/// </summary>
 	public class ConsoleLogger : ILoggerBase
 	{
-	
+
 		/// <summary>
 		/// The logger's verboseness level 
 		/// </summary>
@@ -33,14 +33,64 @@
 		/// <param name="lineNumber"> The line number where the log was called </param>
 		public void Log(string logMessage, LogLevel logLevel = LogLevel.Normal, [CallerMemberName] string callerOrigin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
 		{
-			// Calculate log padding based on:
-			// arbitrary space - name of the log level
-			string padding = string.Empty.ToString()
-			.PadRight(12 - logLevel.ToString().Length, ' ');
 
-			string message = $"[{logLevel}]{Environment.NewLine}" +
-				$"[{Path.GetFileName(filePath)} > {callerOrigin}() > Line: {lineNumber}]" + 
-				$"{Environment.NewLine}{logMessage}";
+			// Writes the LogLevel in a format I like
+			var writeLogLevel = new Action<LogLevel, ConsoleColor>((logLevel, colour) =>
+			{
+				// Write first character
+				Console.Write('[');
+
+				// Set colour and write the log level
+				Console.ForegroundColor = colour;
+				Console.Write($"{logLevel}");
+
+				// Reset console colours and add the last bracket
+				Console.ResetColor();
+				Console.WriteLine(']');
+			});
+
+
+			// Setup message format
+			switch(logLevel)
+			{
+				case LogLevel.Verbose:
+				{
+					writeLogLevel(logLevel, ConsoleColor.White);
+					break;
+				};
+
+				case LogLevel.Informative:
+				{
+					writeLogLevel(logLevel, ConsoleColor.Yellow);
+					break;
+				};
+
+				case LogLevel.Critical:
+				{
+					writeLogLevel(logLevel, ConsoleColor.Red);
+					break;
+				};
+
+				case LogLevel.Debug:
+				{
+					writeLogLevel(logLevel, ConsoleColor.Magenta);
+					break;
+				};
+
+
+				default:
+				{
+					writeLogLevel(logLevel, ConsoleColor.Gray);
+					break;
+				};
+			};
+
+
+
+			// Setup log message format
+			string message = $"[{Path.GetFileName(filePath)} > {callerOrigin}() > Line: {lineNumber}]" +
+				$"{Environment.NewLine}{logMessage}{Environment.NewLine}";
+
 
 			// Log to the console
 			Console.WriteLine(message);
