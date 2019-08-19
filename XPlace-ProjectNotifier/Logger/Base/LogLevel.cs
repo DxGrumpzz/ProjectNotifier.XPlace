@@ -1,9 +1,5 @@
 namespace XPlace_ProjectNotifier
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Text;
-
 	/// <summary>
 	/// The level/severity of a logged message
 	/// </summary>
