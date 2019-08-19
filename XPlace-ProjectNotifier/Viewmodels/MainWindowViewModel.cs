@@ -72,8 +72,9 @@
 		}
 
 
-
 		public MainWindowViewModel() { }
+
+
 
 		public MainWindowViewModel(SettingsModel settingsModel) :
 			this()
@@ -84,7 +85,7 @@
 			};
 
 
-			Task.Run(SetupRSSProjectListAsync);
+			SetupRSSProjectList();
 
 			OpenSettingsCommand = new RelayCommand(() =>
 			{
@@ -99,46 +100,42 @@
 		/// Asynchrounsly loads rss feed content
 		/// </summary>
 		/// <returns></returns>
-		private async Task SetupRSSProjectListAsync()
+		private void SetupRSSProjectList()
 		{
-			await Task.Run(() =>
+			// Load rss feed
+			var projects = new RSSReader("https://www.xplace.com/il/rss/new-projects")
+			// Grab however many results the user requested from the RSS feed
+			.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
+			// "Convert" the xml data to a ProjectModel
+			.Select(element =>
 			{
-				// Read rss feed
-				RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
+				// Select required nodes
+				var titleNode = element.Element("title").Value;
+				var linkNode = element.Element("link").Value;
+				var descriptionNode = element.Element("description").Value;
+				var publishDateNode = element.Element("pubDate").Value;
 
-				// Grab however many results the user requested from the RSS feed
-				var projects = rssReader.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
-				// "Convert" the xml data to a ProjectModel
-				.Select(element =>
+				return new ProjectItemViewModel()
 				{
-					// Select required nodes
-					var titleNode = element.Element("title").Value;
-					var linkNode = element.Element("link").Value;
-					var descriptionNode = element.Element("description").Value;
-					var publishDateNode = element.Element("pubDate").Value;
-
-					return new ProjectItemViewModel()
+					ProjectModel = new ProjectModel()
 					{
-						ProjectModel = new ProjectModel()
-						{
-							// Replace unicode identifiers(?) with string literals
-							Title = FormatString(titleNode),
-							Description = FormatString(descriptionNode),
+						// Replace unicode identifiers(?) with string literals
+						Title = FormatString(titleNode),
+						Description = FormatString(descriptionNode),
 
-							Link = linkNode,
+						Link = linkNode,
 
-							// Convert the date time to israel standard time
-							PublishingDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(publishDateNode), "Israel Standard Time"),
-						},
-					};
-				});
-
-
-				ProjectList = new ProjectListViewModel()
-				{
-					ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
+						// Convert the date time to israel standard time
+						PublishingDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(publishDateNode), "Israel Standard Time"),
+					},
 				};
 			});
+
+
+			ProjectList = new ProjectListViewModel()
+			{
+				ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
+			};
 
 			// Finished loading content
 			IsLoading = false;
