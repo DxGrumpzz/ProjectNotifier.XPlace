@@ -17,7 +17,7 @@
 		private MainWindowModel _model;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private bool _isLoading = false;
+		private bool _isLoading = true;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private ProjectListViewModel projectListViewModel;
