@@ -2,12 +2,11 @@
 {
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
-    using System;
+	using System;
 	using System.Collections.Generic;
 	using System.Configuration;
 	using System.Data;
-	using System.Linq;
-	using System.Threading.Tasks;
+    using System.Threading.Tasks;
 	using System.Windows;
 
 	/// <summary>
@@ -15,16 +14,17 @@
 	/// </summary>
 	public partial class App : Application
 	{
+
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
 
+
 			ServiceCollection serviceCollection = new ServiceCollection();
 
 			// Bind services
-
 			var configurationBuilder = new ConfigurationBuilder()
-			.AddJsonFile("Config.json", true, true)
+			.AddJsonFile("Config.json", false, true)
 			.Build();
 
 			serviceCollection.AddSingleton(configurationBuilder);
