@@ -9,17 +9,19 @@
 			 
              d:DesignHeight="100" 
 			 d:DesignWidth="400"
-				
+			
+			 SnapsToDevicePixels="True"
+			 
 			 d:DataContext="{x:Static local:ProjectItemViewModel.DesignTimeInstance}">
 
-		<Border Background="White"
+	<Border Background="White"
 			
 			CornerRadius="12"
 				
 			Padding="5">
 
 
-			<Border.InputBindings>
+		<Border.InputBindings>
 				<MouseBinding MouseAction="LeftClick"
 						  Command="{Binding OpenProjectUrlCommand}"/>
 
@@ -28,16 +30,16 @@
 			<!-- Drop shadow -->
 			<Border.Effect>
 
-				<DropShadowEffect Color="#000"
-							  Opacity="0.2" 
-							  BlurRadius="3"
+			<DropShadowEffect Color="#000"
+								Opacity="0.2" 
+								BlurRadius="4"
 							    
-							  RenderingBias="Quality"
+								RenderingBias="Quality"
 							    
-							  Direction="270"
+								Direction="270"
 								  
-							  ShadowDepth="1"/>
-			</Border.Effect>
+								ShadowDepth="1"/>
+		</Border.Effect>
 
 
 			<Border.Style>
@@ -108,9 +110,9 @@
 				<!-- The project description-->
 				<TextBlock Text="{Binding ProjectModel.Description}" 
 						   TextWrapping="Wrap"
-				   
 						   TextAlignment="Center"
-					   
+						   FontSize="14"
+						   
 						   FlowDirection="{Binding ProjectModel.Description,
 						   Converter={local:FlowDirectionConverter}}"
 				   
