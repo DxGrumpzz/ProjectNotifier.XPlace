@@ -33,7 +33,6 @@
 		/// <param name="lineNumber"> The line number where the log was called </param>
 		public void Log(string logMessage, LogLevel logLevel = LogLevel.Normal, [CallerMemberName] string callerOrigin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
 		{
-
 			// Writes the LogLevel in a format I like
 			var writeLogLevel = new Action<LogLevel, ConsoleColor>((logLevel, colour) =>
 			{
@@ -55,13 +54,13 @@
 			{
 				case LogLevel.Verbose:
 				{
-					writeLogLevel(logLevel, ConsoleColor.White);
+					writeLogLevel(logLevel, ConsoleColor.Yellow);
 					break;
 				};
 
 				case LogLevel.Informative:
 				{
-					writeLogLevel(logLevel, ConsoleColor.Yellow);
+					writeLogLevel(logLevel, ConsoleColor.Gray);
 					break;
 				};
 
