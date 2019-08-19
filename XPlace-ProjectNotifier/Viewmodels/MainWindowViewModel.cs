@@ -106,7 +106,7 @@
 				// Read rss feed
 				RSSReader rssReader = new RSSReader("https://www.xplace.com/il/rss/new-projects");
 
-				// Grab the first 25 results from the RSS feed
+				// Grab however many results the user requested from the RSS feed
 				var projects = rssReader.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
 				// "Convert" the xml data to a ProjectModel
 				.Select(element =>
@@ -121,7 +121,7 @@
 					{
 						ProjectModel = new ProjectModel()
 						{
-							// Replace unicode identifiers(?) string literals
+							// Replace unicode identifiers(?) with string literals
 							Title = FormatString(titleNode),
 							Description = FormatString(descriptionNode),
 
