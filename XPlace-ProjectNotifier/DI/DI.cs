@@ -12,7 +12,7 @@
 		/// <summary>
 		/// Main provider
 		/// </summary>
-		public static ServiceProvider Provider { get; private set; } 
+		public static ServiceProvider Provider { get; private set; }
 
 
 		/// <summary>
@@ -35,6 +35,14 @@
 			return GetService<IConfigurationRoot>();
 		}
 
+		/// <summary>
+		/// Returns a logger
+		/// </summary>
+		/// <returns> Returns an instance of type <see cref="ILoggerBase"/> </returns>
+		public static ILoggerBase GetLogger()
+		{
+			return GetService<ILoggerBase>();
+		}
 
 		/// <summary>
 		/// Returns the main settings model
