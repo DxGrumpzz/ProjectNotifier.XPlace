@@ -8,12 +8,10 @@
 		
         Title="{Binding Model.Title}" 
 		
-		Height="450"
-		Width="700"
+		WindowStartupLocation="CenterScreen"
 		
-		
-		MinHeight="400" 
-	    MinWidth="600">
+		MinHeight="600" 
+	    MinWidth="850">
 
 	<d:Window.DataContext>
 		<local:MainWindowViewModel/>
