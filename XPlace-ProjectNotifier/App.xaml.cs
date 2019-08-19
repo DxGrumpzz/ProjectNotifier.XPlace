@@ -37,7 +37,16 @@
 			// Bind services
 			ServiceCollection serviceCollection = new ServiceCollection();
 
+
+			// If in Debug attach console  logger
+#if DEBUG == TRUE
+
 			serviceCollection.AddSingleton<ILoggerBase>(new ConsoleLogger());
+#else
+			// attach file logger
+			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
+#endif
+
 
 			serviceCollection.AddSingleton(configurationBuilder);
 
@@ -54,7 +63,6 @@
 			DI.SetupDI(serviceCollection.BuildServiceProvider());
 
 
-			DI.GetLogger().Log($"Creating main window");
 
 			// Setup MainWindow
 			(Current.MainWindow = new MainWindow(new MainWindowViewModel(DI.GetSettings())
@@ -65,8 +73,6 @@
 				},
 			}))
 			.Show();
-
-			DI.GetLogger().Log($"Displaying main window");
 		}
 	}
 }
