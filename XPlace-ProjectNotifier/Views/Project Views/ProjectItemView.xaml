@@ -102,6 +102,8 @@
 						   FlowDirection="{Binding ProjectModel.Description,
 						   Converter={local:FlowDirectionConverter}}"
 
+						   TextTrimming="WordEllipsis"
+						   
 						   Margin="0,5"
 						   HorizontalAlignment="Center"/>
 
