@@ -8,6 +8,7 @@
 			 
 			 d:DesignWidth="200"
 			 
+			 
 			 mc:Ignorable="d" >
 
 	<Border>
@@ -49,6 +50,8 @@
 
 					<Setter Property="HorizontalContentAlignment" Value="Center"/>
 
+					<Setter Property="FontFamily" Value="Open Sans Hebrew"/>
+
 					<Setter Property="AllowDrop" Value="true"/>
 					<Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
 
@@ -75,7 +78,7 @@
 													  VerticalScrollBarVisibility="Hidden"/>
 
 										<!-- The small black line under the text --> 
-										<Rectangle MinHeight="2"
+										<Rectangle MinHeight="1"
 
 												   VerticalAlignment="Bottom"
 
