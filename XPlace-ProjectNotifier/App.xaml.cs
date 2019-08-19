@@ -24,7 +24,7 @@
 
 			// Bind services
 			var configurationBuilder = new ConfigurationBuilder()
-			.AddJsonFile("Config.json", false, true)
+			.AddJsonFile(AppFiles.ConfigFileName, false, true)
 			.Build();
 
 			serviceCollection.AddSingleton(configurationBuilder);
@@ -36,7 +36,7 @@
 				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection("ProjectsToDisplay").Value),
 			});
 
-			serviceCollection.AddSingleton(new JsonConfigManager("Config.json"));
+			serviceCollection.AddSingleton(new JsonConfigManager(AppFiles.ConfigFileName));
 
 			// Build provider
 			DI.SetupDI(serviceCollection.BuildServiceProvider());
