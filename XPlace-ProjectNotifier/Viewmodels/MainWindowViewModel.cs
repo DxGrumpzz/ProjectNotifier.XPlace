@@ -89,7 +89,7 @@
 
 
 			// When project count setting is saved...
-			SettingsViewModel.ProjectCountSetting.SaveChangesAction += async (value) =>
+			SettingsViewModel.ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (value) =>
 			{
 				// Reset project list
 				ProjectList.ProjectList = new ObservableCollection<ProjectItemViewModel>();
@@ -99,7 +99,7 @@
 
 				// Load new project list
 				await SetupRSSProjectListAsync();
-			};
+			});
 		}
 
 
@@ -114,7 +114,7 @@
 			await Task.Run(() =>
 			{
 				// Read rss feed
-				var projects = new RSSReader("https://www.xplace.com/il/rss/new-projects")
+				var projects = new RSSReader(AppLinks.RSSFeedUrl)
 				// Grab however many results the user requested from the RSS feed
 				.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
 				// "Convert" the xml data to a ProjectModel
