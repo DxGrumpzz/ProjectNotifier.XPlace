@@ -1,7 +1,8 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-    using System.Diagnostics;
+	using System.Diagnostics;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// 
@@ -13,7 +14,12 @@
 
 		private bool _isOpen;
 
+		private bool _isSaved;
+
 		#endregion
+
+
+		#region Public properties
 
 		/// <summary>
 		/// Application settings
@@ -22,6 +28,16 @@
 
 		public TextEntryViewModel<int> ProjectCountSetting { get; set; }
 
+
+		public bool ShowSavedNotification
+		{
+			get => _isSaved;
+			private set
+			{
+				_isSaved = value;
+				OnPropertyChanged();
+			}
+		}
 
 		/// <summary>
 		/// A boolean flag that indicates if this control is open or in view
@@ -35,6 +51,9 @@
 				OnPropertyChanged();
 			}
 		}
+
+
+		#endregion
 
 
 		public RelayCommand CloseSettingsCommand { get; }
@@ -76,10 +95,15 @@
 					return true;
 				}),
 
-				SaveChangesAction = new Action<TextEntryViewModel<int>>(value =>
+				SaveChangesAction = new Action<TextEntryViewModel<int>>(async value =>
 				{
+					DI.GetLogger().Log($"User changed {nameof(SettingsModel.ProjectsToDisplay)} setting to {value.Value}", LogLevel.Informative);
+
 					// Update config value if succesfull
 					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.ProjectsToDisplay), value.Value);
+
+					// Show settings saved notification
+					await ShowSavedNOtificationAsync();
 				}),
 			};
 
@@ -91,6 +115,27 @@
 		{
 			IsOpen = false;
 		}
+
+
+
+		#region Private helpers
+
+		/// <summary>
+		/// Animates the settings saved notification
+		/// </summary>
+		private async Task ShowSavedNOtificationAsync()
+		{
+			// Show saved notification
+			ShowSavedNotification = true;
+
+			// Wait a-bit
+			await Task.Delay(1500);
+
+			// Hide notification
+			ShowSavedNotification = false;
+		}
+
+		#endregion
 
 	};
 };
