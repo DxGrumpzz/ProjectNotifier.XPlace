@@ -308,7 +308,7 @@ must be created -->
 					</Border.Effect>
 
 					<Border.RenderTransform>
-						<TranslateTransform/>
+						<TranslateTransform Y="50"/>
 					</Border.RenderTransform>
 
 
