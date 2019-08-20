@@ -6,10 +6,13 @@
 			 xmlns:local="clr-namespace:XPlace_ProjectNotifier"
 			 
 			 mc:Ignorable="d" 
-
+			 
+			 TextBlock.FontFamily="Open Sans Hebrew"
+			 
+			UseLayoutRounding="True"
+			 
 			 d:DesignHeight="500" 
 			 d:DesignWidth="600">
-
 
 
 	<Grid Visibility="{Binding IsOpen, 
@@ -201,7 +204,7 @@ must be created -->
 														 From="1"
 														 To="0"
 
-														 Duration="0:0:0.5" /> 
+														 Duration="0:0:0.5" />
 									</Storyboard>
 								</BeginStoryboard>
 							</DataTrigger.ExitActions>
@@ -215,20 +218,21 @@ must be created -->
 				<Grid.RowDefinitions>
 					<RowDefinition Height="AUTO"/>
 					<RowDefinition Height="*"/>
+					<RowDefinition Height="40"/>
 				</Grid.RowDefinitions>
 
 
 				<!-- Settings title -->
 				<TextBlock Text="הגדרות"
-FontWeight="Light"
-FontSize="25"
-				   	   
-					      
-HorizontalAlignment="Center"
-				   	   
-Foreground="#111"/>
+					       FontWeight="Light"
+					       FontSize="25"
+				   	       
+					       HorizontalAlignment="Center"
+				   	          
+					       Foreground="#111"/>
 
 
+				<!-- main settings -->
 				<Grid Grid.Row="1">
 
 					<Grid.ColumnDefinitions>
@@ -242,14 +246,14 @@ Foreground="#111"/>
 
 						<!-- App settings title -->
 						<TextBlock Text="הגדרות תוכנה"
-FontWeight="Light"
-FontSize="20"
-FontFamily="Open Sans Hebrew"
-					      
-HorizontalAlignment="Center"
-Margin="0,0,0,10"
+								   FontWeight="Light"
+								   FontSize="20"
+								   FontFamily="Open Sans Hebrew"
 								   
-Foreground="#111" />
+								   HorizontalAlignment="Center"
+								   Margin="0,0,0,10"
+								      
+								   Foreground="#111" />
 
 
 						<!-- Project count -->
@@ -265,18 +269,100 @@ Foreground="#111" />
 													Margin="0,0,5,0"/>
 
 							<TextBlock Text="כמות פרוייקטים להציג"
-FontWeight="Light"
-FontSize="14"
-FontFamily="Open Sans Hebrew"
+										FontWeight="Light"
+										FontSize="14"
 					      
-Grid.Column="1"
+										Grid.Column="1"
 									   
-Foreground="#111"/>
+										Foreground="#111"/>
 
 						</Grid>
 
 					</StackPanel>
 				</Grid>
+
+				
+				<!-- Settings saved notification -->
+				<Border Grid.Row="2" 
+						HorizontalAlignment="Center"
+						Padding="10,0"	
+			
+						CornerRadius="12"
+						
+						Focusable="False"
+						
+						Background="#DDD">
+
+					<!-- Drop shadow -->
+					<Border.Effect>
+
+						<DropShadowEffect Color="#000"
+										Opacity="0.5" 
+										BlurRadius="10"
+							    
+										RenderingBias="Quality"
+							    
+										Direction="270"
+								  
+										ShadowDepth="1"/>
+					</Border.Effect>
+
+					<Border.RenderTransform>
+						<TranslateTransform/>
+					</Border.RenderTransform>
+
+
+					<Border.Style>
+						<Style TargetType="Border">
+
+							<Style.Triggers>
+
+								<DataTrigger Binding="{Binding IsSaved}" Value="True">
+
+									<DataTrigger.EnterActions>
+
+										<BeginStoryboard >
+											<Storyboard>
+
+												<DoubleAnimation Storyboard.TargetProperty="Opacity" 
+
+																 From="0"
+																 To="1"
+																 
+																 Duration="0:0:0.5" />
+
+											</Storyboard>
+										</BeginStoryboard>
+									</DataTrigger.EnterActions>
+
+									<DataTrigger.ExitActions>
+										<BeginStoryboard>
+
+											<Storyboard>
+
+												<DoubleAnimation Storyboard.TargetProperty="Opacity"
+
+														         From="1"
+														         To="0"
+														         
+														         Duration="0:0:0.5" />
+											</Storyboard>
+										</BeginStoryboard>
+									</DataTrigger.ExitActions>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Border.Style>
+
+
+					<!-- Saved text -->
+					<TextBlock Text="! נשמר"
+							   FontWeight="Normal"
+							   FontSize="15"
+							   
+							   VerticalAlignment="Center"/>
+
+				</Border>
 			</Grid>
 		</Border>
 	</Grid>
