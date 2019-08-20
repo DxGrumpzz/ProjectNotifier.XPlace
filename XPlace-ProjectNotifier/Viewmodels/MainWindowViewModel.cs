@@ -78,7 +78,7 @@
 			SettingsModel = settingsModel;
 			SettingsViewModel = new SettingsViewModel(settingsModel);
 
-			
+
 
 			Task.Run(SetupRSSProjectListAsync);
 
@@ -164,7 +164,12 @@
 		/// <param name="stringToFormat"></param>
 		private string FormatString(string stringToFormat)
 		{
+#if DEBUG == TRUE
+			return stringToFormat.Replace("\n", "").Replace("&#39;", "\'").Replace("&quot;", "\"");
+#else
 			return stringToFormat.Replace("&#39;", "\'").Replace("&quot;", "\"");
+
+#endif
 		}
 
 		#endregion
