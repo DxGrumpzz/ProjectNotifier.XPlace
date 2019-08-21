@@ -50,6 +50,9 @@
 
 		public SettingsViewModel SettingsViewModel { get; }
 
+		public ProjectLoader ProjectLoader { get; }
+
+
 		public bool IsLoading
 		{
 			get => _isLoading;
@@ -73,20 +76,21 @@
 
 		public MainWindowViewModel() { }
 
-		public MainWindowViewModel(SettingsModel settingsModel)
+		public MainWindowViewModel(SettingsModel settingsModel, ProjectLoader projectLoader)
 		{
 			SettingsModel = settingsModel;
 			SettingsViewModel = new SettingsViewModel(settingsModel);
-
+			ProjectLoader = projectLoader;
 
 
 			Task.Run(SetupRSSProjectListAsync);
+			ProjectLoader.StartAutoUpdating();
+
 
 			OpenSettingsCommand = new RelayCommand(() =>
 			{
 				SettingsViewModel.IsOpen = true;
 			});
-
 
 			// When project count setting is saved...
 			SettingsViewModel.ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (value) =>
@@ -100,6 +104,7 @@
 				// Load new project list
 				await SetupRSSProjectListAsync();
 			});
+
 		}
 
 
@@ -120,23 +125,5 @@
 
 		#endregion
 
-
-		#region Private helpers
-
-		/// <summary>
-		/// Replaced unicode strings with string literalls
-		/// </summary>
-		/// <param name="stringToFormat"></param>
-		private string FormatString(string stringToFormat)
-		{
-#if DEBUG == TRUE
-			return stringToFormat.Replace("\n", "").Replace("&#39;", "\'").Replace("&quot;", "\"");
-#else
-			return stringToFormat.Replace("&#39;", "\'").Replace("&quot;", "\"");
-
-#endif
-		}
-
-		#endregion
 	}
 }
