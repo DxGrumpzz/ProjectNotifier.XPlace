@@ -1,9 +1,12 @@
 ﻿namespace XPlace_ProjectNotifier
 {
-    using System.Xml;
-    using System.Xml.Linq;
+	using System.Xml;
+	using System.Xml.Linq;
 	using System.Linq;
-    using System.Collections.Generic;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// An RSS reader/prases
@@ -38,6 +41,28 @@
 				.Take(count);
 
 			return descendatsNodes;
+		}
+
+		/// <summary>
+		/// Returns an IEnumerable of XElement
+		/// </summary>
+		/// <param name="descendantsSelection"> The type of descendatns to select </param>
+		/// <param name="count"> How many from the top to select </param>
+		/// <returns></returns>
+		public async Task<IEnumerable<XElement>> GetXElementNodeListAsync(string descendantsSelection = "item", int count = 25, CancellationTokenSource cancellationToken = default)
+		{
+			using(XmlReader xmlReader = XmlReader.Create(_rssXmlUrl, new XmlReaderSettings()
+			{
+				Async = true,
+			}))
+			{
+				// Select XML nodes from the RSS document
+				var descendatsNodes = (await XDocument.LoadAsync(xmlReader, LoadOptions.None, cancellationToken.Token))
+					.Descendants(descendantsSelection)
+					.Take(count);
+
+				return descendatsNodes;
+			};
 		}
 	}
 }
