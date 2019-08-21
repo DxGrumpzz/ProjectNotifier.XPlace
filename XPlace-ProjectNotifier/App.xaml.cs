@@ -23,7 +23,6 @@
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
-
 #if DEBUG == TRUE
 			AllocConsole();
 #endif
@@ -33,6 +32,12 @@
 			var configurationBuilder = new ConfigurationBuilder()
 			.AddJsonFile(AppFiles.ConfigFileName, false, true)
 			.Build();
+
+			var settingsModel = new SettingsModel()
+			{
+				// Get number of project to display
+				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection("ProjectsToDisplay").Value),
+			};
 
 			// Bind services
 			ServiceCollection serviceCollection = new ServiceCollection();
@@ -50,13 +55,11 @@
 
 			serviceCollection.AddSingleton(configurationBuilder);
 
-			serviceCollection.AddSingleton(new SettingsModel()
-			{
-				// Get number of project to display
-				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection("ProjectsToDisplay").Value),
-			});
+			serviceCollection.AddSingleton(settingsModel);
 
 			serviceCollection.AddSingleton(new JsonConfigManager(AppFiles.ConfigFileName));
+
+			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(5).TotalMilliseconds, settingsModel));
 
 
 			// Build provider
