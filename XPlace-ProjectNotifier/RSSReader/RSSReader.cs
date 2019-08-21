@@ -15,35 +15,15 @@
 		/// <summary>
 		/// The url to the Xml document
 		/// </summary>
-		string _rssXmlUrl;
-
-		XmlDocument _rssDocumnet;
+		private string _rssXmlUrl;
 
 		#endregion
 
 		public RSSReader(string rssUrl)
 		{
-			// Instanciate the Document
-			_rssDocumnet = new XmlDocument();
-			// Load the RSS document 
-			_rssDocumnet.Load(rssUrl);
-
 			_rssXmlUrl = rssUrl;
 		}
 
-
-		/// <summary>
-		/// Returns an <see cref="XmlNodeList"/> that contains information about items in the document
-		/// </summary>
-		/// <param name="nodesToSelect"> node selection "filter" </param>
-		public IEnumerable<XmlNode> GetXmlNodeList(string nodesToSelect = "rss/channel/item", int count = 25)
-		{
-			var rssNodes = _rssDocumnet.SelectNodes(nodesToSelect)
-				.Cast<XmlNode>()
-				.Take(count);
-
-			return rssNodes;
-		}
 
 		/// <summary>
 		/// Returns an IEnumerable of XElement
