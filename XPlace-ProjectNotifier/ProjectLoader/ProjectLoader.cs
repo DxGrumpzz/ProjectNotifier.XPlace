@@ -44,11 +44,6 @@
 			SettingsModel = settingsModel;
 		}
 
-		~ProjectLoader()
-		{
-			System.Diagnostics.Debug.WriteLine("ProjectLoader dtor");
-		}
-
 
 		/// <summary>
 		/// Returns a <see cref="ProjectListViewModel"/> containing a list of projects
@@ -68,6 +63,7 @@
 				var linkNode = element.Element("link").Value;
 				var descriptionNode = element.Element("description").Value;
 				var publishDateNode = element.Element("pubDate").Value;
+				var projectID = Convert.ToInt32(element.Element("guid").Value);
 
 
 				return new ProjectItemViewModel()
@@ -82,6 +78,8 @@
 
 						// Convert the date time to israel standard time
 						PublishingDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(publishDateNode), "Israel Standard Time"),
+
+						ProjectID = projectID,
 					},
 				};
 			});
@@ -92,6 +90,7 @@
 				ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
 			};
 		}
+
 
 
 		/// <summary>
