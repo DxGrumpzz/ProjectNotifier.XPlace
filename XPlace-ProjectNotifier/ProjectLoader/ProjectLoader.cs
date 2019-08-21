@@ -3,15 +3,26 @@
 	using System;
 	using System.Collections.ObjectModel;
 	using System.Linq;
+	using System.Threading;
+	using System.Threading.Tasks;
 
 	/// <summary>
 	/// A project loader
 	/// </summary>
 	public class ProjectLoader
 	{
+
 		#region Private fields
 
-		private bool _isLoadingProjects = false;
+		/// <summary>
+		/// A boolean flag that indicates if currently auto updating
+		/// </summary>
+		private bool _isAutoUpdating = false;
+
+		/// <summary>
+		/// A cancellation token used to cancel auto update request
+		/// </summary>
+		private CancellationTokenSource _autoUpdateCancellationToken = new CancellationTokenSource();
 
 		#endregion
 
@@ -21,10 +32,21 @@
 		public SettingsModel SettingsModel { get; }
 
 
+		/// <summary>
+		/// An event that will be invkoed when the ProjectLoader has loaded a new list of projects
+		/// </summary>
+		public event Action<ProjectListViewModel> ProjectsListUpdated = (projectList) => { };
+
+
 		public ProjectLoader(double interval, SettingsModel settingsModel)
 		{
 			Interval = interval;
 			SettingsModel = settingsModel;
+		}
+
+		~ProjectLoader()
+		{
+			System.Diagnostics.Debug.WriteLine("ProjectLoader dtor");
 		}
 
 
@@ -70,6 +92,50 @@
 				ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
 			};
 		}
+
+
+		/// <summary>
+		/// Load a list of project every Interval count, and invoke <see cref="ProjectsListUpdated"/> event
+		/// </summary>
+		public void StartAutoUpdating()
+		{
+			// Don't run if already updating
+			if(_isAutoUpdating == true)
+				return;
+
+			// Set updating flag to true
+			_isAutoUpdating = true;
+
+			// If cancellation request occured 
+			if(_autoUpdateCancellationToken.IsCancellationRequested == true)
+				// Restart cncellation token
+				_autoUpdateCancellationToken = new CancellationTokenSource();
+
+
+			// Spin a background task
+			Task.Run(async () =>
+			{
+				// While updating flag is true
+				while(_isAutoUpdating == true)
+				{
+					// Wait for interval
+					await Task.Delay((int)Interval);
+
+					// Invoke event
+					ProjectsListUpdated?.Invoke(LoadProjects());
+				};
+			}, _autoUpdateCancellationToken.Token);
+		}
+
+		/// <summary>
+		/// Stops auto updating project list
+		/// </summary>
+		public void StopAutoUpdating()
+		{
+			_isAutoUpdating = false;
+			_autoUpdateCancellationToken.Cancel();
+		}
+
 
 		#region Private helpers
 
