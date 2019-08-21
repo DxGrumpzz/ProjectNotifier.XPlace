@@ -3,6 +3,8 @@
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 	using System;
+	using System.Diagnostics;
+	using System.Threading.Tasks;
 	using System.Windows;
 
 	/// <summary>
@@ -39,6 +41,7 @@
 				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection("ProjectsToDisplay").Value),
 			};
 
+
 			// Bind services
 			ServiceCollection serviceCollection = new ServiceCollection();
 
@@ -51,15 +54,14 @@
 			// attach file logger
 			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
 #endif
-
-
+			
 			serviceCollection.AddSingleton(configurationBuilder);
 
 			serviceCollection.AddSingleton(settingsModel);
 
 			serviceCollection.AddSingleton(new JsonConfigManager(AppFiles.ConfigFileName));
 
-			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(5).TotalMilliseconds, settingsModel));
+			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, settingsModel));
 
 
 			// Build provider
@@ -68,13 +70,15 @@
 
 
 			// Setup MainWindow
-			(Current.MainWindow = new MainWindow(new MainWindowViewModel(DI.GetSettings())
+			(Current.MainWindow = new MainWindow(
+			new MainWindowViewModel(DI.GetSettings(), DI.GetService<ProjectLoader>())
 			{
 				Model = new MainWindowModel()
 				{
 					Title = "XPlace Project Notifier",
 				},
 			}))
+			// Show window
 			.Show();
 		}
 	}
