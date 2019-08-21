@@ -105,6 +105,22 @@
 				await SetupRSSProjectListAsync();
 			});
 
+			ProjectLoader.ProjectsListUpdated += (newProjectList) =>
+			{
+				var currentProjectListProject = ProjectList.ProjectList.First().ProjectModel;
+				var newProjectListProject = newProjectList.ProjectList.First().ProjectModel;
+
+				// Comapre the 2 projects 
+				if(currentProjectListProject.ProjectID != newProjectListProject.ProjectID)
+				{
+					// If there is a newer project,
+					// update list
+					ProjectList = new ProjectListViewModel();
+					IsLoading = true;
+					ProjectList = newProjectList;
+					IsLoading = false;
+				};
+			};
 		}
 
 
