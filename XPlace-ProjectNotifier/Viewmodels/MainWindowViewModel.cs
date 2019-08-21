@@ -111,43 +111,8 @@
 		/// <returns></returns>
 		private async Task SetupRSSProjectListAsync()
 		{
-			await Task.Run(() =>
-			{
-				// Read rss feed
-				var projects = new RSSReader(AppLinks.RSSFeedUrl)
-				// Grab however many results the user requested from the RSS feed
-				.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
-				// "Convert" the xml data to a ProjectModel
-				.Select(element =>
-				{
-					// Select required nodes
-					var titleNode = element.Element("title").Value;
-					var linkNode = element.Element("link").Value;
-					var descriptionNode = element.Element("description").Value;
-					var publishDateNode = element.Element("pubDate").Value;
-
-					return new ProjectItemViewModel()
-					{
-						ProjectModel = new ProjectModel()
-						{
-							// Replace unicode identifiers(?) with string literals
-							Title = FormatString(titleNode),
-							Description = FormatString(descriptionNode),
-
-							Link = linkNode,
-
-							// Convert the date time to israel standard time
-							PublishingDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(publishDateNode), "Israel Standard Time"),
-						},
-					};
-				});
-
-
-				ProjectList = new ProjectListViewModel()
-				{
-					ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
-				};
-			});
+			// Load projects
+			await Task.Run(() => ProjectList = DI.GetService<ProjectLoader>().LoadProjects());
 
 			// Finished loading content
 			IsLoading = false;
