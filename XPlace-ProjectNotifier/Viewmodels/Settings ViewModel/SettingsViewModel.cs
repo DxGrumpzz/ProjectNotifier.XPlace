@@ -95,7 +95,7 @@
 					return true;
 				}),
 
-				SaveChangesAction = new Action<TextEntryViewModel<int>>(async value =>
+				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (value) =>
 				{
 					DI.GetLogger().Log($"User changed {nameof(SettingsModel.ProjectsToDisplay)} setting to {value.Value}", LogLevel.Informative);
 
