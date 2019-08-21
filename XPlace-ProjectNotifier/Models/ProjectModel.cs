@@ -26,5 +26,10 @@
 		/// The proejct's publishing date
 		/// </summary>
 		public DateTime PublishingDate { get; set; }
+
+		/// <summary>
+		/// A unique ID number for this project
+		/// </summary>
+		public int ProjectID { get; set; }
 	};
 }
