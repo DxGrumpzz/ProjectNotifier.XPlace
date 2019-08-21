@@ -95,12 +95,15 @@
 					return true;
 				}),
 
-				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (value) =>
+				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (setting) =>
 				{
-					DI.GetLogger().Log($"User changed {nameof(SettingsModel.ProjectsToDisplay)} setting to {value.Value}", LogLevel.Informative);
+					DI.GetLogger().Log($"User changed {nameof(SettingsModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
 
-					// Update config value if succesfull
-					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.ProjectsToDisplay), value.Value);
+					// Update value 
+					DI.GetSettings().ProjectsToDisplay = setting.Value;
+
+					// Update config value
+					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.ProjectsToDisplay), setting.Value);
 
 					// Show settings saved notification
 					await ShowSavedNOtificationAsync();
