@@ -127,7 +127,7 @@
 		}
 
 		/// <summary>
-		/// Stops auto updating project list
+		/// Stops updating checking if there is a new project(s)
 		/// </summary>
 		public void StopAutoUpdating()
 		{
