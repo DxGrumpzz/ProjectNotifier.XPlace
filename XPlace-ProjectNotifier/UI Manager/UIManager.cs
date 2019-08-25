@@ -16,7 +16,7 @@
 		/// <returns></returns>
 		public ProjectNotificationView ShowProjectNotification(ProjectNotificationViewModel projectNotificationViewModel)
 		{
-			ProjectNotificationView notification = new ProjectNotificationView();
+			ProjectNotificationView notification = new ProjectNotificationView(projectNotificationViewModel);
 
 			notification.Show();
 
