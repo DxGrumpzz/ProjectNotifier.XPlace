@@ -9,12 +9,13 @@
 	/// </summary>
 	public interface IUIManager
 	{
+
 		/// <summary>
 		/// Create a <see cref="ProjectNotificationView "/> notification and display it
 		/// </summary>
 		/// <param name="projectNotificationViewModel"></param>
 		/// <returns></returns>
-		public ProjectNotificationView ShowProjectNotification(ProjectNotificationViewModel projectNotificationViewModel);
+		public void ShowProjectNotification(ProjectNotificationViewModel projectNotificationViewModel);
 
 	};
 }
