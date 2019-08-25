@@ -5,7 +5,6 @@
 	using System.Collections.ObjectModel;
 	using System.Diagnostics;
 	using System.Threading.Tasks;
-
 	public class MainWindowViewModel : BaseViewModel
 	{
 
@@ -70,6 +69,8 @@
 
 		public RelayCommand OpenSettingsCommand { get; }
 
+		public RelayCommand Command { get; }
+
 		#endregion
 
 
@@ -105,20 +106,43 @@
 				await SetupRSSProjectListAsync();
 			});
 
+
 			ProjectLoader.ProjectsListUpdated += (newProjectList) =>
 			{
-				var currentProjectListProject = ProjectList.ProjectList.First().ProjectModel;
-				var newProjectListProject = newProjectList.ProjectList.First().ProjectModel;
+				var currentProjectListFirstProject = ProjectList.ProjectList.First().ProjectModel;
+				var newProjectListFirstProject = newProjectList.ProjectList.First().ProjectModel;
 
 				// Comapre the 2 projects 
-				if(currentProjectListProject.ProjectID != newProjectListProject.ProjectID)
+				if(currentProjectListFirstProject.ProjectID != newProjectListFirstProject.ProjectID)
 				{
-					// If there is a newer project,
+
+					// Find the newer projects
+					var newProjectsList = newProjectList.ProjectList
+					.Where(model =>
+					{
+						return model.ProjectModel.ProjectID > currentProjectListFirstProject.ProjectID;
+					})
+					// Convert results into ProjectModel
+					.Select(result => 
+					new ProjectModel()
+					{
+						Title = result.ProjectModel.Title,
+					})
+					.ToList();
+
+
 					// update list
 					ProjectList = new ProjectListViewModel();
 					IsLoading = true;
 					ProjectList = newProjectList;
 					IsLoading = false;
+
+
+					// Notify user for the new projects
+					DI.GetUIManager().ShowProjectNotification(new ProjectNotificationViewModel()
+					{
+						NewProjectList = newProjectsList,
+					});
 				};
 			};
 		}
@@ -133,7 +157,7 @@
 		private async Task SetupRSSProjectListAsync()
 		{
 			// Load projects
-			await Task.Run(() => ProjectList = DI.GetService<ProjectLoader>().LoadProjects());
+			await Task.Run(() => ProjectList = ProjectLoader.LoadProjects());
 
 			// Finished loading content
 			IsLoading = false;
