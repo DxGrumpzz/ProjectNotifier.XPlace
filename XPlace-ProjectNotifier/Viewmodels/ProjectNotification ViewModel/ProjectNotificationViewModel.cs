@@ -1,7 +1,7 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.ComponentModel;
+	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using System.Windows;
 	using System.Windows.Media.Animation;
@@ -31,7 +31,13 @@
 		/// </summary>
 		public double Height => 150d;
 
+		/// <summary>
+		/// The list of new projects
+		/// </summary>
+		public List<ProjectModel> NewProjectList { get; set; }
+
 		#endregion
+
 
 		#region Commands
 
@@ -39,34 +45,23 @@
 
 		#endregion
 
-		public ProjectNotificationViewModel() :
-			this(new ProjectNotificationView())
+
+
+		public ProjectNotificationViewModel()
 		{
-		}
-
-		public ProjectNotificationViewModel(ProjectNotificationView window)
-		{
-			_window = window;
-
-
-			window.Loaded += Window_Loaded;
-
-			CloseWindowCommand = new RelayCommand(() =>
+			CloseWindowCommand = new RelayCommand(async () =>
 			{
-				window.Close();
+				await Close();
 			});
 		}
 
-		private async void Window_Loaded(object sender, RoutedEventArgs e)
+		public void BindWindow(Window window)
 		{
-			// Animate window opening
-			await AnimateIn(TimeSpan.FromSeconds(0.2));
+			_window = window;
 
-			// Wait abit for the user to read the message
-			await Task.Delay(3000);
-
-			await Close();
+			window.Loaded += Window_Loaded;
 		}
+
 
 
 		public void Show()
@@ -84,6 +79,24 @@
 		}
 
 
+
+		#region Event callbacks
+
+		private async void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Animate window opening
+			await AnimateIn(TimeSpan.FromSeconds(0.2));
+
+			// Wait a bit for the user to read the message
+			await Task.Delay(3000);
+
+			//await Close();
+		}
+
+
+		#endregion
+
+
 		#region Private helpers
 
 		/// <summary>
@@ -97,7 +110,7 @@
 			Storyboard storyboard = new Storyboard();
 
 			// The animation 
-			DoubleAnimation doubleAnimation = new DoubleAnimation(2220, 1000, duration);
+			DoubleAnimation doubleAnimation = new DoubleAnimation(1920, 1920 - Width, duration);
 
 			// The property to animate
 			Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(nameof(Window.Left)));
@@ -126,7 +139,7 @@
 			storyboard.Completed += completedEvent;
 
 			// The animation 
-			DoubleAnimation doubleAnimation = new DoubleAnimation(1000, 2220, duration);
+			DoubleAnimation doubleAnimation = new DoubleAnimation(1920 - Width, 1920, duration);
 
 			// The property to animate
 			Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(nameof(Window.Left)));
