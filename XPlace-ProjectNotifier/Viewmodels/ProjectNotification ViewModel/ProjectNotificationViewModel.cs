@@ -57,7 +57,12 @@
 		{
 			CloseWindowCommand = new RelayCommand(async () =>
 			{
-				await Close();
+				// Animate window closing
+				await AnimateOut(TimeSpan.FromSeconds(0.2), (sender, e) =>
+				{
+					// After animation finishes, actually close the window
+					_window.Close();
+				});
 			});
 		}
 
@@ -66,22 +71,6 @@
 			_window = window;
 
 			window.Loaded += Window_Loaded;
-		}
-
-
-
-		public void Show()
-		{
-			_window.Show();
-		}
-
-		public async Task Close()
-		{
-			// Animate window closing
-			await AnimateOut(TimeSpan.FromSeconds(0.2), (sender, e) =>
-			{
-				_window.Close();
-			});
 		}
 
 
