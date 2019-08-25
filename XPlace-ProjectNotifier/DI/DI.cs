@@ -53,6 +53,14 @@
 			return GetService<SettingsModel>();
 		}
 
+		/// <summary>
+		/// Returns an <see cref="IUIManager"/> service
+		/// </summary>
+		/// <returns></returns>
+		public static IUIManager GetUIManager()
+		{
+			return GetService<IUIManager>();
+		}
 
 		/// <summary>
 		/// Sets up the injecting service provider 
