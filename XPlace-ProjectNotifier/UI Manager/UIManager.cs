@@ -10,17 +10,16 @@
 	public class UIManager : IUIManager
 	{
 		/// <summary>
-		/// Create a <see cref="ProjectNotificationView "/> notification and display it
+		/// Create a <see cref="ProjectNotificationView "/> notification and display it 
 		/// </summary>
 		/// <param name="projectNotificationViewModel"></param>
 		/// <returns></returns>
-		public ProjectNotificationView ShowProjectNotification(ProjectNotificationViewModel projectNotificationViewModel)
+		public void ShowProjectNotification(ProjectNotificationViewModel projectNotificationViewModel)
 		{
-			ProjectNotificationView notification = new ProjectNotificationView(projectNotificationViewModel);
-
-			notification.Show();
-
-			return notification;
+			// Create instance of Project notification
+			new ProjectNotificationView(projectNotificationViewModel)
+			// show notification
+			.Show();
 		}
 	};
 };
