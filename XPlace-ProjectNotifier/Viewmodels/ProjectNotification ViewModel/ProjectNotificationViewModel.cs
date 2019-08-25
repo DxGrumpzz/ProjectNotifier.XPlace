@@ -66,10 +66,16 @@
 			});
 		}
 
+		/// <summary>
+		/// Binds a window to this viewmodel's window reference
+		/// </summary>
+		/// <param name="window"></param>
 		public void BindWindow(Window window)
 		{
+			// Bind window
 			_window = window;
 
+			// hook events
 			window.Loaded += Window_Loaded;
 		}
 
@@ -82,10 +88,16 @@
 			// Animate window opening
 			await AnimateIn(TimeSpan.FromSeconds(0.2));
 
-			// Wait a bit for the user to read the message
+			// Wait a bit for the user to read the new projects
 			await Task.Delay(3000);
 
-			//await Close();
+
+			// Animate window closing
+			await AnimateOut(TimeSpan.FromSeconds(0.2), (sender, e) =>
+			{
+				// After animation finishes, actually close the window
+				_window.Close();
+			});
 		}
 
 
