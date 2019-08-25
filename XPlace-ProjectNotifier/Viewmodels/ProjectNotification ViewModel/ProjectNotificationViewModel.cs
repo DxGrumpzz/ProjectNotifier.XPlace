@@ -32,6 +32,12 @@
 		public double Height => 150d;
 
 		/// <summary>
+		/// Window Y starting position
+		/// </summary>
+		public double Top => SystemParameters.WorkArea.BottomLeft.Y - Height;
+
+
+		/// <summary>
 		/// The list of new projects
 		/// </summary>
 		public List<ProjectModel> NewProjectList { get; set; }
