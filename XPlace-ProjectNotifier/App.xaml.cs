@@ -63,6 +63,8 @@
 
 			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, settingsModel));
 
+			serviceCollection.AddSingleton< IUIManager>(new UIManager());
+
 
 			// Build provider
 			DI.SetupDI(serviceCollection.BuildServiceProvider());
