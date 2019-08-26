@@ -27,6 +27,7 @@
 		public SettingsModel SettingsModel { get; private set; }
 
 		public TextEntryViewModel<int> ProjectCountSetting { get; set; }
+		public TextEntryViewModel<int> NotificationDispalySecondsSetting { get; set; }
 
 
 		public bool ShowSavedNotification
@@ -64,6 +65,7 @@
 		public SettingsViewModel(SettingsModel settings)
 		{
 			SettingsModel = settings;
+
 
 			ProjectCountSetting = new TextEntryViewModel<int>(SettingsModel.ProjectsToDisplay)
 			{
@@ -109,6 +111,51 @@
 					await ShowSavedNOtificationAsync();
 				}),
 			};
+
+			NotificationDispalySecondsSetting = new TextEntryViewModel<int>(SettingsModel.KeepNotificationOpenSeconds)
+			{
+				IsNumericOnly = true,
+
+				MaxLength = 2,
+
+				ValueValidationAction = new Func<TextEntryViewModel<int>, bool>(setting =>
+				{
+					// If value didn't change don't update
+					if(setting.Value == setting.PreviousValue)
+					{
+						return false;
+					};
+
+					// Boundry validation
+					if(setting.Value > 10)
+					{
+						setting.Value = 10;
+						return false;
+					}
+					else if(setting.Value < 3)
+					{
+						setting.Value = 3;
+						return false;
+					};
+
+					return true;
+				}),
+
+				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (setting) =>
+				{
+					DI.GetLogger().Log($"User changed {nameof(SettingsModel.KeepNotificationOpenSeconds)} setting to {setting.Value}", LogLevel.Informative);
+
+					// Update value 
+					DI.GetSettings().KeepNotificationOpenSeconds = setting.Value;
+
+					// Update config value
+					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.KeepNotificationOpenSeconds), setting.Value);
+
+					// Show settings saved notification
+					await ShowSavedNOtificationAsync();
+				}),
+			};
+
 
 			CloseSettingsCommand = new RelayCommand(ExecuteCloseSettingsCommand);
 		}
