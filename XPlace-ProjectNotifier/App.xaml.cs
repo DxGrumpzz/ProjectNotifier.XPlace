@@ -87,17 +87,6 @@
 			// Show window
 			.Show();
 
-			DI.GetUIManager().ShowProjectNotification(new List<ProjectNotificationItemViewModel>()
-			{
-				new ProjectNotificationItemViewModel()
-				{
-					ProjectModel = new ProjectModel()
-					{
-						Title = "big s u c c",
-					},
-				},
-			});
-
 		}
 	}
 }
