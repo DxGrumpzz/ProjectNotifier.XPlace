@@ -5,6 +5,8 @@
 	using System.Collections.ObjectModel;
 	using System.Diagnostics;
 	using System.Threading.Tasks;
+	using System.Collections.Generic;
+
 	public class MainWindowViewModel : BaseViewModel
 	{
 
@@ -115,7 +117,6 @@
 				// Comapre the 2 projects 
 				if(currentProjectListFirstProject.ProjectID != newProjectListFirstProject.ProjectID)
 				{
-
 					// Find the newer projects
 					var newProjectsList = newProjectList.ProjectList
 					.Where(model =>
@@ -123,12 +124,15 @@
 						return model.ProjectModel.ProjectID > currentProjectListFirstProject.ProjectID;
 					})
 					// Convert results into ProjectModel
-					.Select(result => 
-					new ProjectModel()
+					.Select(result =>
+					new ProjectNotificationItemViewModel()
 					{
-						Title = result.ProjectModel.Title,
-					})
-					.ToList();
+						ProjectModel = new ProjectModel()
+						{
+							Title = result.ProjectModel.Title,
+							Link = result.ProjectModel.Link,
+						},
+					});
 
 
 					// update list
@@ -141,7 +145,7 @@
 					// Notify user for the new projects
 					DI.GetUIManager().ShowProjectNotification(new ProjectNotificationViewModel()
 					{
-						NewProjectList = newProjectsList,
+						NewProjectList = new List<ProjectNotificationItemViewModel>(newProjectsList),
 					});
 				};
 			};
