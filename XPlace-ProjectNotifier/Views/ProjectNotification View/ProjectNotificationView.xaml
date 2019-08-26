@@ -24,6 +24,7 @@
 		Width="{Binding Width}"
 		Height="{Binding Height}">
 
+	
 	<d:Window.DataContext>
 		<local:ProjectNotificationViewModel/>
 	</d:Window.DataContext>
@@ -47,37 +48,28 @@
 		</Border.Effect>
 
 
-		<Grid>
+		<Grid ClipToBounds="True">
 
 
 			<!-- Close window button -->
-			<Button x:Name="CloseButton" 
-
-					Content="›"
-					FontSize="40"
-					FontWeight="Bold"
-					
-					Padding="0,-20,0,0"
-					
-					Height="25"
-					Width="50"
-					
-					WindowChrome.IsHitTestVisibleInChrome="True"
-					
-					VerticalAlignment="Top"
+			<Button VerticalAlignment="Top"
 					HorizontalAlignment="Right"
+					Margin="0,0,15,0"
+					
 					Panel.ZIndex="1"
 					
-					Command="{Binding CloseWindowCommand}"/>
+					Command="{Binding CloseWindowCommand}"
+					Style="{StaticResource CloseNotificationButtonStyle}"/>
 
 
 			<!-- New project(s) text -->
-			<TextBlock Text="! פרוייקט/ים חדשים עבורך"
+			<TextBlock Text="! פרוייקט/ים חדשים "
 					   FontFamily="Open Sans Hebrew"
 					   FontSize="20"
 					   FontWeight="Light"
+					   TextAlignment="Center"
 					   
-					   TextAlignment="Center"/>
+					   VerticalAlignment="Top"/>
 
 
 			<!-- The list of new project availble -->
@@ -95,6 +87,7 @@
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
+
 		</Grid>
 	</Border>
 </Window>
