@@ -1,7 +1,8 @@
 ﻿namespace XPlace_ProjectNotifier
 {
 	using System;
-	using System.Windows;
+    using System.Collections.Generic;
+    using System.Windows;
 
 	/// <summary>
 	/// The main UI manager for this app
@@ -23,12 +24,15 @@
 		/// </summary>
 		/// <param name="projectNotificationViewModel"></param>
 		/// <returns></returns>
-		public void ShowProjectNotification(ProjectNotificationViewModel projectNotificationViewModel)
+		public void ShowProjectNotification(List<ProjectNotificationItemViewModel> newProjectsList)
 		{
 			Dispatch(() =>
 			{
 				// Create instance of Project notification
-				new ProjectNotificationView(projectNotificationViewModel)
+				new ProjectNotificationView(new ProjectNotificationViewModel(DI.GetSettings())
+				{
+					NewProjectList = newProjectsList,
+				})
 				// show notification
 				.Show();
 			});

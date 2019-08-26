@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Text;
 
 	/// <summary>
 	/// An interface for a UI manager. Responsible for showing notifications and such
@@ -21,7 +20,7 @@
 		/// </summary>
 		/// <param name="projectNotificationViewModel"></param>
 		/// <returns></returns>
-		public void ShowProjectNotification(ProjectNotificationViewModel projectNotificationViewModel);
+		public void ShowProjectNotification(List<ProjectNotificationItemViewModel> newProjectsList);
 
 	};
 }
