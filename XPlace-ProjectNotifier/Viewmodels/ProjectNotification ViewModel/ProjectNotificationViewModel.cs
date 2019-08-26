@@ -12,6 +12,7 @@
 	public class ProjectNotificationViewModel : BaseViewModel
 	{
 
+
 		#region Private fields
 
 		private Window _window;
@@ -35,7 +36,7 @@
 		/// <summary>
 		/// Window Y starting position
 		/// </summary>
-		public double Top => SystemParameters.WorkArea.BottomLeft.Y - Height;
+		public double Top => (SystemParameters.WorkArea.BottomLeft.Y - Height) - 1;
 
 
 
@@ -100,9 +101,9 @@
 			// Wait a bit for the user to read the new projects
 			await Task.Delay(SecondsToKeepOpen * 1000);
 
-
 			// Animate window closing
-			await AnimateOut(TimeSpan.FromSeconds(0.2), (sender, e) =>
+			await AnimateOut(TimeSpan.FromSeconds(0.2), 
+			(sender, e) =>
 			{
 				// After animation finishes, actually close the window
 				_window.Close();
