@@ -17,6 +17,8 @@
 
 		private Window _window;
 
+		private SettingsModel _settings;
+
 		#endregion
 
 
@@ -45,10 +47,6 @@
 		/// </summary>
 		public List<ProjectNotificationItemViewModel> NewProjectList { get; set; }
 
-		/// <summary>
-		/// How long to keep the notification open in seconds
-		/// </summary>
-		public int SecondsToKeepOpen { get; set; } = 5;
 
 		#endregion
 
@@ -60,9 +58,14 @@
 		#endregion
 
 
+		public ProjectNotificationViewModel() { }
 
-		public ProjectNotificationViewModel()
+
+		public ProjectNotificationViewModel(SettingsModel settings)
 		{
+			_settings = settings;
+
+
 			CloseWindowCommand = new RelayCommand(async () =>
 			{
 				// Animate window closing
@@ -99,10 +102,10 @@
 
 
 			// Wait a bit for the user to read the new projects
-			await Task.Delay(SecondsToKeepOpen * 1000);
+			await Task.Delay(_settings.KeepNotificationOpenSeconds * 1000);
 
 			// Animate window closing
-			await AnimateOut(TimeSpan.FromSeconds(0.2), 
+			await AnimateOut(TimeSpan.FromSeconds(0.2),
 			(sender, e) =>
 			{
 				// After animation finishes, actually close the window
