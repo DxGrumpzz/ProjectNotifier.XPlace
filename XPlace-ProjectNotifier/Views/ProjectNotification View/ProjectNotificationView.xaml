@@ -7,7 +7,7 @@
         mc:Ignorable="d"
                             
         ResizeMode="NoResize"
-        WindowStyle="None"
+		WindowStyle="None"
         AllowsTransparency="True"
 		WindowStartupLocation="Manual"
 		Topmost="True"
@@ -24,31 +24,36 @@
 		Width="{Binding Width}"
 		Height="{Binding Height}">
 
-	
 	<d:Window.DataContext>
 		<local:ProjectNotificationViewModel/>
 	</d:Window.DataContext>
 
 
 
-	<Border CornerRadius="12,0,0,12" 
+
+	<Border Background="White"
+		
+			Margin="5,5,0,0" 
 			
-			Margin="5,5,0,0"
-			
-			Background="White">
+			CornerRadius="12,0,0,12">
 
-		<Border.Effect>
-			<DropShadowEffect Color="#000"
-						  Opacity="0.3" 
-						  BlurRadius="5"
+	<Border.Effect>
+		<DropShadowEffect Color="#000"
+						Opacity="0.3" 
+						BlurRadius="5"
 						  
-						  RenderingBias="Quality"
+						RenderingBias="Quality"
 						  
-						  ShadowDepth="0"/>
-		</Border.Effect>
+						ShadowDepth="0"/>
+	</Border.Effect>
 
 
-		<Grid ClipToBounds="True">
+		<Grid>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="AUTO"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
 
 
 			<!-- Close window button -->
@@ -64,17 +69,19 @@
 
 			<!-- New project(s) text -->
 			<TextBlock Text="! פרוייקט/ים חדשים "
-					   FontFamily="Open Sans Hebrew"
-					   FontSize="20"
-					   FontWeight="Light"
-					   TextAlignment="Center"
+						FontFamily="Open Sans Hebrew"
+						FontSize="20"
+						FontWeight="Light"
+						TextAlignment="Center"
 					   
-					   VerticalAlignment="Top"/>
+						VerticalAlignment="Top"/>
 
 
 			<!-- The list of new project availble -->
 			<ItemsControl ItemsSource="{Binding NewProjectList}"
-							  
+							
+						  Grid.Row="1"
+						    
 						  VerticalAlignment="Center"
 						  HorizontalAlignment="Center">
 
@@ -82,12 +89,16 @@
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 
-						<local:ProjectNotificationItemView DataContext="{Binding}"/>
+						<local:ProjectNotificationItemView DataContext="{Binding}"
+														   
+															Margin="0,2"
+															HorizontalAlignment="Center"
+														   
+															MaxWidth="{Binding Width}"/>
 
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
-
 		</Grid>
 	</Border>
 </Window>
