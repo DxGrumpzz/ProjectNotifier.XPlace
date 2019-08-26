@@ -24,12 +24,13 @@
 		/// <summary>
 		/// The width of the window
 		/// </summary>
-		public double Width => 300d;
+		public double Width => 400d;
 
 		/// <summary>
 		/// The height of the window
 		/// </summary>
-		public double Height => 150d;
+		public double Height => 200d;
+
 
 		/// <summary>
 		/// Window Y starting position
@@ -37,10 +38,16 @@
 		public double Top => SystemParameters.WorkArea.BottomLeft.Y - Height;
 
 
+
 		/// <summary>
 		/// The list of new projects
 		/// </summary>
-		public List<ProjectModel> NewProjectList { get; set; }
+		public List<ProjectNotificationItemViewModel> NewProjectList { get; set; }
+
+		/// <summary>
+		/// How long to keep the notification open in seconds
+		/// </summary>
+		public int SecondsToKeepOpen { get; set; } = 5;
 
 		#endregion
 
@@ -66,6 +73,7 @@
 			});
 		}
 
+
 		/// <summary>
 		/// Binds a window to this viewmodel's window reference
 		/// </summary>
@@ -88,8 +96,9 @@
 			// Animate window opening
 			await AnimateIn(TimeSpan.FromSeconds(0.2));
 
+
 			// Wait a bit for the user to read the new projects
-			await Task.Delay(3000);
+			await Task.Delay(SecondsToKeepOpen * 1000);
 
 
 			// Animate window closing
