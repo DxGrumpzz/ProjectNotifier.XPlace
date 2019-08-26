@@ -3,6 +3,7 @@
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 	using System;
+	using System.Collections.Generic;
 	using System.Diagnostics;
 	using System.Threading.Tasks;
 	using System.Windows;
@@ -38,7 +39,10 @@
 			var settingsModel = new SettingsModel()
 			{
 				// Get number of project to display
-				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection("ProjectsToDisplay").Value),
+				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection(nameof(SettingsModel.ProjectsToDisplay)).Value),
+
+				// Get number of seconds to display notificaiton
+				KeepNotificationOpenSeconds = Convert.ToInt32(configurationBuilder.GetSection(nameof(SettingsModel.KeepNotificationOpenSeconds)).Value),
 			};
 
 
@@ -54,7 +58,7 @@
 			// attach file logger
 			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
 #endif
-			
+
 			serviceCollection.AddSingleton(configurationBuilder);
 
 			serviceCollection.AddSingleton(settingsModel);
@@ -63,7 +67,7 @@
 
 			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, settingsModel));
 
-			serviceCollection.AddSingleton< IUIManager>(new UIManager());
+			serviceCollection.AddSingleton<IUIManager>(new UIManager());
 
 
 			// Build provider
@@ -82,6 +86,18 @@
 			}))
 			// Show window
 			.Show();
+
+			DI.GetUIManager().ShowProjectNotification(new List<ProjectNotificationItemViewModel>()
+			{
+				new ProjectNotificationItemViewModel()
+				{
+					ProjectModel = new ProjectModel()
+					{
+						Title = "big s u c c",
+					},
+				},
+			});
+
 		}
 	}
 }

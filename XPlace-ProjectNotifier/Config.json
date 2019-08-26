@@ -1,4 +1,7 @@
 ﻿{
 	// How many projects to display
-	"ProjectsToDisplay": 25
+	"ProjectsToDisplay": 25,
+
+	// How long to keep the new project notification open for
+	"KeepNotificationOpenSeconds": 5
 }

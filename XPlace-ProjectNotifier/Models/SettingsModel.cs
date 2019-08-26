@@ -15,6 +15,10 @@
 		/// </summary>
 		public int ProjectsToDisplay { get; set; }
 
+		/// <summary>
+		/// How long to display the new projects notification in seconds
+		/// </summary>
+		public int KeepNotificationOpenSeconds { get; set; }
 
 	};
 }
