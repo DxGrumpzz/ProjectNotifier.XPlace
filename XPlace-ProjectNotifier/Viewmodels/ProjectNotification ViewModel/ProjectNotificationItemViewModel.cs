@@ -10,18 +10,30 @@
 	/// </summary>
 	public class ProjectNotificationItemViewModel
 	{
+		
+		#region Public property
 
+		/// <summary>
+		/// The ProjectModel, contains info about the new projet
+		/// </summary>
 		public ProjectModel ProjectModel { get; set; }
 
+		#endregion
+
+
+		#region Commands
 
 		public RelayCommand OpenProjectCommand { get; }
 
+		#endregion
 
 		public ProjectNotificationItemViewModel()
 		{
 			OpenProjectCommand = new RelayCommand(ExecuteOpenProjectCommand);
 		}
 
+
+		#region Command callbacks
 
 		private void ExecuteOpenProjectCommand()
 		{
@@ -36,6 +48,7 @@
 				UseShellExecute = false,
 				CreateNoWindow = true,
 			});
-		}
+		} 
+		#endregion
 	};
 };
