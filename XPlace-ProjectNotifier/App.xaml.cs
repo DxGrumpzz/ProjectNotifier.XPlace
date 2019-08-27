@@ -77,7 +77,7 @@
 
 			// Setup MainWindow
 			(Current.MainWindow = new MainWindow(
-			new MainWindowViewModel(DI.GetSettings(), DI.GetService<ProjectLoader>())
+			new MainWindowViewModel(DI.Settings(), DI.GetService<ProjectLoader>())
 			{
 				Model = new MainWindowModel()
 				{

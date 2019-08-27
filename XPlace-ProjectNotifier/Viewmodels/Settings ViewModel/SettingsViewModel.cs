@@ -99,10 +99,10 @@
 
 				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (setting) =>
 				{
-					DI.GetLogger().Log($"User changed {nameof(SettingsModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
+					DI.Logger().Log($"User changed {nameof(SettingsModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
 
 					// Update value 
-					DI.GetSettings().ProjectsToDisplay = setting.Value;
+					DI.Settings().ProjectsToDisplay = setting.Value;
 
 					// Update config value
 					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.ProjectsToDisplay), setting.Value);
@@ -143,10 +143,10 @@
 
 				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (setting) =>
 				{
-					DI.GetLogger().Log($"User changed {nameof(SettingsModel.KeepNotificationOpenSeconds)} setting to {setting.Value}", LogLevel.Informative);
+					DI.Logger().Log($"User changed {nameof(SettingsModel.KeepNotificationOpenSeconds)} setting to {setting.Value}", LogLevel.Informative);
 
 					// Update value 
-					DI.GetSettings().KeepNotificationOpenSeconds = setting.Value;
+					DI.Settings().KeepNotificationOpenSeconds = setting.Value;
 
 					// Update config value
 					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.KeepNotificationOpenSeconds), setting.Value);

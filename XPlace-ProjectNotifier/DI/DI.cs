@@ -39,7 +39,7 @@
 		/// Returns a logger
 		/// </summary>
 		/// <returns> Returns an instance of type <see cref="ILoggerBase"/> </returns>
-		public static ILoggerBase GetLogger()
+		public static ILoggerBase Logger()
 		{
 			return GetService<ILoggerBase>();
 		}
@@ -48,7 +48,7 @@
 		/// Returns the main settings model
 		/// </summary>
 		/// <returns></returns>
-		public static SettingsModel GetSettings()
+		public static SettingsModel Settings()
 		{
 			return GetService<SettingsModel>();
 		}
@@ -57,7 +57,7 @@
 		/// Returns an <see cref="IUIManager"/> service
 		/// </summary>
 		/// <returns></returns>
-		public static IUIManager GetUIManager()
+		public static IUIManager UIManager()
 		{
 			return GetService<IUIManager>();
 		}

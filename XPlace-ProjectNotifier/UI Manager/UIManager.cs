@@ -29,7 +29,7 @@
 			Dispatch(() =>
 			{
 				// Create instance of Project notification
-				new ProjectNotificationView(new ProjectNotificationViewModel(DI.GetSettings())
+				new ProjectNotificationView(new ProjectNotificationViewModel(DI.Settings())
 				{
 					NewProjectList = newProjectsList,
 				})

@@ -143,7 +143,7 @@
 
 
 					// Notify user for the new projects
-					DI.GetUIManager().ShowProjectNotification(new List<ProjectNotificationItemViewModel>(newProjectsList));
+					DI.UIManager().ShowProjectNotification(new List<ProjectNotificationItemViewModel>(newProjectsList));
 				};
 			};
 		}
