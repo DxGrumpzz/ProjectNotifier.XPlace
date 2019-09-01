@@ -102,6 +102,8 @@
 
 		<Setter  Property="Padding" Value="10"/>
 
+		<Setter Property="Cursor" Value="Hand"/>
+
 		<Setter Property="Template">
 			<Setter.Value>
 
