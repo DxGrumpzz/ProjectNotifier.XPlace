@@ -1,4 +1,4 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Core
 {
 	using System;
 	using Microsoft.Extensions.Configuration;
