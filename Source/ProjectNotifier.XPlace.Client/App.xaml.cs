@@ -2,11 +2,8 @@
 {
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
-    using ProjectNotifier.XPlace.Core;
-    using System;
-	using System.Collections.Generic;
-	using System.Diagnostics;
-	using System.Threading.Tasks;
+	using ProjectNotifier.XPlace.Core;
+	using System;
 	using System.Windows;
 
 	/// <summary>

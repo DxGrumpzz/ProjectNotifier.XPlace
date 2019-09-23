@@ -1,7 +1,7 @@
-﻿<Application x:Class="XPlace_ProjectNotifier.App"
+﻿<Application x:Class="ProjectNotifier.XPlace.Client.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:XPlace_ProjectNotifier">
+             xmlns:local="clr-namespace:ProjectNotifier.XPlace.Client">
 
     <Application.Resources>
 		<ResourceDictionary>
