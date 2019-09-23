@@ -1,4 +1,4 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
 	using System;
 	using System.Linq;
@@ -6,6 +6,7 @@
 	using System.Diagnostics;
 	using System.Threading.Tasks;
 	using System.Collections.Generic;
+	using ProjectNotifier.XPlace.Core;
 
 	public class MainWindowViewModel : BaseViewModel
 	{
@@ -47,7 +48,7 @@
 			}
 		}
 
-		public SettingsModel SettingsModel { get; }
+		public ClientAppSettingsModel ClientAppSettingsModel { get; }
 
 		public SettingsViewModel SettingsViewModel { get; }
 
@@ -79,10 +80,10 @@
 
 		public MainWindowViewModel() { }
 
-		public MainWindowViewModel(SettingsModel settingsModel, ProjectLoader projectLoader)
+		public MainWindowViewModel(ClientAppSettingsModel clientAppSettingsModel, ProjectLoader projectLoader)
 		{
-			SettingsModel = settingsModel;
-			SettingsViewModel = new SettingsViewModel(settingsModel);
+			ClientAppSettingsModel = clientAppSettingsModel;
+			SettingsViewModel = new SettingsViewModel(clientAppSettingsModel);
 			ProjectLoader = projectLoader;
 
 
@@ -124,14 +125,10 @@
 						return model.ProjectModel.ProjectID > currentProjectListFirstProject.ProjectID;
 					})
 					// Convert results into ProjectModel
-					.Select(result =>
-					new ProjectNotificationItemViewModel()
+					.Select(result => new ProjectModel()
 					{
-						ProjectModel = new ProjectModel()
-						{
-							Title = result.ProjectModel.Title,
-							Link = result.ProjectModel.Link,
-						},
+						Title = result.ProjectModel.Title,
+						Link = result.ProjectModel.Link,
 					});
 
 
@@ -143,7 +140,7 @@
 
 
 					// Notify user for the new projects
-					DI.UIManager().ShowProjectNotification(new List<ProjectNotificationItemViewModel>(newProjectsList));
+					DI.UIManager().ShowProjectNotification(newProjectsList);
 				};
 			};
 		}
