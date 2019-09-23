@@ -1,6 +1,7 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
-	using System;
+    using ProjectNotifier.XPlace.Core;
+    using System;
 	using System.Diagnostics;
 
 	/// <summary>

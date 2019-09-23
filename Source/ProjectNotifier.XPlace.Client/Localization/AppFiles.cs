@@ -1,4 +1,4 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
 	using System;
 

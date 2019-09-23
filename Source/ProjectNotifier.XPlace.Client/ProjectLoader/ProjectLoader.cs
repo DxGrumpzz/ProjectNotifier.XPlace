@@ -1,6 +1,7 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
-	using System;
+    using ProjectNotifier.XPlace.Core;
+    using System;
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Threading;
@@ -29,7 +30,7 @@
 
 		public double Interval { get; private set; }
 
-		public SettingsModel SettingsModel { get; }
+		public ClientAppSettingsModel ClientAppSettingsModel { get; }
 
 
 		/// <summary>
@@ -38,10 +39,10 @@
 		public event Action<ProjectListViewModel> ProjectsListUpdated = (projectList) => { };
 
 
-		public ProjectLoader(double interval, SettingsModel settingsModel)
+		public ProjectLoader(double interval, ClientAppSettingsModel clientAppSettingsModel)
 		{
 			Interval = interval;
-			SettingsModel = settingsModel;
+			ClientAppSettingsModel = clientAppSettingsModel;
 		}
 
 
@@ -54,7 +55,7 @@
 			// Read rss feed
 			var projects = new RSSReader(AppLinks.RSSFeedUrl)
 			// Grab however many results the user requested from the RSS feed
-			.GetXElementNodeList(count: SettingsModel.ProjectsToDisplay)
+			.GetXElementNodeList(count: ClientAppSettingsModel.ProjectsToDisplay)
 			// "Convert" the xml data to a ProjectModel
 			.Select(element =>
 			{

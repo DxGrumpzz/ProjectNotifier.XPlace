@@ -1,6 +1,7 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
-	using System;
+    using ProjectNotifier.XPlace.Core;
+    using System;
 	using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
@@ -11,7 +12,7 @@
 	public class ProjectNotificationItemViewModel
 	{
 		
-		#region Public property
+		#region Public properties
 
 		/// <summary>
 		/// The ProjectModel, contains info about the new projet

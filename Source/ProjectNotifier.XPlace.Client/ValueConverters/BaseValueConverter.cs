@@ -3,7 +3,7 @@ using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Markup;
 
-namespace XPlace_ProjectNotifier
+namespace ProjectNotifier.XPlace.Client
 {
     /// <summary>
     /// A base ValueConverter for all <see cref="IValueConverter"/> classes to inherit.

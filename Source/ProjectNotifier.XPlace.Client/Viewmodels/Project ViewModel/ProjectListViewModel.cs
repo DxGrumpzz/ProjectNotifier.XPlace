@@ -1,5 +1,6 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
+    using ProjectNotifier.XPlace.Core;
     using System;
     using System.Collections.ObjectModel;
 
