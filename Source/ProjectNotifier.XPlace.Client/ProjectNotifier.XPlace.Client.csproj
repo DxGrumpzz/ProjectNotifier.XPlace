@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProjectNotifier.XPlace.Core\ProjectNotifier.XPlace.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
