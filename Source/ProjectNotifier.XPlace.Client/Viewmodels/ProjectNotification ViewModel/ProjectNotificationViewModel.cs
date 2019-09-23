@@ -1,6 +1,7 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
-	using System;
+    using ProjectNotifier.XPlace.Core;
+    using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using System.Windows;
@@ -12,12 +13,59 @@
 	public class ProjectNotificationViewModel : BaseViewModel
 	{
 
+		public static ProjectNotificationViewModel Instance => new ProjectNotificationViewModel()
+		{
+			NewProjectList = new List<ProjectNotificationItemViewModel>()
+			{
+				new ProjectNotificationItemViewModel()
+				{
+					ProjectModel = new ProjectModel()
+					{
+						Title = "Project1",
+					}
+				},
+
+				new ProjectNotificationItemViewModel()
+				{
+					ProjectModel = new ProjectModel()
+					{
+						Title = "Project2",
+					}
+				},
+
+				new ProjectNotificationItemViewModel()
+				{
+					ProjectModel = new ProjectModel()
+					{
+						Title = "Project3",
+					}
+				},
+
+				new ProjectNotificationItemViewModel()
+				{
+					ProjectModel = new ProjectModel()
+					{
+						Title = "Project4",
+					}
+				},
+
+				new ProjectNotificationItemViewModel()
+				{
+					ProjectModel = new ProjectModel()
+					{
+						Title = "Project5",
+					}
+				},
+			},
+		};
+
+
 
 		#region Private fields
 
 		private Window _window;
 
-		private SettingsModel _settings;
+		private ClientAppSettingsModel _settings;
 
 		#endregion
 
@@ -61,7 +109,7 @@
 		public ProjectNotificationViewModel() { }
 
 
-		public ProjectNotificationViewModel(SettingsModel settings)
+		public ProjectNotificationViewModel(ClientAppSettingsModel settings)
 		{
 			_settings = settings;
 
