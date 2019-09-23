@@ -9,7 +9,7 @@
 	/// <summary>
 	/// Specifies an implementation of a project loader/reader
 	/// </summary>
-	public interface IIProjectLoader
+	public interface IProjectLoader
 	{
 
 		/// <summary>
