@@ -1,8 +1,9 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
-	using System;
+    using ProjectNotifier.XPlace.Core;
+    using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
 	using System.Threading.Tasks;
@@ -36,13 +37,13 @@
 			.AddJsonFile(AppFiles.ConfigFileName, false, true)
 			.Build();
 
-			var settingsModel = new SettingsModel()
+			var clientAppSettingsModel = new ClientAppSettingsModel()
 			{
 				// Get number of project to display
-				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection(nameof(SettingsModel.ProjectsToDisplay)).Value),
+				ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection(nameof(ClientAppSettingsModel.ProjectsToDisplay)).Value),
 
 				// Get number of seconds to display notificaiton
-				KeepNotificationOpenSeconds = Convert.ToInt32(configurationBuilder.GetSection(nameof(SettingsModel.KeepNotificationOpenSeconds)).Value),
+				KeepNotificationOpenSeconds = Convert.ToInt32(configurationBuilder.GetSection(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds)).Value),
 			};
 
 
@@ -61,11 +62,11 @@
 
 			serviceCollection.AddSingleton(configurationBuilder);
 
-			serviceCollection.AddSingleton(settingsModel);
+			serviceCollection.AddSingleton(clientAppSettingsModel);
 
 			serviceCollection.AddSingleton(new JsonConfigManager(AppFiles.ConfigFileName));
 
-			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, settingsModel));
+			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, clientAppSettingsModel));
 
 			serviceCollection.AddSingleton<IUIManager>(new UIManager());
 
@@ -77,7 +78,7 @@
 
 			// Setup MainWindow
 			(Current.MainWindow = new MainWindow(
-			new MainWindowViewModel(DI.Settings(), DI.GetService<ProjectLoader>())
+			new MainWindowViewModel(DI.ClientAppSettings(), DI.GetService<ProjectLoader>())
 			{
 				Model = new MainWindowModel()
 				{
