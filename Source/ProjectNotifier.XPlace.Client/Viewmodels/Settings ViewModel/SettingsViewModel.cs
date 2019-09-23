@@ -1,6 +1,7 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
-	using System;
+    using ProjectNotifier.XPlace.Core;
+    using System;
 	using System.Diagnostics;
     using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@
 		/// <summary>
 		/// Application settings
 		/// </summary>
-		public SettingsModel SettingsModel { get; private set; }
+		public ClientAppSettingsModel ClientAppSettingsModel { get; private set; }
 
 		public TextEntryViewModel<int> ProjectCountSetting { get; set; }
 		public TextEntryViewModel<int> NotificationDispalySecondsSetting { get; set; }
@@ -62,12 +63,12 @@
 
 		public SettingsViewModel() { }
 
-		public SettingsViewModel(SettingsModel settings)
+		public SettingsViewModel(ClientAppSettingsModel settings)
 		{
-			SettingsModel = settings;
+			ClientAppSettingsModel = settings;
 
 
-			ProjectCountSetting = new TextEntryViewModel<int>(SettingsModel.ProjectsToDisplay)
+			ProjectCountSetting = new TextEntryViewModel<int>(ClientAppSettingsModel.ProjectsToDisplay)
 			{
 				IsNumericOnly = true,
 
@@ -99,20 +100,20 @@
 
 				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (setting) =>
 				{
-					DI.Logger().Log($"User changed {nameof(SettingsModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
+					DI.Logger().Log($"User changed {nameof(ClientAppSettingsModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
 
 					// Update value 
-					DI.Settings().ProjectsToDisplay = setting.Value;
+					DI.ClientAppSettings().ProjectsToDisplay = setting.Value;
 
 					// Update config value
-					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.ProjectsToDisplay), setting.Value);
+					DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.ProjectsToDisplay), setting.Value);
 
 					// Show settings saved notification
 					await ShowSavedNOtificationAsync();
 				}),
 			};
 
-			NotificationDispalySecondsSetting = new TextEntryViewModel<int>(SettingsModel.KeepNotificationOpenSeconds)
+			NotificationDispalySecondsSetting = new TextEntryViewModel<int>(ClientAppSettingsModel.KeepNotificationOpenSeconds)
 			{
 				IsNumericOnly = true,
 
@@ -143,13 +144,13 @@
 
 				SaveChangesAction = new Action<TextEntryViewModel<int>>(async (setting) =>
 				{
-					DI.Logger().Log($"User changed {nameof(SettingsModel.KeepNotificationOpenSeconds)} setting to {setting.Value}", LogLevel.Informative);
+					DI.Logger().Log($"User changed {nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds)} setting to {setting.Value}", LogLevel.Informative);
 
 					// Update value 
-					DI.Settings().KeepNotificationOpenSeconds = setting.Value;
+					DI.ClientAppSettings().KeepNotificationOpenSeconds = setting.Value;
 
 					// Update config value
-					DI.GetService<JsonConfigManager>().WriteSetting(nameof(SettingsModel.KeepNotificationOpenSeconds), setting.Value);
+					DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds), setting.Value);
 
 					// Show settings saved notification
 					await ShowSavedNOtificationAsync();
