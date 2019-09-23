@@ -1,7 +1,9 @@
-﻿namespace XPlace_ProjectNotifier
+﻿namespace ProjectNotifier.XPlace.Client
 {
-	using System;
+    using ProjectNotifier.XPlace.Core;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
 
 	/// <summary>
@@ -22,16 +24,26 @@
 		/// <summary>
 		/// Create a <see cref="ProjectNotificationView "/> notification and display it 
 		/// </summary>
-		/// <param name="projectNotificationViewModel"></param>
+		/// <param name="newProjects"></param>
 		/// <returns></returns>
-		public void ShowProjectNotification(List<ProjectNotificationItemViewModel> newProjectsList)
+		public void ShowProjectNotification(IEnumerable<ProjectModel> newProjects)
 		{
 			Dispatch(() =>
 			{
-				// Create instance of Project notification
-				new ProjectNotificationView(new ProjectNotificationViewModel(DI.Settings())
+				// Quick dirty fix I hope(will) to improve later
+				var projects = newProjects
+				// "Convert" ProjectModels to an IEnumerable of ProjectNotificationItemViewModel
+				.Select(project => 
+				new ProjectNotificationItemViewModel()
 				{
-					NewProjectList = newProjectsList,
+					ProjectModel = project,
+				});
+
+
+				// Create instance of Project notification
+				new ProjectNotificationView(new ProjectNotificationViewModel(DI.ClientAppSettings())
+				{
+					NewProjectList = new List<ProjectNotificationItemViewModel>(projects),
 				})
 				// show notification
 				.Show();
