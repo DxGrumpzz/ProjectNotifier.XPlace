@@ -14,7 +14,7 @@
 		/// Link to the RSS feed that is consumed by this app
 		/// </summary>
 #if DEBUG == TRUE
-		public static string RSSFeedUrl => @"C:\Development\Projects\XPlace-ProjectNotifier\Misc\Mock RSS feed.xml";
+		public static string RSSFeedUrl => @$"../../../../../../Misc/Mock RSS feed.xml";
 #else
 		public static string RSSFeedUrl => "https://www.xplace.com/il/rss/new-projects";
 #endif

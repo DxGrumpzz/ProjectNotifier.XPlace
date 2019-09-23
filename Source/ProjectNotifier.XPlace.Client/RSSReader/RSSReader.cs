@@ -1,17 +1,16 @@
 ﻿namespace XPlace_ProjectNotifier
 {
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading;
+	using System.Threading.Tasks;
 	using System.Xml;
 	using System.Xml.Linq;
-	using System.Linq;
-	using System.Collections.Generic;
-	using System.IO;
-	using System.Threading;
-    using System.Threading.Tasks;
 
-    /// <summary>
-    /// An RSS reader/prases
-    /// </summary>
-    public class RSSReader
+	/// <summary>
+	/// An RSS reader/prases
+	/// </summary>
+	public class RSSReader
 	{
 		#region Private fields
 
