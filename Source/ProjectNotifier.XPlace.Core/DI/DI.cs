@@ -1,6 +1,5 @@
 ﻿namespace ProjectNotifier.XPlace.Core
 {
-	using System;
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 
@@ -48,9 +47,9 @@
 		/// Returns the main settings model
 		/// </summary>
 		/// <returns></returns>
-		public static SettingsModel Settings()
+		public static ClientAppSettingsModel ClientAppSettings()
 		{
-			return GetService<SettingsModel>();
+			return GetService<ClientAppSettingsModel>();
 		}
 
 		/// <summary>
@@ -61,6 +60,7 @@
 		{
 			return GetService<IUIManager>();
 		}
+
 
 		/// <summary>
 		/// Sets up the injecting service provider 
