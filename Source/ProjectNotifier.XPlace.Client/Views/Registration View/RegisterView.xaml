@@ -7,10 +7,12 @@
              
 			 mc:Ignorable="d" 
 			 
-             d:DesignHeight="450" 
-			 d:DesignWidth="800"
+             d:DesignHeight="500" 
+			 d:DesignWidth="500"
 			 
-			 UseLayoutRounding="True">
+			 UseLayoutRounding="True"
+			 
+			 Background="White">
 
 	<Grid>
 
@@ -68,9 +70,7 @@
 					</Grid.RowDefinitions>
 
 					<!--Username-->
-					<StackPanel Margin="0,0,0,5"
-								
-								Grid.Column="1"
+					<StackPanel Grid.Column="1"
 								Grid.Row="0">
 
 						<TextBlock Text="שם משתמש"
@@ -90,7 +90,9 @@
 
 					<!-- Password-->
 					<StackPanel Grid.Column="1"
-								Grid.Row="1">
+								Grid.Row="1"
+								
+								 Margin="0,5">
 
 						<TextBlock Text="סיסמא"
 								   
@@ -123,19 +125,38 @@
 												MaxWidth="90"/>
 
 					</StackPanel>
-					
 				</Grid>
 
 
-				<!-- Login button -->
-				<Button VerticalAlignment="Bottom"
-						HorizontalAlignment="Center"
+				
+				<!-- Login and register button -->
+				<StackPanel Orientation="Horizontal"
+							
+							VerticalAlignment="Bottom"
+							
+							HorizontalAlignment="Center">
+
+
+					<!-- Switch to registration view button -->
+					<Button Content="הירשם"
 						
-						Content="הירשם"
+							Width="55"
+							
+							Margin="0,0,10,0"
+							
+							Style="{StaticResource AppButtonStyle1}"/>
+
+
+					<!-- Login button -->
+					<Button Content="כניסה"
 						
-						Style="{StaticResource AppButtonStyle1}"/>
+							Width="55"
+							
+							
+							Style="{StaticResource AppButtonStyle1}"/>
+
+				</StackPanel>
 			</Grid>
 		</Border>
 	</Grid>
-	
 </UserControl>
