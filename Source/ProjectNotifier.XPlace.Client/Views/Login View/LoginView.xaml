@@ -14,7 +14,6 @@
 			 
 			 Background="White">
 
-
 	<Grid>
 
 		<Grid.Background>
@@ -27,9 +26,13 @@
 				
 				MaxWidth="200"
 				MaxHeight="250">
+			
+			
 
 			<!-- Main content -->
-			<Grid TextBlock.FontFamily="Open Sans Hebrew">
+			<Grid TextBlock.FontFamily="Open Sans Hebrew"
+				  
+				  Margin="0,25">
 
 				<!-- Login page text -->
 				<TextBlock Text="כניסה"
@@ -93,6 +96,15 @@
 					</StackPanel>
 
 				</Grid>
+
+				
+				<!-- Login button -->
+				<Button VerticalAlignment="Bottom"
+						HorizontalAlignment="Center"
+						
+						Content="כניסה"
+						
+						Style="{StaticResource AppButtonStyle1}"/>
 			</Grid>
 		</Border>
 	</Grid>
