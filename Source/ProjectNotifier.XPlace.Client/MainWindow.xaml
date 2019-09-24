@@ -19,6 +19,13 @@
 
 	<Grid ClipToBounds="True">
 
+
+		<ContentPresenter Content="{Binding CurrentPage}"/>
+
+		<!--<local:RegisterView/>-->
+
+		<Grid Visibility="Collapsed">
+			
 		<!-- Loading text, Displayed before project list is loaded-->
 		<TextBlock Text=". . . טוען" 
 				   FontSize="30"
@@ -51,6 +58,7 @@
 
 			<!-- Settings view -->
 			<local:SettingsView DataContext="{Binding SettingsViewModel}"/>
+		</Grid>
 
 	</Grid>
 </Window>

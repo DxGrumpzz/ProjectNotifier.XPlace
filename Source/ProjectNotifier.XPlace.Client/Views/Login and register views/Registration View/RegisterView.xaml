@@ -12,7 +12,9 @@
 			 
 			 UseLayoutRounding="True"
 			 
-			 Background="White">
+			 Background="White"
+			 
+			 d:DataContext="{x:Static local:RegisterViewModel.Intance}">
 
 	<Grid>
 
@@ -136,24 +138,23 @@
 							
 							HorizontalAlignment="Center">
 
+					<!-- Login button -->
+					<Button Content="התחבר"
+						
+							Width="55"
+							
+							Margin="0,0,10,0"
+							
+							Command="{Binding GotoLoginPageCommand}"
+							Style="{StaticResource AppButtonStyle1}"/>
 
 					<!-- Switch to registration view button -->
 					<Button Content="הירשם"
 						
 							Width="55"
 							
-							Margin="0,0,10,0"
-							
 							Style="{StaticResource AppButtonStyle1}"/>
-
-
-					<!-- Login button -->
-					<Button Content="כניסה"
-						
-							Width="55"
-							
-							
-							Style="{StaticResource AppButtonStyle1}"/>
+					
 
 				</StackPanel>
 			</Grid>
