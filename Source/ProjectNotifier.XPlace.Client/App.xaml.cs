@@ -34,6 +34,8 @@
 			.AddJsonFile(AppFiles.ConfigFileName, false, true)
 			.Build();
 
+            // Pre provider building objects.
+            // Objects that *will* be used as the main instance for DI but are necessary for DI object initializtion
 			var clientAppSettingsModel = new ClientAppSettingsModel()
 			{
 				// Get number of project to display
@@ -43,9 +45,11 @@
 				KeepNotificationOpenSeconds = Convert.ToInt32(configurationBuilder.GetSection(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds)).Value),
 			};
 
+            ProjectLoader projectLoader = new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, clientAppSettingsModel);
 
-			// Bind services
-			ServiceCollection serviceCollection = new ServiceCollection();
+
+            // Bind services
+            ServiceCollection serviceCollection = new ServiceCollection();
 
 
 			// If in Debug attach console  logger
@@ -63,10 +67,17 @@
 
 			serviceCollection.AddSingleton(new JsonConfigManager(AppFiles.ConfigFileName));
 
-			serviceCollection.AddSingleton(new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, clientAppSettingsModel));
+			serviceCollection.AddSingleton(projectLoader);
 
 			serviceCollection.AddSingleton<IUIManager>(new UIManager());
 
+            serviceCollection.AddSingleton(new MainWindowViewModel(clientAppSettingsModel, projectLoader)
+            {
+                Model = new MainWindowModel()
+                {
+                    Title = "XPlace Project Notifier",
+                },
+            });
 
 			// Build provider
 			DI.SetupDI(serviceCollection.BuildServiceProvider());
@@ -74,14 +85,7 @@
 
 
 			// Setup MainWindow
-			(Current.MainWindow = new MainWindow(
-			new MainWindowViewModel(DI.ClientAppSettings(), DI.GetService<ProjectLoader>())
-			{
-				Model = new MainWindowModel()
-				{
-					Title = "XPlace Project Notifier",
-				},
-			}))
+			(Current.MainWindow = new MainWindow(DI.GetService<MainWindowViewModel>()))
 			// Show window
 			.Show();
 

@@ -1,4 +1,4 @@
-﻿namespace ProjectNotifier.XPlace.Client.Views.Login_and_register_views
+﻿namespace ProjectNotifier.XPlace.Client
 {
     using System;
     using System.Collections.Generic;
