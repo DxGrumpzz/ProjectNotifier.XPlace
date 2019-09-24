@@ -12,7 +12,9 @@
 			 
 			 UseLayoutRounding="True"
 			 
-			 Background="White">
+			 Background="White"
+			 
+			 d:DataContext="{x:Static local:LoginViewModel.Instance}">
 
 	<Grid>
 
@@ -47,7 +49,7 @@
 				  Margin="0,25">
 
 				<!-- Login page text -->
-				<TextBlock Text="כניסה"
+				<TextBlock Text="התחברות"
 						   FontSize="20"
 						   FontWeight="Light"
 						   
@@ -132,6 +134,7 @@
 						
 							Width="55"
 							
+							Command="{Binding GotoRegisterPageCommand}"
 							Style="{StaticResource AppButtonStyle1}"/>
 					
 				</StackPanel>
