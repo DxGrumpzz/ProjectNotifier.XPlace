@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <RootNamespace>XPlace_ProjectNotifier</RootNamespace>
+    <RootNamespace>ProjectNotifier.XPlace.Client</RootNamespace>
     <UseWPF>true</UseWPF>
 	
 		<!-- Publishing properties -->
