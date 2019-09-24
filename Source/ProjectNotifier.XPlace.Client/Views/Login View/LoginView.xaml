@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="ProjectNotifier.XPlace.Client.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectNotifier.XPlace.Client"
+             
+			 mc:Ignorable="d" 
+			 
+             d:DesignHeight="500" 
+			 d:DesignWidth="500"
+			 
+			 UseLayoutRounding="True"
+			 
+			 Background="White">
+
+
+	<Grid>
+
+		<Grid.Background>
+			<SolidColorBrush Color="Black" Opacity="0.2"/>
+		</Grid.Background>
+
+		<!-- Main border around the control -->
+		<Border CornerRadius="12"  
+				Background="White"
+				
+				MaxWidth="200"
+				MaxHeight="250">
+
+			<!-- Main content -->
+			<Grid TextBlock.FontFamily="Open Sans Hebrew">
+
+				<!-- Login page text -->
+				<TextBlock Text="כניסה"
+						   FontSize="20"
+						   FontWeight="Light"
+						   
+						   HorizontalAlignment="Center"/>
+
+
+				<!-- Username and password -->
+				<Grid VerticalAlignment="Center"
+					  
+					  MaxWidth="70">
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="AUTO"/>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="AUTO"/>
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+
+					<!--Username-->
+					<StackPanel Margin="0,0,0,25"
+								
+								Grid.Column="1"
+								Grid.Row="0">
+
+						<TextBlock Text="שם משתמש"
+								   
+								   TextAlignment="Center"/>
+
+						
+						<local:TextEntryControl DataContext="{Binding UsernameEntry}"/>
+
+					</StackPanel>
+
+
+					<!-- Password-->
+					<StackPanel Grid.Column="1"
+								Grid.Row="1">
+
+						<TextBlock Text="סיסמא"
+								   
+								   TextAlignment="Center"/>
+
+						<!-- TODO: Make a password entry control-->
+						<local:TextEntryControl DataContext="{Binding PasswordEntry}"/>
+
+					</StackPanel>
+
+				</Grid>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>
