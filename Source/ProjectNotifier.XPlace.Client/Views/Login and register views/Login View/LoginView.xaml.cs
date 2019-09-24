@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Text;
+    using System.Diagnostics;
+    using System.Text;
 	using System.Windows;
 	using System.Windows.Controls;
 	using System.Windows.Data;
@@ -22,5 +23,16 @@
 		{
 			InitializeComponent();
 		}
-	};
+
+        public LoginView(LoginViewModel viewModel)
+        {
+            InitializeComponent();
+            DataContext = viewModel;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine(DataContext);
+        }
+    };
 };
