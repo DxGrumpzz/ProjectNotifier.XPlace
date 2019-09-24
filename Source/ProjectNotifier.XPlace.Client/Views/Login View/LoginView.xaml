@@ -40,9 +40,7 @@
 
 
 				<!-- Username and password -->
-				<Grid VerticalAlignment="Center"
-					  
-					  MaxWidth="70">
+				<Grid VerticalAlignment="Center">
 
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="AUTO"/>
@@ -56,7 +54,7 @@
 					</Grid.RowDefinitions>
 
 					<!--Username-->
-					<StackPanel Margin="0,0,0,25"
+					<StackPanel Margin="0,0,0,5"
 								
 								Grid.Column="1"
 								Grid.Row="0">
@@ -66,7 +64,12 @@
 								   TextAlignment="Center"/>
 
 						
-						<local:TextEntryControl DataContext="{Binding UsernameEntry}"/>
+						<local:TextEntryControl DataContext="{Binding UsernameEntry}"
+												
+												HorizontalAlignment="Center"
+												
+												MinWidth="70"
+												MaxWidth="90"/>
 
 					</StackPanel>
 
@@ -80,7 +83,12 @@
 								   TextAlignment="Center"/>
 
 						<!-- TODO: Make a password entry control-->
-						<local:TextEntryControl DataContext="{Binding PasswordEntry}"/>
+						<local:TextEntryControl DataContext="{Binding PasswordEntry}"
+												
+												HorizontalAlignment="Center"
+												
+												MinWidth="70"
+												MaxWidth="90"/>
 
 					</StackPanel>
 
