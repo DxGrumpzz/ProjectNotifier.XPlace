@@ -26,8 +26,20 @@
 				
 				MaxWidth="200"
 				MaxHeight="250">
-			
-			
+
+			<!-- Drop shadow -->
+			<Border.Effect>
+
+				<DropShadowEffect Color="#000"
+Opacity="0.5" 
+BlurRadius="10"
+							    
+RenderingBias="Quality"
+							    
+Direction="270"
+								  
+ShadowDepth="1"/>
+			</Border.Effect>
 
 			<!-- Main content -->
 			<Grid TextBlock.FontFamily="Open Sans Hebrew"
