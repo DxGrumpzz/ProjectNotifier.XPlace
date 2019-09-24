@@ -31,14 +31,14 @@
 			<Border.Effect>
 
 				<DropShadowEffect Color="#000"
-Opacity="0.5" 
-BlurRadius="10"
-							    
-RenderingBias="Quality"
-							    
-Direction="270"
-								  
-ShadowDepth="1"/>
+								  Opacity="0.5" 
+								  BlurRadius="10"
+								  							    
+								  RenderingBias="Quality"
+								  							    
+								  Direction="270"
+								  								  
+								  ShadowDepth="1"/>
 			</Border.Effect>
 
 			<!-- Main content -->
@@ -78,7 +78,7 @@ ShadowDepth="1"/>
 								   
 								   TextAlignment="Center"/>
 
-						
+
 						<local:TextEntryControl DataContext="{Binding UsernameEntry}"
 												
 												HorizontalAlignment="Center"
@@ -110,13 +110,31 @@ ShadowDepth="1"/>
 				</Grid>
 
 				
-				<!-- Login button -->
-				<Button VerticalAlignment="Bottom"
-						HorizontalAlignment="Center"
+				<!-- Login and register button -->
+				<StackPanel Orientation="Horizontal"
+							
+							VerticalAlignment="Bottom"
+							
+							HorizontalAlignment="Center">
+
+
+					<!-- Login button -->
+					<Button Content="כניסה"
 						
-						Content="כניסה"
+							Width="55"
+							
+							Margin="0,0,10,0"
+							
+							Style="{StaticResource AppButtonStyle1}"/>
+
+					<!-- Switch to registration view button -->
+					<Button Content="הירשם"
 						
-						Style="{StaticResource AppButtonStyle1}"/>
+							Width="55"
+							
+							Style="{StaticResource AppButtonStyle1}"/>
+					
+				</StackPanel>
 			</Grid>
 		</Border>
 	</Grid>
