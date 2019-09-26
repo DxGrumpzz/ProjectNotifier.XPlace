@@ -60,30 +60,8 @@
             {
                 case ViewAnimation.SlideInFromTop:
                 {
-                    Storyboard storyboard = new Storyboard();
-
-                    // The slide in animation 
-                    ThicknessAnimation doubleAnimation = new ThicknessAnimation()
-                    {
-                        Duration = TimeSpan.FromSeconds(LoadInAnimtaionInSeconds),
-
-                        From = new Thickness(0, -ActualHeight, 0, ActualHeight),
-                        To = new Thickness(0),
-
-                        DecelerationRatio = 0.9,
-                    };
-
-                    // Set the property to animate
-                    Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("Margin"));
-
-                    // Add animation to storyboard timeline
-                    storyboard.Children.Add(doubleAnimation);
-
-                    // Do animation
-                    storyboard.Begin(this);
-
-                    // Wait for the animation to finish
-                    await Task.Delay(TimeSpan.FromSeconds(LoadInAnimtaionInSeconds));
+                    // Do load in animation
+                    await this.SlideInFromTopAsync(LoadInAnimtaionInSeconds);
 
                     break;
                 };
@@ -101,30 +79,8 @@
             {
                 case ViewAnimation.SlideOutToBottom:
                 {
-                    Storyboard storyboard = new Storyboard();
-
-                    // The slide in animation 
-                    ThicknessAnimation doubleAnimation = new ThicknessAnimation()
-                    {
-                        Duration = TimeSpan.FromSeconds(LoadInAnimtaionInSeconds),
-
-                        From = new Thickness(0),
-                        To = new Thickness(0, ActualHeight, 0, -ActualHeight),
-
-                        DecelerationRatio = 0.9,
-                    };
-
-                    // Set the property to animate
-                    Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("Margin"));
-
-                    // Add animation to storyboard timeline
-                    storyboard.Children.Add(doubleAnimation);
-
                     // Do animation
-                    storyboard.Begin(this);
-
-                    // Wait for the animation to finish
-                    await Task.Delay(TimeSpan.FromSeconds(LoadInAnimtaionInSeconds));
+                    await this.SlideOutToBottomAsync(UnloadAnimtaionInSeconds);
 
                     break;
                 };
