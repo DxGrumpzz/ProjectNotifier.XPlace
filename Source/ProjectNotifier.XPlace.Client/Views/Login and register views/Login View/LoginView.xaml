@@ -16,11 +16,11 @@
 			 
 			 d:DataContext="{x:Static local:LoginViewModel.Instance}">
 
-	<Grid>
+	<Border>
 
-		<Grid.Background>
+		<Border.Background>
 			<SolidColorBrush Color="Black" Opacity="0.2"/>
-		</Grid.Background>
+		</Border.Background>
 
 		<!-- Main border around the control -->
 		<Border CornerRadius="12"  
@@ -43,6 +43,42 @@
 								  ShadowDepth="1"/>
 			</Border.Effect>
 
+			<Border.RenderTransform>
+				<TranslateTransform/>
+			</Border.RenderTransform>
+			
+			<Border.Style>
+				<Style TargetType="Border">
+					<Style.Triggers>
+
+						<!-- When SlideDown property is true
+							 Translate the element down outside the view -->
+						<DataTrigger Binding="{Binding SlideDown}" Value="True">
+
+							<DataTrigger.EnterActions>
+								<BeginStoryboard>
+									<Storyboard>
+
+										<DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" 
+														 
+														 From="0"
+														 To="550"
+
+														 Duration="0:0:0.2"
+														 
+														 DecelerationRatio="0.9"
+														 />
+
+									</Storyboard>
+								</BeginStoryboard>
+							</DataTrigger.EnterActions>
+							
+						</DataTrigger>
+
+					</Style.Triggers>
+				</Style>
+			</Border.Style>
+			
 			<!-- Main content -->
 			<Grid TextBlock.FontFamily="Open Sans Hebrew"
 				  
@@ -140,5 +176,5 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-	</Grid>
+	</Border>
 </UserControl>
