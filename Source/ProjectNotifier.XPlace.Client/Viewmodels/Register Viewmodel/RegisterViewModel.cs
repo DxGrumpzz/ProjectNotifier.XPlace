@@ -15,6 +15,19 @@
         };
 
 
+        private bool _slideDownFromTop;
+
+        public bool SlideDownFromTop
+        {
+            get { return _slideDownFromTop; }
+            set
+            {
+                _slideDownFromTop = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         #region Commands
 
         public RelayCommand GotoLoginPageCommand { get; }
@@ -24,6 +37,8 @@
 
         public RegisterViewModel()
         {
+            SlideDownFromTop = true;
+
             GotoLoginPageCommand = new RelayCommand(ExecuteGotoLoginPageCommand);
         }
 
