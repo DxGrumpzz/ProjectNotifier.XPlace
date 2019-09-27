@@ -101,10 +101,7 @@
             ProjectLoader = projectLoader;
 
 
-            CurrentPage = new LoginView(new LoginViewModel()
-            {
-                Username = "asadfasdf",
-            });
+            CurrentPage = new LoginView(new LoginViewModel());
 
 
             Task.Run(SetupRSSProjectListAsync);
