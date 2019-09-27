@@ -8,18 +8,18 @@
 
     public class BaseView : UserControl
     {
-        
+
         #region Public properties
 
         /// <summary>
         /// An animation that will happen when the page loads
         /// </summary>
-        public ViewAnimation ViewLoadAnimation { get; set; }
+        public ViewAnimation ViewLoadAnimation { get; set; } = ViewAnimation.SlideInFromTop;
 
         /// <summary>
         /// An animtion that will happen when the view gets changes (to a different view)
         /// </summary>
-        public ViewAnimation ViewUnloadAnimation { get; set; }
+        public ViewAnimation ViewUnloadAnimation { get; set; } = ViewAnimation.SlideOutToBottom;
 
 
         /// <summary>
@@ -37,22 +37,20 @@
 
         public BaseView()
         {
-            
-
             // Bind page events
             Loaded += View_Loaded;
             Unloaded += View_Unloaded;
         }
 
 
-        private void View_Unloaded(object sender, RoutedEventArgs e)
+        private async void View_Unloaded(object sender, RoutedEventArgs e)
         {
-
+            await AnimateOut();
         }
 
-        private void View_Loaded(object sender, RoutedEventArgs e)
+        private async void View_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            await AnimateIn();
         }
 
 
@@ -60,32 +58,29 @@
         {
             switch (ViewLoadAnimation)
             {
-
                 case ViewAnimation.SlideInFromTop:
                 {
-
                     Storyboard storyboard = new Storyboard();
 
                     // The slide in animation 
-                    DoubleAnimation doubleAnimation = new DoubleAnimation()
+                    ThicknessAnimation doubleAnimation = new ThicknessAnimation()
                     {
                         Duration = TimeSpan.FromSeconds(LoadInAnimtaionInSeconds),
 
-                        From = -ActualHeight,
-                        To = 0,
+                        From = new Thickness(0, -ActualHeight, 0, ActualHeight),
+                        To = new Thickness(0),
 
                         DecelerationRatio = 0.9,
                     };
 
-                    // Storyboard.SetTargetProperty(this, new PropertyPath("(Border.RenderTransform).(TranslateTransform.Y)"));
                     // Set the property to animate
-                    Storyboard.SetTargetProperty(this, new PropertyPath("(UserControl.RenderTransform).(TranslateTransform.Y)"));
+                    Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("Margin"));
 
                     // Add animation to storyboard timeline
                     storyboard.Children.Add(doubleAnimation);
 
                     // Do animation
-                    storyboard.Begin();
+                    storyboard.Begin(this);
 
                     // Wait for the animation to finish
                     await Task.Delay(TimeSpan.FromSeconds(LoadInAnimtaionInSeconds));
@@ -99,5 +94,47 @@
                     return;
             };
         }
+
+        public async Task AnimateOut()
+        {
+            switch (ViewUnloadAnimation)
+            {
+                case ViewAnimation.SlideOutToBottom:
+                {
+                    Storyboard storyboard = new Storyboard();
+
+                    // The slide in animation 
+                    ThicknessAnimation doubleAnimation = new ThicknessAnimation()
+                    {
+                        Duration = TimeSpan.FromSeconds(LoadInAnimtaionInSeconds),
+
+                        From = new Thickness(0),
+                        To = new Thickness(0, ActualHeight, 0, -ActualHeight),
+
+                        DecelerationRatio = 0.9,
+                    };
+
+                    // Set the property to animate
+                    Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("Margin"));
+
+                    // Add animation to storyboard timeline
+                    storyboard.Children.Add(doubleAnimation);
+
+                    // Do animation
+                    storyboard.Begin(this);
+
+                    // Wait for the animation to finish
+                    await Task.Delay(TimeSpan.FromSeconds(LoadInAnimtaionInSeconds));
+
+                    break;
+                };
+
+                // If the view animation is set to none
+                default:
+                    // Don't do anything
+                    return;
+            };
+        }
+
     }
 }
