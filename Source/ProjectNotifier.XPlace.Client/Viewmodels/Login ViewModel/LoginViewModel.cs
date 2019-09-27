@@ -1,4 +1,5 @@
 ﻿using ProjectNotifier.XPlace.Core;
+using System.Threading.Tasks;
 
 namespace ProjectNotifier.XPlace.Client
 {
@@ -13,14 +14,14 @@ namespace ProjectNotifier.XPlace.Client
 
         };
 
-        private string _username;
+        private bool _slideDown;
 
-        public string Username
+        public bool SlideDown
         {
-            get => _username;
+            get => _slideDown;
             set
             {
-                _username = value;
+                _slideDown = value;
                 OnPropertyChanged();
             }
         }
@@ -41,10 +42,15 @@ namespace ProjectNotifier.XPlace.Client
 
         #region Command callbacks
 
-        private void ExecuteGotoRegisterPageCommand()
+        private async Task ExecuteGotoRegisterPageCommand()
         {
-            DI.GetService<MainWindowViewModel>().CurrentPage = new RegisterView(new RegisterViewModel());
+            SlideDown = true;
 
+            // Wait for animaation to finish
+            await Task.Delay(200);
+
+            // Change view
+            DI.GetService<MainWindowViewModel>().CurrentPage = new RegisterView(new RegisterViewModel());
         }
 
         #endregion
