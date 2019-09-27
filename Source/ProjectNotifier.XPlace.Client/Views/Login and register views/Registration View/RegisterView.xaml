@@ -16,11 +16,11 @@
 			 
 			 d:DataContext="{x:Static local:RegisterViewModel.Intance}">
 
-	<Grid>
+	<Border>
 
-		<Grid.Background>
+		<Border.Background>
 			<SolidColorBrush Color="Black" Opacity="0.2"/>
-		</Grid.Background>
+		</Border.Background>
 
 		<!-- Main border around the control -->
 		<Border CornerRadius="12"  
@@ -28,7 +28,7 @@
 				
 				MaxWidth="200"
 				MaxHeight="250">
-
+			
 			<!-- Drop shadow -->
 			<Border.Effect>
 
@@ -42,6 +42,41 @@
 								  								  
 								  ShadowDepth="1"/>
 			</Border.Effect>
+
+			<Border.RenderTransform>
+				<TranslateTransform/>
+			</Border.RenderTransform>
+			
+			<Border.Style>
+				<Style TargetType="Border">
+					<Style.Triggers>
+
+						<!-- When SlideDownFromTop property is true
+							 Translate the element down outside the view -->
+						<DataTrigger Binding="{Binding SlideDownFromTop}" Value="True">
+
+							<DataTrigger.EnterActions>
+								<BeginStoryboard>
+									<Storyboard>
+
+										<DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" 
+														 
+														 From="-550"
+														 To="0"
+
+														 Duration="0:0:0.1"
+														 
+														 DecelerationRatio="0.9"/>
+
+									</Storyboard>
+								</BeginStoryboard>
+							</DataTrigger.EnterActions>
+
+						</DataTrigger>
+
+					</Style.Triggers>
+				</Style>
+			</Border.Style>
 
 			<!-- Main content -->
 			<Grid TextBlock.FontFamily="Open Sans Hebrew"
@@ -159,5 +194,5 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-	</Grid>
+	</Border>
 </UserControl>
