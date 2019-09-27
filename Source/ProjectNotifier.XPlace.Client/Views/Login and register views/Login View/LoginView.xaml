@@ -51,6 +51,8 @@
 				<Style TargetType="Border">
 					<Style.Triggers>
 
+                        <!-- When SlideDownFromTop property is true
+							 Translate the element down from the top -->
                         <DataTrigger Binding="{Binding SlideDownFromTop}" Value="True">
 
 							<DataTrigger.EnterActions>
@@ -73,6 +75,8 @@
 							</DataTrigger.EnterActions>
 						</DataTrigger>
 
+                        <!-- When SlideDown property is true
+							 Translate the element down outside the view -->
                         <DataTrigger Binding="{Binding SlideDown}" Value="True">
 
                             <DataTrigger.EnterActions>
