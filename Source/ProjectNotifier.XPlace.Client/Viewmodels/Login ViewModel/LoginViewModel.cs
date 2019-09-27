@@ -13,8 +13,14 @@ namespace ProjectNotifier.XPlace.Client
         {
 
         };
+  
+        #region Private properties
 
         private bool _slideDown;
+        private bool _slideDownFromTop;
+
+        #endregion
+  
 
         public bool SlideDown
         {
@@ -22,6 +28,16 @@ namespace ProjectNotifier.XPlace.Client
             set
             {
                 _slideDown = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool SlideDownFromTop
+        {
+            get => _slideDownFromTop;
+            set
+            {
+                _slideDownFromTop = value;
                 OnPropertyChanged();
             }
         }
@@ -36,6 +52,8 @@ namespace ProjectNotifier.XPlace.Client
 
         public LoginViewModel()
         {
+            SlideDownFromTop = true;
+
             GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
         }
 
