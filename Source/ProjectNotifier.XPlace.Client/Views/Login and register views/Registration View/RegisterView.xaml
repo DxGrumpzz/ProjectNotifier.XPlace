@@ -64,7 +64,7 @@
 														 From="-550"
 														 To="0"
 
-														 Duration="0:0:0.1"
+														 Duration="0:0:0.4"
 														 
 														 DecelerationRatio="0.9"/>
 
@@ -87,7 +87,7 @@
 														 From="0"
 														 To="550"
 
-														 Duration="0:0:0.2"
+														 Duration="0:0:0.4"
 														 
 														 DecelerationRatio="0.9"/>
 
