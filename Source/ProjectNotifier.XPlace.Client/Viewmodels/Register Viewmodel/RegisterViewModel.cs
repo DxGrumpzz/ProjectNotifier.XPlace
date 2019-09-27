@@ -1,6 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
+    using System.Threading.Tasks;
 
 
     /// <summary>
@@ -14,18 +15,36 @@
 
         };
 
+        #region Private properties
 
         private bool _slideDownFromTop;
 
+        private bool _slideDown;
+
+        #endregion
+
+
         public bool SlideDownFromTop
         {
-            get { return _slideDownFromTop; }
+            get => _slideDownFromTop;
             set
             {
                 _slideDownFromTop = value;
                 OnPropertyChanged();
             }
         }
+
+
+        public bool SlideDown
+        {
+            get => _slideDown;
+            set
+            {
+                _slideDown = value;
+                OnPropertyChanged();
+            }
+        }
+
 
 
         #region Commands
@@ -46,8 +65,15 @@
 
 
 
-        private void ExecuteGotoLoginPageCommand()
+        private async Task ExecuteGotoLoginPageCommand()
         {
+            // Slide control down
+            SlideDown = true;
+
+            // Wait for animation to finish
+            await Task.Delay(200);
+
+            // Change to login page
             DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView(new LoginViewModel());
         }
 
