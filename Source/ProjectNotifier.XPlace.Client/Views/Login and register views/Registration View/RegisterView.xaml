@@ -52,7 +52,7 @@
 					<Style.Triggers>
 
 						<!-- When SlideDownFromTop property is true
-							 Translate the element down outside the view -->
+							 Translate the element down from the top -->
 						<DataTrigger Binding="{Binding SlideDownFromTop}" Value="True">
 
 							<DataTrigger.EnterActions>
@@ -74,7 +74,31 @@
 
 						</DataTrigger>
 
-					</Style.Triggers>
+                        <!-- When SlideDown property is true
+							 Translate the element down outside the view -->
+                        <DataTrigger Binding="{Binding SlideDown}" Value="True">
+
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" 
+														 
+														 From="0"
+														 To="550"
+
+														 Duration="0:0:0.2"
+														 
+														 DecelerationRatio="0.9"/>
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+
+                        </DataTrigger>
+
+
+                    </Style.Triggers>
 				</Style>
 			</Border.Style>
 
