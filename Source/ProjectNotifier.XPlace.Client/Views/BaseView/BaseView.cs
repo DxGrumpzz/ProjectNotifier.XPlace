@@ -63,7 +63,8 @@
         }
 
         public BaseView(TViewModel viewModel)
-            : base()
+            // Call default constructor
+            : this()
         {
             ViewModel = viewModel;
             DataContext = viewModel;
