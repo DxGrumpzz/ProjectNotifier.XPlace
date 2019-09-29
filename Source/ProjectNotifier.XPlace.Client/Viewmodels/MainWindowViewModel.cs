@@ -21,8 +21,6 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ProjectListViewModel projectListViewModel;
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private object _currentPage;
 
         #endregion
 
@@ -58,7 +56,9 @@
 
 
 
-        public object CurrentPage
+
+        private MainPageViews _currentPage;
+        public MainPageViews CurrentPage
         {
             get => _currentPage;
             set
@@ -67,6 +67,18 @@
                 OnPropertyChanged();
             }
         }
+
+        private BaseViewModel _viewModel;
+        public BaseViewModel ViewModel
+        {
+            get => _viewModel;
+            set
+            {
+                _viewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
 
 
         public bool IsLoading
@@ -101,7 +113,8 @@
             ProjectLoader = projectLoader;
 
 
-            CurrentPage = new LoginView(new LoginViewModel());
+            CurrentPage = MainPageViews.Login;
+            ViewModel = new LoginViewModel();
 
 
             Task.Run(SetupRSSProjectListAsync);
@@ -133,7 +146,7 @@
                 var newProjectListFirstProject = newProjectList.ProjectList.First().ProjectModel;
 
                 // Comapre the 2 projects 
-                if(currentProjectListFirstProject.ProjectID != newProjectListFirstProject.ProjectID)
+                if (currentProjectListFirstProject.ProjectID != newProjectListFirstProject.ProjectID)
                 {
                     // Find the newer projects
                     var newProjectsList = newProjectList.ProjectList
