@@ -6,25 +6,25 @@
     /// <summary>
     /// 
     /// </summary>
-    public static class FirstViewExtensions
+    public static class MainPageExtensions
     {
 
         /// <summary>
-        /// Converts a <see cref="FirstViewViews"/> to a <see cref="UserControl"/> with a DataContex as the <paramref name="viewModel"/>
+        /// Converts a <see cref="MainPageViews"/> to a <see cref="UserControl"/> with a DataContex as the <paramref name="viewModel"/>
         /// </summary>
         /// <param name="view"> The type of view </param>
         /// <param name="viewModel"> The view's datacontex/viewmodel </param>
         /// <returns></returns>
-        public static UserControl ToFirstView(this FirstViewViews view, object viewModel = null)
+        public static UserControl ToMainPage(this MainPageViews view, object viewModel = null)
         {
             switch(view)
             {
-                case FirstViewViews.Login:
+                case MainPageViews.Login:
                 {
                     return new LoginView((LoginViewModel)viewModel);
                 };
 
-                case FirstViewViews.Register:
+                case MainPageViews.Register:
                 {
                     return new RegisterView((RegisterViewModel)viewModel);
                 };

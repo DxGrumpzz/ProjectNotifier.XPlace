@@ -1,6 +1,5 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using System;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
@@ -8,9 +7,9 @@
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class FirstView : UserControl
+    public partial class MainPage : UserControl
     {
-        public FirstView()
+        public MainPage()
         {
             InitializeComponent();
         }
@@ -21,9 +20,9 @@
         /// <summary>
         /// Currently displayed page
         /// </summary>
-        public FirstViewViews CurrentPage
+        public MainPageViews CurrentPage
         {
-            get => (FirstViewViews)GetValue(CurrentPageProperty);
+            get => (MainPageViews)GetValue(CurrentPageProperty);
             set => SetValue(CurrentPageProperty, value);
         }
 
@@ -44,17 +43,17 @@
             DependencyProperty.Register(
                 nameof(ViewModel),
                 typeof(BaseViewModel),
-                typeof(FirstView),
+                typeof(MainPage),
                 new PropertyMetadata(null, null, ViewModelPropertyChanged));
 
-       
+
 
         public static readonly DependencyProperty CurrentPageProperty =
             DependencyProperty.Register(
                 nameof(CurrentPage),
-                typeof(FirstViewViews),
-                typeof(FirstView),
-                new PropertyMetadata(FirstViewViews.Login, null, CurrentPageCallback));
+                typeof(MainPageViews),
+                typeof(MainPage),
+                new PropertyMetadata(MainPageViews.Login, null, CurrentPageCallback));
 
         #endregion
 
@@ -63,18 +62,15 @@
         {
             // Set ViewPresenters new page content, Without setting the viewmodel because
             // this method is only called when the view changes 
-            (d as FirstView).ViewPresenter.Content = ((FirstViewViews)baseValue).ToFirstView();
+            (d as MainPage).ViewPresenter.Content = ((MainPageViews)baseValue).ToMainPage();
 
             return baseValue;
         }
 
         private static object ViewModelPropertyChanged(DependencyObject d, object baseValue)
         {
-            if(baseValue is null)
-                return baseValue;
-
             // Set ViewPresenters new page content, and set the viewmodel
-            (d as FirstView).ViewPresenter.Content = (d as FirstView).CurrentPage.ToFirstView(baseValue);
+            (d as MainPage).ViewPresenter.Content = (d as MainPage).CurrentPage.ToMainPage(baseValue);
 
             return baseValue;
         }

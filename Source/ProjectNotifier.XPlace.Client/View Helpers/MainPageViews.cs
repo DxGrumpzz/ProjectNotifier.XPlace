@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumerator for the views available for the <see cref="FirstView"/>
     /// </summary>
-    public enum FirstViewViews
+    public enum MainPageViews
     {
         /// <summary>
         /// The login view
