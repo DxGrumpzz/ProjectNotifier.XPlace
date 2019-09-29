@@ -12,17 +12,10 @@
 			InitializeComponent();
 		}
 
-        public LoginView(LoginViewModel viewModel) :
+        public LoginView(LoginViewModel viewModel) : 
             base(viewModel)
         {
-			InitializeComponent();
-
-            DataContext = viewModel;
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            await AnimateOut();
+            InitializeComponent();
         }
     };
 };
