@@ -165,7 +165,7 @@
 
 
                     <!-- TODO: Make a password entry control-->
-                    <local:TextEntryControl x:Name="PasswordField" DataContext="{Binding PasswordEntry}"
+                    <local:TextEntryControl DataContext="{Binding PasswordEntry}"
 												
 											HorizontalAlignment="Center"
 											
@@ -200,8 +200,6 @@
 						Width="70"
 						
 						Command="{Binding GotoRegisterPageCommand}"
-                        CommandParameter="{Binding ElementName=PasswordField}"
-                        
 						Style="{StaticResource AppButtonStyle1}"/>
 
             </StackPanel>
