@@ -20,7 +20,10 @@
 	<Grid ClipToBounds="True">
 
 
-		<ContentPresenter Content="{Binding CurrentPage}"/>
+        <local:MainPage CurrentPage="{Binding CurrentPage}"
+                        ViewModel="{Binding ViewModel}"/>
+
+        <!--<ContentPresenter Content="{Binding CurrentPage}"/>-->
 
 		<!--<local:RegisterView/>-->
 
