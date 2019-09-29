@@ -174,4 +174,68 @@
             };
         }
     }
+
+
+    /// <summary>
+    /// A generic version of the existing <see cref="RelayCommand"/> class 
+    /// </summary>
+    /// <typeparam name="T"> The type of aargument </typeparam>
+    public class RelayCommand<T> : ICommand
+    {
+        /// <summary>
+        /// An event the fires when <see cref="CanExecute(object)"/> has changed
+        /// </summary>
+        public event EventHandler CanExecuteChanged = (sender, e) => { };
+  
+        
+        #region Private fields
+
+        /// <summary>
+        /// A condition which will tell if the command should execute or not
+        /// </summary>
+        private readonly Func<bool> _predicate;
+
+        /// <summary>
+        /// A "generic" method that takes a single argument
+        /// </summary>
+        private readonly Action<T> _method;
+
+        /// <summary>
+        /// A "generic" asynchronous method that takes a single argument
+        /// </summary>
+        private readonly Func<T, Task> _aasyncMethod;
+
+        #endregion
+
+
+        public RelayCommand(Action<T> method, Func<bool> predicate = null)
+        {
+            _method = method;
+            _predicate = predicate;
+        }
+
+        public RelayCommand(Func<T, Task> method, Func<bool> predicate = null)
+        {
+            _aasyncMethod = method;
+            _predicate = predicate;
+        }
+
+        public bool CanExecute(object parameter = null)
+        {
+            // Check if method predicate is null and invoke predicate if necessary
+            return _predicate == null || _predicate.Invoke();
+        }
+
+
+        /// <summary>
+        /// Executes the action
+        /// </summary>
+        /// <param name="parameter"></param>
+        public void Execute(object parameter = null)
+        {
+            // Invoke if not null
+            _method?.Invoke((T)parameter);
+            _aasyncMethod?.Invoke((T)parameter);
+        }
+    }
 }

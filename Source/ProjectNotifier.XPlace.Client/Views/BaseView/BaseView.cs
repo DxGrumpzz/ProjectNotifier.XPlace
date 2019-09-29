@@ -1,13 +1,19 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using System;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Media.Animation;
 
-    public class BaseView : UserControl
+    public class BaseView<TViewModel> : UserControl
+        where TViewModel : BaseViewModel
     {
+
+        #region Private properties
+
+
+        public TViewModel _viewModel;
+
+        #endregion
 
         #region Public properties
 
@@ -32,6 +38,20 @@
         /// </summary>
         public float UnloadAnimtaionInSeconds { get; set; } = 0.5f;
 
+
+        /// <summary>
+        /// This view's associated viewmodel
+        /// </summary>
+        public TViewModel ViewModel 
+        {
+            get => _viewModel;
+            set
+            {
+                _viewModel = value;
+                DataContext = value;
+            }
+        }
+
         #endregion
 
 
@@ -42,6 +62,12 @@
             Unloaded += View_Unloaded;
         }
 
+        public BaseView(TViewModel viewModel)
+            : base()
+        {
+            ViewModel = viewModel;
+            DataContext = viewModel;
+        }
 
         private async void View_Unloaded(object sender, RoutedEventArgs e)
         {
