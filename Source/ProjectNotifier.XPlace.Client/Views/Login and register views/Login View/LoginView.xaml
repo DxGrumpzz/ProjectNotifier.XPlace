@@ -1,4 +1,5 @@
 ﻿<local:BaseView x:Class="ProjectNotifier.XPlace.Client.LoginView"
+                x:TypeArguments="local:LoginViewModel"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -136,6 +137,9 @@
 							Grid.Column="1"
 							Grid.Row="0">
 
+
+                    <!--<TextBlock x:Name="Text"
+                               Text="Texxt"/>-->
                     <TextBlock Text="שם משתמש"
 								   
 								TextAlignment="Center"/>
@@ -159,8 +163,9 @@
 							 	   
 							   TextAlignment="Center"/>
 
+
                     <!-- TODO: Make a password entry control-->
-                    <local:TextEntryControl DataContext="{Binding PasswordEntry}"
+                    <local:TextEntryControl x:Name="PasswordField" DataContext="{Binding PasswordEntry}"
 												
 											HorizontalAlignment="Center"
 											
@@ -168,7 +173,6 @@
 											MaxWidth="90"/>
 
                 </StackPanel>
-
             </Grid>
 
 
@@ -176,7 +180,6 @@
             <StackPanel Orientation="Horizontal"
 							
 						VerticalAlignment="Bottom"
-						
 						HorizontalAlignment="Center">
 
 
@@ -189,14 +192,16 @@
 						
 						Style="{StaticResource AppButtonStyle1}"/>
 
+
+
                 <!-- Switch to registration view button -->
                 <Button Content="הירשם"
 						
 						Width="70"
 						
-                        Click="Button_Click"
-                        
 						Command="{Binding GotoRegisterPageCommand}"
+                        CommandParameter="{Binding ElementName=PasswordField}"
+                        
 						Style="{StaticResource AppButtonStyle1}"/>
 
             </StackPanel>

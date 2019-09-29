@@ -1,8 +1,9 @@
-﻿using ProjectNotifier.XPlace.Core;
-using System.Threading.Tasks;
-
-namespace ProjectNotifier.XPlace.Client
+﻿namespace ProjectNotifier.XPlace.Client
 {
+    using ProjectNotifier.XPlace.Core;
+    using System.Threading.Tasks;
+
+
     /// <summary>
     /// 
     /// </summary>
@@ -13,14 +14,14 @@ namespace ProjectNotifier.XPlace.Client
         {
 
         };
-  
+
         #region Private properties
 
         private bool _slideDown;
         private bool _slideDownFromTop;
 
         #endregion
-  
+
 
         public bool SlideDown
         {
@@ -45,30 +46,30 @@ namespace ProjectNotifier.XPlace.Client
 
         #region Commands
 
-        public RelayCommand GotoRegisterPageCommand { get; }
+        public RelayCommand<TextEntryControl> GotoRegisterPageCommand { get; }
 
         #endregion
 
 
         public LoginViewModel()
         {
-            SlideDownFromTop = true;
+            //SlideDownFromTop = true;
 
-            GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
+            GotoRegisterPageCommand = new RelayCommand<TextEntryControl>(ExecuteGotoRegisterPageCommand);
         }
 
 
         #region Command callbacks
 
-        private async Task ExecuteGotoRegisterPageCommand()
+        private void ExecuteGotoRegisterPageCommand(TextEntryControl param)
         {
-            SlideDown = true;
-
-            // Wait for animaation to finish
-            await Task.Delay(200);
+            // SlideDown = true;
+            // 
+            // // Wait for animaation to finish
+            // await Task.Delay(200);
 
             // Change view
-            DI.GetService<MainWindowViewModel>().CurrentPage = new RegisterView(new RegisterViewModel());
+            //DI.GetService<MainWindowViewModel>().CurrentPage = new RegisterView(new RegisterViewModel());
         }
 
         #endregion
