@@ -51,4 +51,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Value Converters\Page Converters\" />
+  </ItemGroup>
+
 </Project>
