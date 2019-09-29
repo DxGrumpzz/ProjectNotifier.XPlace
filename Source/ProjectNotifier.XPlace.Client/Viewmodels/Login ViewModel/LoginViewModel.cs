@@ -1,7 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
-    using System.Threading.Tasks;
 
 
     /// <summary>
@@ -15,61 +14,27 @@
 
         };
 
-        #region Private properties
-
-        private bool _slideDown;
-        private bool _slideDownFromTop;
-
-        #endregion
-
-
-        public bool SlideDown
-        {
-            get => _slideDown;
-            set
-            {
-                _slideDown = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool SlideDownFromTop
-        {
-            get => _slideDownFromTop;
-            set
-            {
-                _slideDownFromTop = value;
-                OnPropertyChanged();
-            }
-        }
-
 
         #region Commands
 
-        public RelayCommand<TextEntryControl> GotoRegisterPageCommand { get; }
+        public RelayCommand GotoRegisterPageCommand { get; }
 
         #endregion
 
 
         public LoginViewModel()
         {
-            //SlideDownFromTop = true;
-
-            GotoRegisterPageCommand = new RelayCommand<TextEntryControl>(ExecuteGotoRegisterPageCommand);
+            GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
         }
 
 
         #region Command callbacks
 
-        private void ExecuteGotoRegisterPageCommand(TextEntryControl param)
+        public void ExecuteGotoRegisterPageCommand()
         {
-            // SlideDown = true;
-            // 
-            // // Wait for animaation to finish
-            // await Task.Delay(200);
-
             // Change view
-            //DI.GetService<MainWindowViewModel>().CurrentPage = new RegisterView(new RegisterViewModel());
+            DI.GetService<MainWindowViewModel>().CurrentPage = MainPageViews.Register;
+            DI.GetService<MainWindowViewModel>().ViewModel = new RegisterViewModel();
         }
 
         #endregion
