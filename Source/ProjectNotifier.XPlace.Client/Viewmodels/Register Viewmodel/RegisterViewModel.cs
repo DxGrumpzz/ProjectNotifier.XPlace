@@ -15,38 +15,6 @@
 
         };
 
-        #region Private properties
-
-        private bool _slideDownFromTop;
-
-        private bool _slideDown;
-
-        #endregion
-
-
-        public bool SlideDownFromTop
-        {
-            get => _slideDownFromTop;
-            set
-            {
-                _slideDownFromTop = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public bool SlideDown
-        {
-            get => _slideDown;
-            set
-            {
-                _slideDown = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-
         #region Commands
 
         public RelayCommand GotoLoginPageCommand { get; }
@@ -56,8 +24,6 @@
 
         public RegisterViewModel()
         {
-            SlideDownFromTop = true;
-
             GotoLoginPageCommand = new RelayCommand(ExecuteGotoLoginPageCommand);
         }
 
@@ -65,16 +31,11 @@
 
 
 
-        private async Task ExecuteGotoLoginPageCommand()
+        private void ExecuteGotoLoginPageCommand()
         {
-            // Slide control down
-            SlideDown = true;
-
-            // Wait for animation to finish
-            await Task.Delay(200);
-
             // Change to login page
-            DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView(new LoginViewModel());
+            DI.GetService<MainWindowViewModel>().CurrentPage = MainPageViews.Login;
+            DI.GetService<MainWindowViewModel>().ViewModel = new LoginViewModel();
         }
 
         #endregion
