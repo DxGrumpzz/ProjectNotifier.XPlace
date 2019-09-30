@@ -57,8 +57,9 @@
 
 
 
-        private MainPageViews _currentPage;
-        public MainPageViews CurrentPage
+
+        private BaseView _currentPage;
+        public BaseView CurrentPage
         {
             get => _currentPage;
             set
@@ -67,18 +68,6 @@
                 OnPropertyChanged();
             }
         }
-
-        private BaseViewModel _viewModel;
-        public BaseViewModel ViewModel
-        {
-            get => _viewModel;
-            set
-            {
-                _viewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
 
 
         public bool IsLoading
@@ -113,8 +102,10 @@
             ProjectLoader = projectLoader;
 
 
-            CurrentPage = MainPageViews.Login;
-            ViewModel = new LoginViewModel();
+            CurrentPage = new LoginView()
+            {
+                ViewModel = new LoginViewModel(),
+            };
 
 
             Task.Run(SetupRSSProjectListAsync);
