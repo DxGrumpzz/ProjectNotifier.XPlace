@@ -2,17 +2,17 @@
 {
     using System;
     using System.Windows;
-    using System.Windows.Markup;
 
     /// <summary>
     /// A base attached property to replace the vanilla WPF attached property
     /// </summary>
     /// <typeparam name="Parent">The parent class to be the attached property</typeparam>
     /// <typeparam name="Property">The type of this attached property</typeparam>
+    /// remarks This class was created by Luke Malpass (AngelSix) https://github.com/angelsix/fasetto-word/blob/develop/Source/Fasetto.Word/AttachedProperties/BaseAttachedProperty.cs
     public abstract class BaseAttachedProperty<Parent, Property>
         where Parent : new()
-
     {
+
         #region Public Events
 
         /// <summary>
@@ -26,14 +26,14 @@
         public event Action<DependencyObject, object> ValueUpdated = (sender, value) => { };
 
         #endregion
-    
+
 
         #region Public Properties
 
         /// <summary>
         /// A singleton instance of our parent class
         /// </summary>
-        public static Parent Instance => new Parent();
+        public static Parent Instance { get; private set; } = new Parent();
 
         #endregion
 
@@ -50,7 +50,8 @@
             new UIPropertyMetadata(
                 default(Property),
                 new PropertyChangedCallback(OnValuePropertyChanged),
-                new CoerceValueCallback(OnValuePropertyUpdated)));
+                new CoerceValueCallback(OnValuePropertyUpdated)
+                ));
 
 
         /// <summary>
@@ -75,7 +76,7 @@
         private static object OnValuePropertyUpdated(DependencyObject d, object value)
         {
             // Call the parent function
-            (Instance as BaseAttachedProperty<Parent, Property>)?.OnValueUpdated(d, (Property)value);
+            (Instance as BaseAttachedProperty<Parent, Property>)?.OnValueUpdated(d, value);
 
             // Call event listeners
             (Instance as BaseAttachedProperty<Parent, Property>)?.ValueUpdated(d, value);
@@ -83,6 +84,7 @@
             // Return the value
             return value;
         }
+
 
         /// <summary>
         /// Gets the attached property
@@ -115,9 +117,9 @@
         /// </summary>
         /// <param name="sender">The UI element that this property was changed for</param>
         /// <param name="e">The arguments for this event</param>
-        public virtual void OnValueUpdated(DependencyObject sender, Property value) { }
+        public virtual void OnValueUpdated(DependencyObject sender, object value) { }
 
         #endregion
-    }
 
-}
+    };
+};
