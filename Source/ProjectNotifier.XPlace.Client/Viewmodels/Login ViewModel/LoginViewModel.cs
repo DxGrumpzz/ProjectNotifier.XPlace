@@ -33,8 +33,10 @@
         public void ExecuteGotoRegisterPageCommand()
         {
             // Change view
-            DI.GetService<MainWindowViewModel>().CurrentPage = MainPageViews.Register;
-            DI.GetService<MainWindowViewModel>().ViewModel = new RegisterViewModel();
+            DI.GetService<MainWindowViewModel>().CurrentPage = new RegisterView()
+            {
+                ViewModel = new RegisterViewModel()
+            };
         }
 
         #endregion
