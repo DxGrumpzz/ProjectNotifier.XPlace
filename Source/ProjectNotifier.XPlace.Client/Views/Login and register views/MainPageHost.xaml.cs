@@ -1,6 +1,5 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -27,19 +26,10 @@
             set => SetValue(CurrentPageProperty, value);
         }
 
-        /// <summary>
-        /// The current view's viewmodel
-        /// </summary>
-        //public BaseViewModel ViewModel
-        //{
-            //get => (BaseViewModel)GetValue(ViewModelProperty);
-            //set => SetValue(ViewModelProperty, value);
-        //}
-
         #endregion
 
-        #region Dependency properties
 
+        #region Dependency properties
 
         public static readonly DependencyProperty CurrentPageProperty =
             DependencyProperty.Register(
@@ -48,19 +38,10 @@
                 typeof(MainPageHost),
                 new UIPropertyMetadata(null, CurrentPageChanged));
 
-
-        //public static readonly DependencyProperty ViewModelProperty =
-        //    DependencyProperty.Register(
-        //        nameof(ViewModel),
-        //        typeof(BaseViewModel),
-        //        typeof(MainPageHost),
-        //        new UIPropertyMetadata(null, null, ViewModelPropertyChanged));
-
         #endregion
 
 
-
-        private async static void CurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void CurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Get current view presenters
             var newPageView = (d as MainPageHost).NewView;
@@ -69,36 +50,18 @@
             // Store NewPage's content
             var oldPageContent = newPageView.Content;
 
-            // Remove current NewPage content
-            //newPageView.Content = null;
-
             // Set old PageContent to what used to be the NewPage
-            //oldPageView.Content = oldPageContent;
+            oldPageView.Content = oldPageContent;
 
 
-            //// Use the ViewUnloadAnimation to animate out the old page
+            // Use the ViewUnloadAnimation to animate out the old page
             if (oldPageContent is BaseView oldPage)
             {
-                // Animate old page out of view
-                await oldPage.AnimateOut();
+                oldPage.ShouldAnimateOutOnLoad = true;
             };
 
             // Set new page's content
             newPageView.Content = e.NewValue;
         }
-
-
-        //    private static object ViewModelPropertyChanged(DependencyObject d, object baseValue)
-        //    {
-        //        var newPageView = (d as MainPageHost).NewView.Content;
-        //        var oldPageView = (d as MainPageHost).OldView.Content;
-
-        //        if ((d as MainPageHost).NewView.Content is BaseView baseView)
-        //        {
-        //            baseView.DataContext = baseValue;
-        //        };
-
-        //        return baseValue;
-        //    }
     }
 }
