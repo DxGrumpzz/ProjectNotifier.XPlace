@@ -13,24 +13,21 @@
 		MinHeight="600" 
 	    MinWidth="850">
 
-	<d:Window.DataContext>
-		<local:MainWindowViewModel/>
-	</d:Window.DataContext>
+    <d:Window.DataContext>
+        <local:MainWindowViewModel/>
+    </d:Window.DataContext>
 
-	<Grid ClipToBounds="True">
+    <Grid ClipToBounds="True">
 
 
-        <local:MainPage CurrentPage="{Binding CurrentPage}"
-                        ViewModel="{Binding ViewModel}"/>
+        <local:MainPageHost CurrentPage="{Binding CurrentPage}"/>
+        <!--ViewModel="{Binding ViewModel}"/>-->
 
-        <!--<ContentPresenter Content="{Binding CurrentPage}"/>-->
 
-		<!--<local:RegisterView/>-->
+        <Grid Visibility="Collapsed">
 
-		<Grid Visibility="Collapsed">
-			
-		<!-- Loading text, Displayed before project list is loaded-->
-		<TextBlock Text=". . . טוען" 
+            <!-- Loading text, Displayed before project list is loaded-->
+            <TextBlock Text=". . . טוען" 
 				   FontSize="30"
 				   FontFamily="Open Sans Hebrew"
 				   FontWeight="Bold"
@@ -42,12 +39,12 @@
 				   Converter={local:BoolToVisibilityValueConverter}}"/>
 
 
-			
-			<!-- Projects list -->
-			<local:ProjectListView DataContext="{Binding ProjectList}"/>
 
-			<!-- Settings display button -->
-			<Button Content="הגדרות" 
+            <!-- Projects list -->
+            <local:ProjectListView DataContext="{Binding ProjectList}"/>
+
+            <!-- Settings display button -->
+            <Button Content="הגדרות" 
 				
 					VerticalAlignment="Top"
 					HorizontalAlignment="Center"
@@ -59,9 +56,9 @@
 					Command="{Binding OpenSettingsCommand}"/>
 
 
-			<!-- Settings view -->
-			<local:SettingsView DataContext="{Binding SettingsViewModel}"/>
-		</Grid>
+            <!-- Settings view -->
+            <local:SettingsView DataContext="{Binding SettingsViewModel}"/>
+        </Grid>
 
-	</Grid>
+    </Grid>
 </Window>
