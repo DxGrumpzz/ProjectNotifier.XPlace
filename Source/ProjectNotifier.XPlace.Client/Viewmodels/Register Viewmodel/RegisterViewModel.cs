@@ -34,8 +34,10 @@
         private void ExecuteGotoLoginPageCommand()
         {
             // Change to login page
-            DI.GetService<MainWindowViewModel>().CurrentPage = MainPageViews.Login;
-            DI.GetService<MainWindowViewModel>().ViewModel = new LoginViewModel();
+            DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
+            {
+                ViewModel = new LoginViewModel()
+            };
         }
 
         #endregion
