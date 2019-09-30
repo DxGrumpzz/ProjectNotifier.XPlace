@@ -4,16 +4,16 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    public class BaseView<TViewModel> : UserControl
-        where TViewModel : BaseViewModel
+    public class BaseView : UserControl
     {
 
         #region Private properties
 
 
-        public TViewModel _viewModel;
+        public object _viewModel;
 
         #endregion
+
 
         #region Public properties
 
@@ -42,7 +42,7 @@
         /// <summary>
         /// This view's associated viewmodel
         /// </summary>
-        public TViewModel ViewModel 
+        public object ViewModel
         {
             get => _viewModel;
             set
@@ -51,6 +51,12 @@
                 DataContext = value;
             }
         }
+
+
+        /// <summary>
+        /// A flag that indicates if this view should animate out when it is loaded
+        /// </summary>
+        public bool ShouldAnimateOutOnLoad { get; set; }
 
         #endregion
 
@@ -62,12 +68,23 @@
             Unloaded += View_Unloaded;
         }
 
-        public BaseView(TViewModel viewModel)
+        public BaseView(object viewModel)
             // Call default constructor
             : this()
         {
             ViewModel = viewModel;
-            DataContext = viewModel;
+        }
+
+        private async void View_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (ShouldAnimateOutOnLoad == true)
+            {
+                await AnimateOut();
+            }
+            else
+            {
+                await AnimateIn();
+            };
         }
 
         private async void View_Unloaded(object sender, RoutedEventArgs e)
@@ -75,12 +92,11 @@
             await AnimateOut();
         }
 
-        private async void View_Loaded(object sender, RoutedEventArgs e)
-        {
-            await AnimateIn();
-        }
 
-
+        /// <summary>
+        /// Animates the page loading
+        /// </summary>
+        /// <returns></returns>
         public async Task AnimateIn()
         {
             switch (ViewLoadAnimation)
@@ -100,6 +116,10 @@
             };
         }
 
+        /// <summary>
+        /// Animates the page unloading
+        /// </summary>
+        /// <returns></returns>
         public async Task AnimateOut()
         {
             switch (ViewUnloadAnimation)
@@ -119,5 +139,34 @@
             };
         }
 
-    }
-}
+    };
+
+
+    public class BaseView<TViewModel> : BaseView
+        where TViewModel : BaseViewModel
+    {
+
+        #region Public properties
+
+        /// <summary>
+        /// A generic overload of <see cref="BaseView.ViewModel"/>
+        /// </summary>
+        public new TViewModel ViewModel
+        {
+            get => (TViewModel)base.ViewModel;
+            set => base.ViewModel = value;
+        }
+
+        #endregion
+
+        public BaseView() :
+            base()
+        { 
+        }
+
+        public BaseView(TViewModel viewModel) :
+            base(viewModel)
+        {
+        }
+    };
+};
