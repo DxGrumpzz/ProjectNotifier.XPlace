@@ -17,9 +17,13 @@
         SlideInFromTop = 1,
 
         /// <summary>
+        /// Slides a page upwards
+        /// </summary>
+        SlideOutToTop = 2,
+
+        /// <summary>
         /// Slides a page to the bottom
         /// </summary>
-        SlideOutToBottom = 2,
-
+        SlideOutToBottom = 3,
     }
 }
