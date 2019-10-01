@@ -59,6 +59,11 @@
         /// </summary>
         public bool ShouldAnimateOutOnLoad { get; set; }
 
+        /// <summary>
+        /// A flag that indicates if the unload animation should be awaited before switching to next page
+        /// </summary>
+        public bool WaitForUnloadAnimation { get; set; }
+
         #endregion
 
 
@@ -164,14 +169,44 @@
             set => SetValue(ViewUnloadAnimationProperty, value);
         }
 
+        /// <summary>
+        /// dependency property for <see cref="WaitForUnloadAnimation"/>
+        /// </summary>
+        public bool WaitForUnloadAnimationDP
+        {
+            get => (bool)GetValue(WaitForUnloadAnimationDPProperty);
+            set => SetValue(WaitForUnloadAnimationDPProperty, value);
+        }
 
+
+        
         public static readonly DependencyProperty ViewLoadAnimationProperty =
-            DependencyProperty.Register(nameof(ViewLoadAnimation), typeof(ViewAnimation), typeof(BaseView), new UIPropertyMetadata(ViewAnimation.SlideInFromTop, null, ViewLoadAnimationChanged));
+            DependencyProperty.Register(
+                nameof(ViewLoadAnimation), 
+                typeof(ViewAnimation), 
+                typeof(BaseView),
+                new UIPropertyMetadata(ViewAnimation.SlideInFromTop, null, ViewLoadAnimationChanged));
 
        
 
         public static readonly DependencyProperty ViewUnloadAnimationProperty =
-            DependencyProperty.Register(nameof(ViewUnloadAnimation), typeof(ViewAnimation), typeof(BaseView), new UIPropertyMetadata(ViewAnimation.SlideOutToBottom, null, ViewUnloadAnimationChanged));
+            DependencyProperty.Register(
+                nameof(ViewUnloadAnimation), 
+                typeof(ViewAnimation), 
+                typeof(BaseView), 
+                new UIPropertyMetadata(ViewAnimation.SlideOutToBottom, null, ViewUnloadAnimationChanged));
+
+        public static readonly DependencyProperty WaitForUnloadAnimationDPProperty =
+            DependencyProperty.Register(
+                nameof(WaitForUnloadAnimation),
+                typeof(bool),
+                typeof(BaseView),
+                new PropertyMetadata(false, null, (d, baseValue) =>
+                {
+                    (d as BaseView).WaitForUnloadAnimation = (bool)baseValue;
+
+                    return baseValue;
+                }));
 
 
         #region Callbacks
