@@ -16,7 +16,8 @@
         {
 
         };
-     
+
+
         #region Private fields
 
         private ViewAnimation _unloadAnimation = ViewAnimation.SlideOutToBottom;
@@ -36,7 +37,21 @@
                 _unloadAnimation = value;
                 OnPropertyChanged();
             }
-        } 
+        }
+
+        private bool _waitForUnloadAnimation;
+
+        public bool WaitForUnloadAnimation
+        {
+            get => _waitForUnloadAnimation;
+            set
+            {
+                _waitForUnloadAnimation = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         #endregion
 
 
@@ -61,13 +76,16 @@
 
 
         #region Command callbacks
-        
+
         private void ExecuteLoginCommand()
         {
             // Do login stuff 
 
+
             // Move page out of view
             UnloadAnimation = ViewAnimation.SlideOutToTop;
+            WaitForUnloadAnimation = true;
+
 
             DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsView()
             {
@@ -78,7 +96,7 @@
             };
         }
 
-        
+
         public void ExecuteGotoRegisterPageCommand()
         {
             // Change view
