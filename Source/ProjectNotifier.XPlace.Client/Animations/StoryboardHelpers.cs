@@ -91,5 +91,54 @@
             // Add animation to storyboard timeline
             storyboard.Children.Add(doubleAnimation);
         }
+
+
+
+        /// <summary>
+        /// Adds a fade in animation to a storyboard animation timeline
+        /// </summary>
+        /// <param name="storyboard"></param>
+        /// <param name="seconds"> For how long will the animation take place </param>
+        public static void AddFadeIn(this Storyboard storyboard, float seconds)
+        {
+            // The slide in animation 
+            DoubleAnimation doubleAnimation = new DoubleAnimation()
+            {
+                Duration = TimeSpan.FromSeconds(seconds),
+
+                From = 0.0,
+                To = 1.0,
+            };
+
+            // Set the property to animate
+            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("Opacity"));
+
+            // Add animation to storyboard timeline
+            storyboard.Children.Add(doubleAnimation);
+        }
+
+
+        /// <summary>
+        /// Adds a fade out animation to a storyboard animation timeline
+        /// </summary>
+        /// <param name="storyboard"></param>
+        /// <param name="seconds"> For how long will the animation take place </param>
+        public static void AddFadeOut(this Storyboard storyboard, float seconds)
+        {
+            // The slide in animation 
+            DoubleAnimation doubleAnimation = new DoubleAnimation()
+            {
+                Duration = TimeSpan.FromSeconds(seconds),
+
+                From = 1.0,
+                To = 0.0,
+            };
+
+            // Set the property to animate
+            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("Opacity"));
+
+            // Add animation to storyboard timeline
+            storyboard.Children.Add(doubleAnimation);
+        }
     };
 };
