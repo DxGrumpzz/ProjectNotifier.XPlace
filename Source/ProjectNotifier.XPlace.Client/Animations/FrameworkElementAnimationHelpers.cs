@@ -76,5 +76,46 @@
         }
 
 
+
+        /// <summary>
+        /// Fades a control in
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
+        public static async Task FadeInAsync(this FrameworkElement control, float seconds)
+        {
+            Storyboard storyboard = new Storyboard();
+
+            // Add fade in animation
+            storyboard.AddFadeIn(seconds);
+
+            // Begin animation
+            storyboard.Begin(control);
+
+            // Wait for the animation to finish
+            await Task.Delay(TimeSpan.FromSeconds(seconds));
+        }
+
+        /// <summary>
+        /// Fades a control out
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
+        public static async Task FadeOutAsync(this FrameworkElement control, float seconds)
+        {
+            Storyboard storyboard = new Storyboard();
+
+            // Add fade out animation
+            storyboard.AddFadeOut(seconds);
+
+            // Begin animation
+            storyboard.Begin(control);
+
+            // Wait for the animation to finish
+            await Task.Delay(TimeSpan.FromSeconds(seconds));
+        }
+
     };
 };
