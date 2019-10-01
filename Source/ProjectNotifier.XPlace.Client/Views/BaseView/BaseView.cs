@@ -1,5 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
+    using System;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
@@ -75,24 +76,6 @@
             ViewModel = viewModel;
         }
 
-        private async void View_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (ShouldAnimateOutOnLoad == true)
-            {
-                await AnimateOut();
-            }
-            else
-            {
-                await AnimateIn();
-            };
-        }
-
-        private async void View_Unloaded(object sender, RoutedEventArgs e)
-        {
-            await AnimateOut();
-        }
-
-
         /// <summary>
         /// Animates the page loading
         /// </summary>
@@ -142,6 +125,76 @@
                     return;
             };
         }
+
+
+
+        #region Dependency properties
+
+        /// <summary>
+        /// Dependency property for <see cref="ViewLoadAnimation"/>
+        /// </summary>
+        public ViewAnimation ViewLoadAnimationDP
+        {
+            get => (ViewAnimation)GetValue(ViewLoadAnimationProperty);
+            set => SetValue(ViewLoadAnimationProperty, value);
+        }
+
+        /// <summary>
+        /// Dependency property for <see cref="ViewUnloadAnimation"/>
+        /// </summary>
+        public ViewAnimation ViewUnloadAnimationDP
+        {
+            get => (ViewAnimation)GetValue(ViewUnloadAnimationProperty);
+            set => SetValue(ViewUnloadAnimationProperty, value);
+        }
+
+
+        public static readonly DependencyProperty ViewLoadAnimationProperty =
+            DependencyProperty.Register(nameof(ViewLoadAnimation), typeof(ViewAnimation), typeof(BaseView), new UIPropertyMetadata(ViewAnimation.SlideInFromTop, null, ViewLoadAnimationChanged));
+
+       
+
+        public static readonly DependencyProperty ViewUnloadAnimationProperty =
+            DependencyProperty.Register(nameof(ViewUnloadAnimation), typeof(ViewAnimation), typeof(BaseView), new UIPropertyMetadata(ViewAnimation.SlideOutToBottom, null, ViewUnloadAnimationChanged));
+
+
+        #region Callbacks
+
+        private static object ViewLoadAnimationChanged(DependencyObject d, object baseValue)
+        {
+            (d as BaseView).ViewLoadAnimation = (ViewAnimation)baseValue;
+            return baseValue;
+        }
+
+        private static object ViewUnloadAnimationChanged(DependencyObject d, object baseValue)
+        {
+            (d as BaseView).ViewUnloadAnimation = (ViewAnimation)baseValue;
+            return baseValue;
+        }
+
+
+        #endregion
+
+        #endregion
+
+
+        private async void View_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (ShouldAnimateOutOnLoad == true)
+            {
+                await AnimateOut();
+            }
+            else
+            {
+                await AnimateIn();
+            };
+        }
+
+        private async void View_Unloaded(object sender, RoutedEventArgs e)
+        {
+            await AnimateOut();
+        }
+
 
     };
 
