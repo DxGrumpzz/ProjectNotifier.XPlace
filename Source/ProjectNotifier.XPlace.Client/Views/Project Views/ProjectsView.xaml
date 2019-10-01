@@ -10,9 +10,23 @@
                 d:DesignHeight="450" 
 			    d:DesignWidth="800">
 
-    <Grid>
+    <Grid ClipToBounds="True">
 
+        <!-- Settings display button -->
+        <Button Content="הגדרות" 
+				
+				VerticalAlignment="Top"
+				HorizontalAlignment="Center"
+				
+				Margin="0,-30,0,0"
+				
+                Panel.ZIndex="1"
+                
+				Style="{StaticResource SettingsButtonStyle}"
+				
+				Command="{Binding OpenSettingsCommand}"/>
 
+        
         <local:ProjectListView DataContext="{Binding ProjectList}"/>
 
     </Grid>
