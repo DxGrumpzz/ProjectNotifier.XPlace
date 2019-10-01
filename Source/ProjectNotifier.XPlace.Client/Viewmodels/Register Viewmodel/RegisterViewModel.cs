@@ -36,7 +36,7 @@
             // Change to login page
             DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
             {
-                ViewModel = new LoginViewModel()
+                ViewModel = new LoginViewModel(DI.GetService<ProjectLoader>())
             };
         }
 

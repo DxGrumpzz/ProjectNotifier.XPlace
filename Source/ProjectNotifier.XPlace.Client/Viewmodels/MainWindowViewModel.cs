@@ -104,7 +104,7 @@
 
             CurrentPage = new LoginView()
             {
-                ViewModel = new LoginViewModel(),
+                ViewModel = new LoginViewModel(projectLoader),
             };
 
 
