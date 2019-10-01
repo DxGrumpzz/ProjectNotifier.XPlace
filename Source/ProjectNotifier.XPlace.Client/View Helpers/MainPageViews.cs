@@ -5,6 +5,7 @@
     /// </summary>
     public enum MainPageViews
     {
+
         /// <summary>
         /// The login view
         /// </summary>
@@ -14,6 +15,11 @@
         /// The registration view
         /// </summary>
         Register = 1,
+
+        /// <summary>
+        /// A view containing the project list and more
+        /// </summary>
+        ProjectsView = 2,
 
     };
 };
