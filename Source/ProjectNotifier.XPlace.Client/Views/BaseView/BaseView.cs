@@ -70,11 +70,11 @@
         }
 
         public BaseView(object viewModel)
-            // Call default constructor
             : this()
         {
             ViewModel = viewModel;
         }
+
 
         /// <summary>
         /// Animates the page loading
@@ -88,6 +88,14 @@
                 {
                     // Do load in animation
                     await this.SlideInFromTopAsync(LoadInAnimtaionInSeconds);
+
+                    break;
+                };
+
+                case ViewAnimation.FadeIn:
+                {
+                    // Do load in animation
+                    await this.FadeInAsync(LoadInAnimtaionInSeconds);
 
                     break;
                 };
@@ -116,6 +124,14 @@
                 case ViewAnimation.SlideOutToTop:
                 {
                     await this.SlideOutToTopAsync(UnloadAnimtaionInSeconds);
+                    break;
+                };
+
+                case ViewAnimation.FadeOut:
+                {
+                    // Do load in animation
+                    await this.FadeOutAsync(LoadInAnimtaionInSeconds);
+
                     break;
                 };
 
