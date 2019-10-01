@@ -1,5 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -41,24 +42,39 @@
         #endregion
 
 
-        private static void CurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private async static void CurrentPageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Get current view presenters
             var newPageView = (d as MainPageHost).NewView;
             var oldPageView = (d as MainPageHost).OldView;
 
+            // If old paage value if null
+            bool waitForUnloadAnimtaion = ((BaseView)e.OldValue) is null ? 
+                // Return null
+                false :
+                // Otherswise, get the actuall value for WaitForUnloadAnimation
+                ((BaseView)e.OldValue).WaitForUnloadAnimation;
+
             // Store NewPage's content
             var oldPageContent = newPageView.Content;
 
-            // Set old PageContent to what used to be the NewPage
-            oldPageView.Content = oldPageContent;
 
-
-            // Use the ViewUnloadAnimation to animate out the old page
             if (oldPageContent is BaseView oldPage)
             {
-                oldPage.ShouldAnimateOutOnLoad = true;
-            };
+                // If WaitForAnimationToFinish is true
+                if (waitForUnloadAnimtaion == true)
+                {
+                    // Animate the page out and wait for the animation to complete
+                    await oldPage.AnimateOut();
+                }
+                else
+                {
+                    // Set old PageContent to what used to be the NewPage
+                    oldPageView.Content = oldPageContent;
+
+                    oldPage.ShouldAnimateOutOnLoad = true;
+                }
+            }
 
             // Set new page's content
             newPageView.Content = e.NewValue;
