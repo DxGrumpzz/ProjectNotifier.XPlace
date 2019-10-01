@@ -15,6 +15,7 @@
 			    
 			    Background="White"
                 
+                WaitForUnloadAnimation="{Binding WaitForUnloadAnimation}"
                 ViewUnloadAnimation="{Binding UnloadAnimation}"
                 
 			    d:DataContext="{x:Static local:LoginViewModel.Instance}">
