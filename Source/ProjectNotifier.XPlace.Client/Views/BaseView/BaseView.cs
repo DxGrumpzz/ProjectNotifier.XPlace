@@ -126,9 +126,13 @@
             {
                 case ViewAnimation.SlideOutToBottom:
                 {
-                    // Do animation
                     await this.SlideOutToBottomAsync(UnloadAnimtaionInSeconds);
+                    break;
+                };
 
+                case ViewAnimation.SlideOutToTop:
+                {
+                    await this.SlideOutToTopAsync(UnloadAnimtaionInSeconds);
                     break;
                 };
 
