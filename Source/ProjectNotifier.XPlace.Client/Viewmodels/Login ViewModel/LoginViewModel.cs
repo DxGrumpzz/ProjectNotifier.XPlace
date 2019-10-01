@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using ProjectNotifier.XPlace.Core;
 
@@ -20,15 +21,23 @@
 
         #region Private fields
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ViewAnimation _unloadAnimation = ViewAnimation.SlideOutToBottom;
-
+        
         private readonly ProjectLoader _projectLoader;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool _waitForUnloadAnimation;
 
         #endregion
 
 
         #region Public properties
 
+        /// <summary>
+        /// Which animation this page will use when changing to a different page, 
+        /// Unload animation for register and Projects view is different
+        /// </summary>
         public ViewAnimation UnloadAnimation
         {
             get => _unloadAnimation;
@@ -39,8 +48,10 @@
             }
         }
 
-        private bool _waitForUnloadAnimation;
 
+        /// <summary>
+        /// Should the page host wait for the unload animation to finish before changing to a different page
+        /// </summary>
         public bool WaitForUnloadAnimation
         {
             get => _waitForUnloadAnimation;
