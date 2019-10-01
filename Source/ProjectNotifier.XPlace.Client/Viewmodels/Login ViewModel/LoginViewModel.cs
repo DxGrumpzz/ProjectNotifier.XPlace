@@ -1,6 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Threading.Tasks;
     using ProjectNotifier.XPlace.Core;
 
@@ -15,10 +16,19 @@
         {
 
         };
+     
+        #region Private fields
 
         private ViewAnimation _unloadAnimation = ViewAnimation.SlideOutToBottom;
 
-        public ViewAnimation  UnloadAnimation
+        private readonly ProjectLoader _projectLoader;
+
+        #endregion
+
+
+        #region Public properties
+
+        public ViewAnimation UnloadAnimation
         {
             get => _unloadAnimation;
             set
@@ -26,7 +36,8 @@
                 _unloadAnimation = value;
                 OnPropertyChanged();
             }
-        }
+        } 
+        #endregion
 
 
         #region Commands
@@ -38,11 +49,16 @@
         #endregion
 
 
-        public LoginViewModel()
+        private LoginViewModel() { }
+
+        public LoginViewModel(ProjectLoader projectLoader)
         {
+            _projectLoader = projectLoader;
+
             GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
             LoginCommand = new RelayCommand(ExecuteLoginCommand);
         }
+
 
         #region Command callbacks
         
@@ -53,9 +69,12 @@
             // Move page out of view
             UnloadAnimation = ViewAnimation.SlideOutToTop;
 
-            DI.GetService<MainWindowViewModel>().CurrentPage = new RegisterView()
+            DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsView()
             {
-                ViewModel = new RegisterViewModel()
+                ViewModel = new ProjectViewModel()
+                {
+                    ProjectList = _projectLoader.LoadProjects().ProjectList,
+                },
             };
         }
 
