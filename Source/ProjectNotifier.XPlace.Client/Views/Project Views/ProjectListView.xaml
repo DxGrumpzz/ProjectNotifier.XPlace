@@ -5,25 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectNotifier.XPlace.Client"
              
-			 
 			 mc:Ignorable="d" 
 			 
              d:DesignHeight="450" 
-			 d:DesignWidth="800"
-			 
-			 d:DataContext="{x:Static local:ProjectListViewModel.DesignTimeInstance}">
+			 d:DesignWidth="800">
 
 	<Grid>
 		
 		<ScrollViewer>
 
 			<!-- The list of projects -->
-			<ItemsControl ItemsSource="{Binding ProjectList}"
+			<ItemsControl ItemsSource="{Binding}"
 						  
-						  Margin="0,30,0,0"
-						  
-						  AlternationCount="100">
+						  Margin="0,30,0,0">
 
+                <!-- Allows item virtualization -->
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<VirtualizingStackPanel VirtualizingPanel.IsVirtualizing="True"
@@ -34,12 +30,12 @@
 				
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-
 						<Grid>
 
 							<!-- The actual project-->
-							<local:ProjectItemView Grid.Column="1"
-												   Margin="10"/>
+							<local:ProjectItemView DataContext="{Binding}"
+                                                   Margin="10"/>
+
 						</Grid>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

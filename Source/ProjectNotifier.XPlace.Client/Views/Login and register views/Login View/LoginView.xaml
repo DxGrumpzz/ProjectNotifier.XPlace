@@ -14,7 +14,9 @@
 			    UseLayoutRounding="True"
 			    
 			    Background="White"
-			    
+                
+                ViewUnloadAnimation="{Binding UnloadAnimation}"
+                
 			    d:DataContext="{x:Static local:LoginViewModel.Instance}">
 
 
@@ -104,7 +106,9 @@
 
 
                     <!-- TODO: Make a password entry control-->
-                    <local:TextEntryControl DataContext="{Binding PasswordEntry}"
+                    <local:TextEntryControl x:Name="PasswordField"
+                                            
+                                            DataContext="{Binding PasswordEntry}"
 												
 											HorizontalAlignment="Center"
 											
@@ -129,6 +133,8 @@
 						
 						Margin="0,0,10,0"
 						
+                        Command="{Binding LoginCommand}"
+                        
 						Style="{StaticResource AppButtonStyle1}"/>
 
 

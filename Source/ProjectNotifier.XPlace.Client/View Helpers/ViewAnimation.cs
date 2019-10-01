@@ -25,5 +25,15 @@
         /// Slides a page to the bottom
         /// </summary>
         SlideOutToBottom = 3,
+
+        /// <summary>
+        /// Fades an element in 
+        /// </summary>
+        FadeIn = 4,
+
+        /// <summary>
+        /// Fades an element out
+        /// </summary>
+        FadeOut = 4,
     }
 }
