@@ -47,23 +47,25 @@
 			}
 		}
 
+        #endregion
 
-		/// <summary>
-		/// A validation action that will be executed before the value changes
-		/// </summary>
-		public Func<TextEntryViewModel<T>, bool> ValueValidationAction { get; set; }
+        #region Public events
 
-		/// <summary>
-		/// An action that will be executed if the changes are valid 
-		/// </summary>
-		public Action<TextEntryViewModel<T>> SaveChangesAction { get; set; }
+        /// <summary>
+        /// An action that will be executed if the changes are valid 
+        /// </summary>
+        public event Action<TextEntryViewModel<T>> SaveChangesAction;
 
-		#endregion
+        /// <summary>
+        /// A validation action that will be executed before the value changes
+        /// </summary>
+        public event Func<TextEntryViewModel<T>, bool> ValueValidationAction;
 
+        #endregion
 
-		#region Commands
+        #region Commands
 
-		public RelayCommand SaveChangesCommnad { get; }
+        public RelayCommand SaveChangesCommnad { get; }
 		public RelayCommand LostFocusCommand { get; set; }
 		public RelayCommand RemoveFocusCommand { get; set; }
 
