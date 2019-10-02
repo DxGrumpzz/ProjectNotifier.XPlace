@@ -5,12 +5,11 @@
     /// <summary>
     /// Interaction logic for ProjectsView.xaml
     /// </summary>
-    public partial class ProjectsView : BaseView
+    public partial class ProjectsPageView : BaseView
     {
-        public ProjectsView()
+        public ProjectsPageView()
         {
             ViewLoadAnimation = ViewAnimation.FadeIn;
-            LoadInAnimtaionInSeconds = 2f;
 
             InitializeComponent();
         }
