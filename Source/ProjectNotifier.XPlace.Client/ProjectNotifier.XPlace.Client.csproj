@@ -15,12 +15,16 @@
   <ItemGroup>
     <Compile Remove="DI\**" />
     <Compile Remove="Logger\Base\**" />
+    <Compile Remove="Value Converters\Page Converters\**" />
     <EmbeddedResource Remove="DI\**" />
     <EmbeddedResource Remove="Logger\Base\**" />
+    <EmbeddedResource Remove="Value Converters\Page Converters\**" />
     <None Remove="DI\**" />
     <None Remove="Logger\Base\**" />
+    <None Remove="Value Converters\Page Converters\**" />
     <Page Remove="DI\**" />
     <Page Remove="Logger\Base\**" />
+    <Page Remove="Value Converters\Page Converters\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,10 +53,6 @@
     <None Update="Config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Value Converters\Page Converters\" />
   </ItemGroup>
 
 </Project>
