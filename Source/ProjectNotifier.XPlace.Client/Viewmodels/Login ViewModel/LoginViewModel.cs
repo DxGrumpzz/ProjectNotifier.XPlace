@@ -14,7 +14,7 @@
     public class LoginViewModel : BaseViewModel
     {
 
-        public static LoginViewModel Instance => new LoginViewModel()
+        public static LoginViewModel Instance => new LoginViewModel(null)
         {
 
         };
@@ -76,8 +76,6 @@
         #endregion
 
 
-        private LoginViewModel() { }
-
         public LoginViewModel(IProjectLoader projectLoader)
         {
             _projectLoader = projectLoader;
@@ -98,18 +96,12 @@
             UnloadAnimation = ViewAnimation.SlideOutToTop;
             WaitForUnloadAnimation = true;
 
-
-            var projects = (await _projectLoader.LoadProjectsAsync())
-                .Select(project => new ProjectItemViewModel()
-                {
-                    ProjectModel = project,
-                });
-         
+            // Change to projects view
             DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
             {
                 ViewModel = new ProjectsPageViewModel()
                 {
-                    ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
+                    ProjectList = await _projectLoader.LoadProjectsAsObservableAsync(),
                 },
             };   
         }
