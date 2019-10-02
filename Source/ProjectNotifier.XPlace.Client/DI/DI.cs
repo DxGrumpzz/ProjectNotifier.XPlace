@@ -118,8 +118,13 @@
 		public static IUIManager UIManager()
 		{
 			return GetService<IUIManager>();
-		} 
+		}
 
-		#endregion
-	}
+        public static IProjectLoader ProjectLoader()
+        {
+            return GetService<IProjectLoader>();
+        }
+
+        #endregion
+    }
 };
