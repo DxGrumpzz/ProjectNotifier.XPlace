@@ -98,9 +98,9 @@
             WaitForUnloadAnimation = true;
 
 
-            DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsView()
+            DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
             {
-                ViewModel = new ProjectViewModel()
+                ViewModel = new ProjectsPageViewModel()
                 {
                     ProjectList = _projectLoader.LoadProjects().ProjectList,
                 },

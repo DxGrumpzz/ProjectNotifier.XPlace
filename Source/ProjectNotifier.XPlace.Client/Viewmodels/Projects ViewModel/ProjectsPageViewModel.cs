@@ -5,7 +5,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class ProjectViewModel : BaseViewModel
+    public class ProjectsPageViewModel : BaseViewModel
     {
 
         private ObservableCollection<ProjectItemViewModel> _projectList;
