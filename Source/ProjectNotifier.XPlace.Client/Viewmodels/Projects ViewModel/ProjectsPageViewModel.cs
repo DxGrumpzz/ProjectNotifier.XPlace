@@ -62,7 +62,7 @@
 
 
             // Open settings page when user clicks the settings button
-            OpenSettingsCommand = new RelayCommand(() => SettingsViewModel.IsOpen = true);
+            OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
         }
 
 

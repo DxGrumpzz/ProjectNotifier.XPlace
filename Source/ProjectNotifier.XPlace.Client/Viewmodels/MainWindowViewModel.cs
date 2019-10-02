@@ -112,10 +112,7 @@
             ProjectLoader.StartAutoUpdating();
 
 
-            OpenSettingsCommand = new RelayCommand(() =>
-            {
-                SettingsViewModel.IsOpen = true;
-            });
+            OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
 
             // When project count setting is saved...
             SettingsViewModel.ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (value) =>
