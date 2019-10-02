@@ -47,16 +47,17 @@
             SettingsViewModel = new SettingsViewModel(DI.ClientAppSettings());
 
             // Bind settings view events
-            SettingsViewModel.ProjectCountSetting.SaveChangesAction += (value) =>
+            SettingsViewModel.ProjectCountSetting.SaveChangesAction += async (value) =>
             {
                 // Reset project list
                 ProjectList = new ObservableCollection<ProjectItemViewModel>();
-                
+
                 // Display loading text
                 //IsLoading = true
-                
+
                 // Load new project list
-                //await SetupRSSProjectListAsync();
+                ProjectList = await DI.ProjectLoader().LoadProjectsAsObservableAsync();
+                
             };
 
 
