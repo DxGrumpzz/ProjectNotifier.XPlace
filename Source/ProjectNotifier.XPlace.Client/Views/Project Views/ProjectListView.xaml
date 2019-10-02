@@ -10,36 +10,34 @@
              d:DesignHeight="450" 
 			 d:DesignWidth="800">
 
-	<Grid>
-		
-		<ScrollViewer>
+    <Grid>
 
-			<!-- The list of projects -->
-			<ItemsControl ItemsSource="{Binding}"
+        <ScrollViewer>
+
+            <!-- The list of projects -->
+            <ItemsControl ItemsSource="{Binding}"
 						  
 						  Margin="0,30,0,0">
 
                 <!-- Allows item virtualization -->
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<VirtualizingStackPanel VirtualizingPanel.IsVirtualizing="True"
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel VirtualizingPanel.IsVirtualizing="True"
 												VirtualizingPanel.VirtualizationMode="Recycling"
 												VirtualizingPanel.IsContainerVirtualizable="True"/>
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-				
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Grid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-							<!-- The actual project-->
-							<local:ProjectItemView DataContext="{Binding}"
-                                                   Margin="10"/>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
 
-						</Grid>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</ScrollViewer>
-	</Grid>
+                        <!-- The actual project-->
+                        <local:ProjectItemView DataContext="{Binding}"
+                                               Margin="10"/>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
 </UserControl>
