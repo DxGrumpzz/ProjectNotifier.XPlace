@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
@@ -12,7 +11,7 @@
         /// <summary>
         /// A list that holds information about currently running commands
         /// </summary>
-        private List<MethodInfo> _runningCommands = new List<MethodInfo>();
+        private List<Func<Task>> _runningCommands = new List<Func<Task>>();
 
         private object _synchronizingObject = new object();
 
@@ -42,7 +41,7 @@
                     return;
 
                 // Add the new command to the list
-                _runningCommands.Add(function.Method);
+                _runningCommands.Add(function);
             };
 
 
@@ -54,7 +53,7 @@
             finally
             {
                 // No matter what happens during execution (execptions and such) make sure that command is removed
-                _runningCommands.Remove(function.Method);
+                _runningCommands.Remove(function);
             };
         }
 
@@ -67,7 +66,7 @@
         private bool IsCommandRunning(Func<Task> function)
         {
             // Check if command exists in the list
-            if (_runningCommands.Contains(function.Method) == false)
+            if (_runningCommands.Contains(function) == false)
                 return false;
             else
                 return true;
