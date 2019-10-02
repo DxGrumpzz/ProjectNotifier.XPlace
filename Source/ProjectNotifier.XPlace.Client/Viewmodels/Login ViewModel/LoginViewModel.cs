@@ -14,7 +14,7 @@
     public class LoginViewModel : BaseViewModel
     {
 
-        public static LoginViewModel Instance => new LoginViewModel(null)
+       public static LoginViewModel Instance => new LoginViewModel(null)
         {
 
         };
