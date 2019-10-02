@@ -3,9 +3,6 @@
     using ProjectNotifier.XPlace.Core;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using System.Linq;
-    using System.Collections.ObjectModel;
-    using System;
 
 
     /// <summary>
@@ -14,7 +11,7 @@
     public class LoginViewModel : BaseViewModel
     {
 
-       public static LoginViewModel Instance => new LoginViewModel(null)
+        public static LoginViewModel Instance => new LoginViewModel(null)
         {
 
         };
@@ -29,6 +26,8 @@
         private bool _waitForUnloadAnimation;
 
         private readonly IProjectLoader _projectLoader;
+
+        private bool _loginWorking;
 
         #endregion
 
@@ -89,21 +88,34 @@
 
         private async Task ExecuteLoginCommandAsync()
         {
-            // Do login stuff 
-
-
-            // Move page out of view
-            UnloadAnimation = ViewAnimation.SlideOutToTop;
-            WaitForUnloadAnimation = true;
-
-            // Change to projects view
-            DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
+            if (_loginWorking == true)
+                return;
+            try
             {
-                ViewModel = new ProjectsPageViewModel()
+                _loginWorking = true;
+
+                // Do login stuff 
+
+
+
+                // Move page out of view
+                UnloadAnimation = ViewAnimation.SlideOutToTop;
+                WaitForUnloadAnimation = true;
+
+
+                // Change to projects view
+                DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView
                 {
-                    ProjectList = await _projectLoader.LoadProjectsAsObservableAsync(),
-                },
-            };   
+                    ViewModel = new ProjectsPageViewModel()
+                    {
+                        ProjectList = await _projectLoader.LoadProjectsAsObservableAsync(),
+                    },
+                };
+            }
+            finally
+            {
+                _loginWorking = false;
+            };
         }
 
 
