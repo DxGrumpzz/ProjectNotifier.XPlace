@@ -5,7 +5,7 @@
     /// <summary>
     /// Interaction logic for ProjectsView.xaml
     /// </summary>
-    public partial class ProjectsPageView : BaseView
+    public partial class ProjectsPageView : BaseView<ProjectsPageViewModel>
     {
         public ProjectsPageView()
         {
