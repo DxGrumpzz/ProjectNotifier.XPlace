@@ -45,7 +45,9 @@
 				KeepNotificationOpenSeconds = Convert.ToInt32(configurationBuilder.GetSection(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds)).Value),
 			};
 
-            ProjectLoader projectLoader = new ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, clientAppSettingsModel);
+            //_ProjectLoader _projectLoader = new _ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, clientAppSettingsModel);
+
+            IProjectLoader projectLoader = new ProjectLoader(clientAppSettingsModel, AppLinks.RSSFeedUrl);
 
 
             // Bind services
