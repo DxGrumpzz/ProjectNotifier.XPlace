@@ -32,7 +32,9 @@
 
 
         <!-- Settings view -->
-        <local:SettingsView DataContext="{Binding SettingsViewModel}"/>
+        <local:SettingsView DataContext="{Binding SettingsViewModel}"
+                            
+                            Panel.ZIndex="1"/>
 
     </Grid>
 </local:BaseView>
