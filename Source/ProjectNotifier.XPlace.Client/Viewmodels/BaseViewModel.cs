@@ -11,7 +11,7 @@
         /// <summary>
         /// A list that holds information about currently running commands
         /// </summary>
-        private List<Func<Task>> _runningCommands = new List<Func<Task>>();
+        private List<Delegate> _runningCommands = new List<Delegate>();
 
         private object _synchronizingObject = new object();
 
