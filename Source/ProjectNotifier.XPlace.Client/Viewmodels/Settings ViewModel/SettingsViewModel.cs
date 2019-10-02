@@ -17,6 +17,8 @@
 
         private bool _isSaved;
 
+        private bool _isOpening;
+
         #endregion
 
 
@@ -47,7 +49,7 @@
         public bool IsOpen
         {
             get => _isOpen;
-            set
+            private set
             {
                 _isOpen = value;
                 OnPropertyChanged();
@@ -165,11 +167,35 @@
         }
 
 
+        #region Public methods
+
+        public async Task OpenSettings()
+        {
+            IsOpen = true;
+            _isOpening = true;
+
+            // Wait for opening animtaion to finish
+            await Task.Delay(400);
+
+            // Allow user to close
+            _isOpening = false;
+        }
+
+        #endregion
+
+
+        #region Commnad callbacks
+
         private void ExecuteCloseSettingsCommand()
         {
+            if (_isOpening == true)
+                return;
+
+
             IsOpen = false;
         }
 
+        #endregion
 
 
         #region Private helpers
