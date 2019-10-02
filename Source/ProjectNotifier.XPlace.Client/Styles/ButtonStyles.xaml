@@ -250,10 +250,22 @@
 										  VerticalAlignment="Center"
 										  Margin="{TemplateBinding Padding}" />
 
+                        <Border.Triggers>
+                            
+                        </Border.Triggers>
+                        
                     </Border>
 
 
                     <ControlTemplate.Triggers>
+
+
+                        <!-- When button is disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+
+                            <Setter Property="Opacity" Value="0.5"/>
+
+                        </Trigger>
 
                         <!--#region Mouse enter / leave -->
 
@@ -294,6 +306,7 @@
 
                         <!--#endregion-->
 
+                        
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>
