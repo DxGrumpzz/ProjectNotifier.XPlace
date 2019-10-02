@@ -3,7 +3,8 @@
 
 	using ProjectNotifier.XPlace.Core;
 	using System.Collections.Generic;
-	using System.Threading.Tasks;
+    using System.Threading;
+    using System.Threading.Tasks;
 
 
 	/// <summary>
@@ -16,7 +17,7 @@
 		/// Returns a <see cref="ProjectListViewModel"/> containing a list of projects
 		/// </summary>
 		/// <returns></returns>
-		public Task<IEnumerable<ProjectModel>> LoadProjectsAsync();
+		public Task<IEnumerable<ProjectModel>> LoadProjectsAsync(CancellationToken cancellationToken = default);
 
 
 	}
