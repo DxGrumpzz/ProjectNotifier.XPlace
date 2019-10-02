@@ -52,7 +52,7 @@
 
         public SettingsViewModel SettingsViewModel { get; }
 
-        public ProjectLoader ProjectLoader { get; }
+        public IProjectLoader ProjectLoader { get; }
 
 
 
@@ -95,7 +95,7 @@
 
         public MainWindowViewModel() { }
 
-        public MainWindowViewModel(ClientAppSettingsModel clientAppSettingsModel, ProjectLoader projectLoader)
+        public MainWindowViewModel(ClientAppSettingsModel clientAppSettingsModel, IProjectLoader projectLoader)
         {
             ClientAppSettingsModel = clientAppSettingsModel;
             SettingsViewModel = new SettingsViewModel(clientAppSettingsModel);
@@ -108,12 +108,12 @@
             };
 
 
-            Task.Run(SetupRSSProjectListAsync);
-            ProjectLoader.StartAutoUpdating();
+            //Task.Run(SetupRSSProjectListAsync);
+            //ProjectLoader.StartAutoUpdating();
 
 
-            OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
-
+            //OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
+/*
             // When project count setting is saved...
             SettingsViewModel.ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (value) =>
             {
@@ -126,41 +126,41 @@
                 // Load new project list
                 await SetupRSSProjectListAsync();
             });
+*/
+
+            //ProjectLoader.ProjectsListUpdated += (newProjectList) =>
+            //{
+            //    var currentProjectListFirstProject = ProjectList.ProjectList.First().ProjectModel;
+            //    var newProjectListFirstProject = newProjectList.ProjectList.First().ProjectModel;
+
+            //    // Comapre the 2 projects 
+            //    if (currentProjectListFirstProject.ProjectID != newProjectListFirstProject.ProjectID)
+            //    {
+            //        // Find the newer projects
+            //        var newProjectsList = newProjectList.ProjectList
+            //        .Where(model =>
+            //        {
+            //            return model.ProjectModel.ProjectID > currentProjectListFirstProject.ProjectID;
+            //        })
+            //        // Convert results into ProjectModel
+            //        .Select(result => new ProjectModel()
+            //        {
+            //            Title = result.ProjectModel.Title,
+            //            Link = result.ProjectModel.Link,
+            //        });
 
 
-            ProjectLoader.ProjectsListUpdated += (newProjectList) =>
-            {
-                var currentProjectListFirstProject = ProjectList.ProjectList.First().ProjectModel;
-                var newProjectListFirstProject = newProjectList.ProjectList.First().ProjectModel;
-
-                // Comapre the 2 projects 
-                if (currentProjectListFirstProject.ProjectID != newProjectListFirstProject.ProjectID)
-                {
-                    // Find the newer projects
-                    var newProjectsList = newProjectList.ProjectList
-                    .Where(model =>
-                    {
-                        return model.ProjectModel.ProjectID > currentProjectListFirstProject.ProjectID;
-                    })
-                    // Convert results into ProjectModel
-                    .Select(result => new ProjectModel()
-                    {
-                        Title = result.ProjectModel.Title,
-                        Link = result.ProjectModel.Link,
-                    });
+            //        // update list
+            //        ProjectList = new ProjectListViewModel();
+            //        IsLoading = true;
+            //        ProjectList = newProjectList;
+            //        IsLoading = false;
 
 
-                    // update list
-                    ProjectList = new ProjectListViewModel();
-                    IsLoading = true;
-                    ProjectList = newProjectList;
-                    IsLoading = false;
-
-
-                    // Notify user for the new projects
-                    DI.UIManager().ShowProjectNotification(newProjectsList);
-                };
-            };
+            //        // Notify user for the new projects
+            //        DI.UIManager().ShowProjectNotification(newProjectsList);
+            //    };
+            //};
         }
 
 
@@ -170,14 +170,14 @@
         /// Asynchrounsly loads rss feed content
         /// </summary>
         /// <returns></returns>
-        private async Task SetupRSSProjectListAsync()
-        {
-            // Load projects
-            await Task.Run(() => ProjectList = ProjectLoader.LoadProjects());
+        //private async Task SetupRSSProjectListAsync()
+        //{
+            //// Load projects
+            //await Task.Run(() => ProjectList = ProjectLoader.LoadProjects());
 
-            // Finished loading content
-            IsLoading = false;
-        }
+            //// Finished loading content
+            //IsLoading = false;
+        //}
 
         #endregion
 

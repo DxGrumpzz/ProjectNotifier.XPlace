@@ -1,10 +1,11 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using System;
-    using System.Collections.ObjectModel;
+    using ProjectNotifier.XPlace.Core;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using ProjectNotifier.XPlace.Core;
+    using System.Linq;
+    using System.Collections.ObjectModel;
+    using System;
 
 
     /// <summary>
@@ -23,11 +24,11 @@
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ViewAnimation _unloadAnimation = ViewAnimation.SlideOutToBottom;
-        
-        private readonly ProjectLoader _projectLoader;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _waitForUnloadAnimation;
+
+        private readonly IProjectLoader _projectLoader;
 
         #endregion
 
@@ -77,18 +78,18 @@
 
         private LoginViewModel() { }
 
-        public LoginViewModel(ProjectLoader projectLoader)
+        public LoginViewModel(IProjectLoader projectLoader)
         {
             _projectLoader = projectLoader;
 
             GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
-            LoginCommand = new RelayCommand(ExecuteLoginCommand);
+            LoginCommand = new RelayCommand(ExecuteLoginCommandAsync);
         }
 
 
         #region Command callbacks
 
-        private void ExecuteLoginCommand()
+        private async Task ExecuteLoginCommandAsync()
         {
             // Do login stuff 
 
@@ -98,13 +99,19 @@
             WaitForUnloadAnimation = true;
 
 
+            var projects = (await _projectLoader.LoadProjectsAsync())
+                .Select(project => new ProjectItemViewModel()
+                {
+                    ProjectModel = project,
+                });
+         
             DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
             {
                 ViewModel = new ProjectsPageViewModel()
                 {
-                    ProjectList = _projectLoader.LoadProjects().ProjectList,
+                    ProjectList = new ObservableCollection<ProjectItemViewModel>(projects),
                 },
-            };
+            };   
         }
 
 
