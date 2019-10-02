@@ -14,6 +14,7 @@
         /// </summary>
         private List<MethodInfo> _runningCommands = new List<MethodInfo>();
 
+        private object _synchronizingObject = new object();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,24 +29,27 @@
 
 
         /// <summary>
-        /// Runs a single command until execution is finalized asynchronously, 
+        /// Runs a single command until execution is finalized
         /// </summary>
         /// <param name="function"> The function to execute </param>
         /// <returns></returns>
-        public async Task RunCommand(Func<Task> function)
+        protected async Task RunCommandAsync(Func<Task> function)
         {
-            try
+            lock (_synchronizingObject)
             {
                 // Check if current command is already running
-                if (IsCommandRunning(function) == false)
-                {
-                    // Add the new command to the list
-                    _runningCommands.Add(function.Method);
+                if (IsCommandRunning(function) == true)
+                    return;
 
-                    // Invoke and wait for command to finish execution
-                    await function?.Invoke();
+                // Add the new command to the list
+                _runningCommands.Add(function.Method);
+            };
 
-                };
+
+            try
+            {
+                // Invoke and wait for command to finish execution
+                await function?.Invoke();
             }
             finally
             {
