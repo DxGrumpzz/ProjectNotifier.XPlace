@@ -3,6 +3,7 @@
     using ProjectNotifier.XPlace.Core;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using System.Windows;
 
 
     /// <summary>
@@ -27,7 +28,6 @@
 
         private readonly IProjectLoader _projectLoader;
 
-        private bool _loginWorking;
 
         #endregion
 
@@ -62,6 +62,17 @@
             }
         }
 
+        private bool _loginWorking;
+
+        public bool LoginWorking
+        {
+            get => _loginWorking;
+            set
+            {
+                _loginWorking = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -88,34 +99,25 @@
 
         private async Task ExecuteLoginCommandAsync()
         {
-            if (_loginWorking == true)
-                return;
-            try
+            await RunCommandAsync(async () =>
             {
-                _loginWorking = true;
+                LoginWorking = true;
 
-                // Do login stuff 
-
-
-
+                return;
                 // Move page out of view
                 UnloadAnimation = ViewAnimation.SlideOutToTop;
                 WaitForUnloadAnimation = true;
 
 
                 // Change to projects view
-                DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView
+                DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
                 {
                     ViewModel = new ProjectsPageViewModel()
                     {
                         ProjectList = await _projectLoader.LoadProjectsAsObservableAsync(),
                     },
                 };
-            }
-            finally
-            {
-                _loginWorking = false;
-            };
+            });
         }
 
 
