@@ -17,48 +17,10 @@
         <local:MainWindowViewModel/>
     </d:Window.DataContext>
 
-    <Grid ClipToBounds="True">
+    <Grid>
 
 
         <local:MainPageHost CurrentPage="{Binding CurrentPage}"/>
-        <!--ViewModel="{Binding ViewModel}"/>-->
-
-
-        <Grid Visibility="Collapsed">
-
-            <!-- Loading text, Displayed before project list is loaded-->
-            <TextBlock Text=". . . טוען" 
-				   FontSize="30"
-				   FontFamily="Open Sans Hebrew"
-				   FontWeight="Bold"
-				   
-				   HorizontalAlignment="Center"
-				   VerticalAlignment="Center"
-				   
-				   Visibility="{Binding IsLoading, 
-				   Converter={local:BoolToVisibilityValueConverter}}"/>
-
-
-
-            <!-- Projects list -->
-            <local:ProjectListView DataContext="{Binding ProjectList}"/>
-
-            <!-- Settings display button -->
-            <Button Content="הגדרות" 
-				
-					VerticalAlignment="Top"
-					HorizontalAlignment="Center"
-				
-					Margin="0,-30,0,0"
-				
-					Style="{StaticResource SettingsButtonStyle}"
-				
-					Command="{Binding OpenSettingsCommand}"/>
-
-
-            <!-- Settings view -->
-            <local:SettingsView DataContext="{Binding SettingsViewModel}"/>
-        </Grid>
 
     </Grid>
 </Window>
