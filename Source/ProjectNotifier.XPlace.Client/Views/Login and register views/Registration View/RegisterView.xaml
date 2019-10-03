@@ -15,15 +15,20 @@
 			    
 			    Background="White"
 			    
+                WaitForUnloadAnimation="{Binding WaitForUnloadAnimation}"
+                ViewUnloadAnimation="{Binding ViewUnloadAnimation}"
+                
 			    d:DataContext="{x:Static local:RegisterViewModel.Intance}">
 
 
     <!-- Main border around the control -->
-    <Border CornerRadius="12"  
-				Background="White"
-				
-				MaxWidth="200"
-				MaxHeight="250">
+    <Border x:Name="MainBorder" 
+            
+            CornerRadius="12"  
+			Background="White"
+			
+			MaxWidth="200"
+			MaxHeight="250">
 
         <!-- Drop shadow -->
         <Border.Effect>
@@ -39,103 +44,105 @@
 								  ShadowDepth="1"/>
         </Border.Effect>
 
-        <!-- Main content -->
-        <Grid TextBlock.FontFamily="Open Sans Hebrew"
+        <Grid>
+
+            <!-- Main content -->
+            <Grid TextBlock.FontFamily="Open Sans Hebrew"
 				  
 				  Margin="0,25">
 
-            <!-- Login page text -->
-            <TextBlock Text="הרשמה"
+                <!-- Login page text -->
+                <TextBlock Text="הרשמה"
 						   FontSize="20"
 						   FontWeight="Light"
 						   
 						   HorizontalAlignment="Center"/>
 
 
-            <!-- Username and password -->
-            <Grid VerticalAlignment="Center">
+                <!-- Username and password -->
+                <Grid VerticalAlignment="Center">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="AUTO"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="AUTO"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="AUTO"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="AUTO"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <!--Username-->
-                <StackPanel Grid.Column="1"
+                    <!--Username-->
+                    <StackPanel Grid.Column="1"
 								Grid.Row="0">
 
-                    <TextBlock Text="שם משתמש"
+                        <TextBlock Text="שם משתמש"
 								   
 								   TextAlignment="Center"/>
 
 
-                    <local:TextEntryControl DataContext="{Binding UsernameEntry}"
+                        <local:TextEntryControl DataContext="{Binding UsernameEntry}"
 												
 												HorizontalAlignment="Center"
 												
 												MinWidth="70"
 												MaxWidth="90"/>
 
-                </StackPanel>
+                    </StackPanel>
 
 
-                <!-- Password-->
-                <StackPanel Grid.Column="1"
+                    <!-- Password-->
+                    <StackPanel Grid.Column="1"
 								Grid.Row="1"
 								
 								 Margin="0,5">
 
-                    <TextBlock Text="סיסמא"
+                        <TextBlock Text="סיסמא"
 								   
 								   TextAlignment="Center"/>
 
-                    <!-- TODO: Make a password entry control-->
-                    <local:TextEntryControl DataContext="{Binding PasswordEntry}"
+                        <!-- TODO: Make a password entry control-->
+                        <local:TextEntryControl DataContext="{Binding PasswordEntry}"
 												
 												HorizontalAlignment="Center"
 												
 												MinWidth="70"
 												MaxWidth="90"/>
 
-                </StackPanel>
+                    </StackPanel>
 
-                <!-- Password confirmation-->
-                <StackPanel Grid.Column="1"
+                    <!-- Password confirmation-->
+                    <StackPanel Grid.Column="1"
 								Grid.Row="2">
 
-                    <TextBlock Text="אישור סיסמא"
+                        <TextBlock Text="אישור סיסמא"
 								   
 								   TextAlignment="Center"/>
 
-                    <!-- TODO: Make a password entry control-->
-                    <local:TextEntryControl DataContext="{Binding PasswordConfirmationEntry}"
+                        <!-- TODO: Make a password entry control-->
+                        <local:TextEntryControl DataContext="{Binding PasswordConfirmationEntry}"
 												
 												HorizontalAlignment="Center"
 												
 												MinWidth="70"
 												MaxWidth="90"/>
 
-                </StackPanel>
-            </Grid>
+                    </StackPanel>
+                </Grid>
 
 
 
-            <!-- Login and register button -->
-            <StackPanel Orientation="Horizontal"
+                <!-- Login and register button -->
+                <StackPanel Orientation="Horizontal"
 							
 							VerticalAlignment="Bottom"
 							
 							HorizontalAlignment="Center">
 
-                <!-- Login button -->
-                <Button Content="התחבר"
+                    <!-- Login button -->
+                    <Button Content="התחבר"
 						
 							Width="70"
 							
@@ -144,15 +151,110 @@
 							Command="{Binding GotoLoginPageCommand}"
 							Style="{StaticResource AppButtonStyle1}"/>
 
-                <!-- Switch to registration view button -->
-                <Button Content="הירשם"
+                    <!-- Switch to registration view button -->
+                    <Button Content="הירשם"
 						
 							Width="70"
 							
+                            Command="{Binding RegisterCommand}"
 							Style="{StaticResource AppButtonStyle1}"/>
 
 
-            </StackPanel>
+                </StackPanel>
+            
+            </Grid>
+
+            <Border CornerRadius="12"
+                    
+                    Opacity="0"
+
+                    IsHitTestVisible="{Binding RegisterWorking}">
+
+                <Border.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.3"/>
+                </Border.Background>
+
+
+                <Border HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        
+                        CornerRadius="8"
+                        
+                        Padding="10,5"
+                        
+                        Background="White" 
+                        
+                        RenderTransformOrigin="0.5,0.5">
+
+
+                    <Border.RenderTransform>
+                        <RotateTransform/>
+                    </Border.RenderTransform>
+
+                    <!-- A spinning loading text -->
+                    <TextBlock Text=". . . טוען"
+                               FontSize="20"/>
+
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+
+
+                                <!-- When RegisterWorking is true wait for the fade in animation to finish
+                                     and start spining the text -->
+                                <DataTrigger Binding="{Binding RegisterWorking}" Value="True">
+
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard >
+
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                                 To="-360"
+                                                                 
+                                                                 BeginTime="0:0:0.5"
+                                                                 Duration="0:0:5"
+                                                                 
+                                                                 RepeatBehavior="Forever"/>
+
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                </Border>
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+
+
+                            <!-- When RegisterWorking is true fade the overlay in -->
+                            <DataTrigger Binding="{Binding RegisterWorking}" Value="True">
+
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard >
+
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                 
+                                                                 To="1"
+                                                                 Duration="0:0:1"/>
+
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+            </Border>
+
         </Grid>
     </Border>
 </local:BaseView>       
