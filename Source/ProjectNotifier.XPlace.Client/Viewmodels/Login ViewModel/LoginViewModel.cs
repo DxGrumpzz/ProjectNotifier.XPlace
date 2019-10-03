@@ -103,7 +103,6 @@
             {
                 LoginWorking = true;
 
-                return;
                 // Move page out of view
                 UnloadAnimation = ViewAnimation.SlideOutToTop;
                 WaitForUnloadAnimation = true;
