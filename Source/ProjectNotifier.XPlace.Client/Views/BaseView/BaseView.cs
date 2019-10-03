@@ -8,10 +8,16 @@
     public class BaseView : UserControl
     {
 
-        #region Private properties
-
+        #region Private fields
 
         public object _viewModel;
+
+        
+        public ViewAnimation _viewLoadAnimation = ViewAnimation.SlideInFromTop;
+
+        public ViewAnimation _viewUnloadAnimation  = ViewAnimation.SlideOutToBottom;
+
+        public bool _waitForUnloadAnimation;
 
         #endregion
 
@@ -21,12 +27,23 @@
         /// <summary>
         /// An animation that will happen when the page loads
         /// </summary>
-        public ViewAnimation ViewLoadAnimation { get; set; } = ViewAnimation.SlideInFromTop;
+        public ViewAnimation ViewUnloadAnimation
+        {
+            get => (ViewAnimation)GetValue(ViewUnloadAnimationProperty);
+            set => SetValue(ViewUnloadAnimationProperty, value);
+        }
 
         /// <summary>
         /// An animtion that will happen when the view gets changes (to a different view)
         /// </summary>
-        public ViewAnimation ViewUnloadAnimation { get; set; } = ViewAnimation.SlideOutToBottom;
+        public ViewAnimation ViewLoadAnimation
+        {
+            get => (ViewAnimation)GetValue(ViewLoadAnimationProperty);
+            set => SetValue(ViewLoadAnimationProperty, value);
+        }
+
+
+       
 
 
         /// <summary>
@@ -59,10 +76,16 @@
         /// </summary>
         public bool ShouldAnimateOutOnLoad { get; set; }
 
+
+        
         /// <summary>
         /// A flag that indicates if the unload animation should be awaited before switching to next page
         /// </summary>
-        public bool WaitForUnloadAnimation { get; set; }
+        public bool WaitForUnloadAnimation
+        {
+            get => (bool)GetValue(WaitForUnloadAnimationDPProperty);
+            set => SetValue(WaitForUnloadAnimationDPProperty, value);
+        }
 
         #endregion
 
@@ -87,7 +110,7 @@
         /// <returns></returns>
         public async Task AnimateIn()
         {
-            switch (ViewLoadAnimation)
+            switch (_viewLoadAnimation)
             {
                 case ViewAnimation.SlideInFromTop:
                 {
@@ -118,7 +141,7 @@
         /// <returns></returns>
         public async Task AnimateOut()
         {
-            switch (ViewUnloadAnimation)
+            switch (_viewUnloadAnimation)
             {
                 case ViewAnimation.SlideOutToBottom:
                 {
@@ -151,35 +174,10 @@
 
         #region Dependency properties
 
+
         /// <summary>
         /// Dependency property for <see cref="ViewLoadAnimation"/>
         /// </summary>
-        public ViewAnimation ViewLoadAnimationDP
-        {
-            get => (ViewAnimation)GetValue(ViewLoadAnimationProperty);
-            set => SetValue(ViewLoadAnimationProperty, value);
-        }
-
-        /// <summary>
-        /// Dependency property for <see cref="ViewUnloadAnimation"/>
-        /// </summary>
-        public ViewAnimation ViewUnloadAnimationDP
-        {
-            get => (ViewAnimation)GetValue(ViewUnloadAnimationProperty);
-            set => SetValue(ViewUnloadAnimationProperty, value);
-        }
-
-        /// <summary>
-        /// dependency property for <see cref="WaitForUnloadAnimation"/>
-        /// </summary>
-        public bool WaitForUnloadAnimationDP
-        {
-            get => (bool)GetValue(WaitForUnloadAnimationDPProperty);
-            set => SetValue(WaitForUnloadAnimationDPProperty, value);
-        }
-
-
-        
         public static readonly DependencyProperty ViewLoadAnimationProperty =
             DependencyProperty.Register(
                 nameof(ViewLoadAnimation), 
@@ -187,8 +185,10 @@
                 typeof(BaseView),
                 new UIPropertyMetadata(ViewAnimation.SlideInFromTop, null, ViewLoadAnimationChanged));
 
-       
 
+        /// <summary>
+        /// Dependency property for <see cref="ViewUnloadAnimation"/>
+        /// </summary>
         public static readonly DependencyProperty ViewUnloadAnimationProperty =
             DependencyProperty.Register(
                 nameof(ViewUnloadAnimation), 
@@ -196,6 +196,9 @@
                 typeof(BaseView), 
                 new UIPropertyMetadata(ViewAnimation.SlideOutToBottom, null, ViewUnloadAnimationChanged));
 
+        /// <summary>
+        /// dependency property for <see cref="WaitForUnloadAnimation"/>
+        /// </summary>
         public static readonly DependencyProperty WaitForUnloadAnimationDPProperty =
             DependencyProperty.Register(
                 nameof(WaitForUnloadAnimation),
@@ -203,8 +206,7 @@
                 typeof(BaseView),
                 new PropertyMetadata(false, null, (d, baseValue) =>
                 {
-                    (d as BaseView).WaitForUnloadAnimation = (bool)baseValue;
-
+                    (d as BaseView)._waitForUnloadAnimation = (bool)baseValue;
                     return baseValue;
                 }));
 
@@ -213,13 +215,13 @@
 
         private static object ViewLoadAnimationChanged(DependencyObject d, object baseValue)
         {
-            (d as BaseView).ViewLoadAnimation = (ViewAnimation)baseValue;
+            (d as BaseView)._viewLoadAnimation = (ViewAnimation)baseValue;
             return baseValue;
         }
 
         private static object ViewUnloadAnimationChanged(DependencyObject d, object baseValue)
         {
-            (d as BaseView).ViewUnloadAnimation = (ViewAnimation)baseValue;
+            (d as BaseView)._viewUnloadAnimation = (ViewAnimation)baseValue;
             return baseValue;
         }
 
