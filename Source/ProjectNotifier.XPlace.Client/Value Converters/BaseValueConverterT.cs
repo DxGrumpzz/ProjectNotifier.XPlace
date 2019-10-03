@@ -1,6 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Data;
     using System.Windows.Markup;
@@ -9,15 +10,15 @@
     /// A base ValueConverter for all <see cref="IValueConverter"/> classes to inherit.
     /// Allows for a more simple implmentation in Xaml
     /// </summary>
-    /// <typeparam name="T"> The type of class or ValueConverter </typeparam>
-    public abstract class TestBaseValueConverter<T, TValue, TParam> : MarkupExtension, IValueConverter
-        where T : class, new()
+    /// <typeparam name="TParent"> The type of class or ValueConverter </typeparam>
+    public abstract class BaseValueConverterT<TParent, TValue, TParam> : MarkupExtension, IValueConverter
+        where TParent : class, new()
     {
 
         /// <summary>
         /// A single static instance of this value converter
         /// </summary>
-        private static T Converter = null;
+        private static TParent Converter = null;
 
 
         /// <summary>
@@ -30,7 +31,15 @@
         /// <returns> Returns an <see cref="object"/> that can be cast into any other object </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ConvertT((TValue)value, targetType, (TParam)parameter, culture);
+            // Convert value and parameter to correct types
+            TParam newParamValue = (TParam)System.Convert.ChangeType(parameter, typeof(TParam));
+            TValue newValue = (TValue)System.Convert.ChangeType(value, typeof(TValue));
+
+            // If one of the converted values is null, Break
+            if ((newParamValue is null) || (newValue is null))
+                Debugger.Break();
+
+            return ConvertT(newValue, targetType, newParamValue, culture);
         }
 
 
@@ -48,7 +57,7 @@
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             // If the converter instance is null create a new type of what ever type passed in the type argument
-            return Converter ?? (Converter = new T());
+            return Converter ?? (Converter = new TParent());
         }
 
     };
