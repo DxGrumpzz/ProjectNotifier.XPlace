@@ -11,7 +11,7 @@
         /// <summary>
         /// A list that holds information about currently running commands
         /// </summary>
-        private List<Delegate> _runningCommands = new List<Delegate>();
+        private HashSet<int> _runningCommands = new HashSet<int>();
 
         private object _synchronizingObject = new object();
 
@@ -37,13 +37,12 @@
             lock (_synchronizingObject)
             {
                 // Check if current command is already running
-                if (IsCommandRunning(function) == true)
+                if (IsCommandRunning(function.Method.MetadataToken) == true)
                     return;
 
                 // Add the new command to the list
-                _runningCommands.Add(function);
+                _runningCommands.Add(function.Method.MetadataToken);
             };
-
 
             try
             {
@@ -53,7 +52,7 @@
             finally
             {
                 // No matter what happens during execution (execptions and such) make sure that command is removed
-                _runningCommands.Remove(function);
+                _runningCommands.Remove(function.Method.MetadataToken);
             };
         }
 
@@ -61,12 +60,12 @@
         /// <summary>
         /// Check if a command is currently running
         /// </summary>
-        /// <param name="function"> The function to verify </param>
+        /// <param name="functionToken"> The function to verify </param>
         /// <returns></returns>
-        private bool IsCommandRunning(Func<Task> function)
+        private bool IsCommandRunning(int functionToken)
         {
             // Check if command exists in the list
-            if (_runningCommands.Contains(function) == false)
+            if (_runningCommands.Contains(functionToken) == false)
                 return false;
             else
                 return true;
