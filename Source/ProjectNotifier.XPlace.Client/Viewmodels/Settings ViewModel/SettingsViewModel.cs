@@ -63,8 +63,6 @@
         public RelayCommand CloseSettingsCommand { get; }
 
 
-        public SettingsViewModel() { }
-
         public SettingsViewModel(ClientAppSettingsModel settings)
         {
             ClientAppSettingsModel = settings;
@@ -75,9 +73,16 @@
                 IsNumericOnly = true,
 
                 MaxLength = 3,
-
-
             };
+          
+            NotificationDispalySecondsSetting = new TextEntryViewModel<int>(ClientAppSettingsModel.KeepNotificationOpenSeconds)
+            {
+                IsNumericOnly = true,
+
+                MaxLength = 2,
+            };
+
+
             // Bind events
             ProjectCountSetting.ValueValidationAction += new Func<TextEntryViewModel<int>, bool>(setting =>
             {
@@ -99,9 +104,9 @@
                     return false;
                 };
 
-
                 return true;
             });
+
             ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (setting) =>
             {
                 DI.Logger().Log($"User changed {nameof(ClientAppSettingsModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
@@ -115,15 +120,6 @@
                 // Show settings saved notification
                 await ShowSavedNOtificationAsync();
             });
-
-
-
-            NotificationDispalySecondsSetting = new TextEntryViewModel<int>(ClientAppSettingsModel.KeepNotificationOpenSeconds)
-            {
-                IsNumericOnly = true,
-
-                MaxLength = 2,
-            };
 
             NotificationDispalySecondsSetting.ValueValidationAction += new Func<TextEntryViewModel<int>, bool>(setting =>
             {
@@ -174,8 +170,8 @@
             IsOpen = true;
             _isOpening = true;
 
-            // Wait for opening animtaion to finish
-            await Task.Delay(400);
+            // Wait for opening slide animtaion to finish
+            await Task.Delay(600);
 
             // Allow user to close
             _isOpening = false;
@@ -190,7 +186,6 @@
         {
             if (_isOpening == true)
                 return;
-
 
             IsOpen = false;
         }
