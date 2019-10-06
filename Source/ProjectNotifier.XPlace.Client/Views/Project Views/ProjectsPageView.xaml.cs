@@ -10,6 +10,7 @@
         public ProjectsPageView()
         {
             ViewLoadAnimation = ViewAnimation.FadeIn;
+            LoadInAnimtaionInSeconds = 2.0f;
 
             InitializeComponent();
         }
