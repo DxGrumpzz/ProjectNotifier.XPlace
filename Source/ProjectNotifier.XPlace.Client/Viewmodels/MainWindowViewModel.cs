@@ -15,11 +15,11 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private MainWindowModel _model;
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool _isLoading = true;
+        //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        //private bool _isLoading = true;
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private ProjectListViewModel projectListViewModel;
+        //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        //private ProjectListViewModel projectListViewModel;
 
 
         #endregion
@@ -37,20 +37,20 @@
             }
         }
 
-        public ProjectListViewModel ProjectList
-        {
-            get => projectListViewModel;
-            set
-            {
-                projectListViewModel = value;
-                OnPropertyChanged();
+        //public ProjectListViewModel ProjectList
+        //{
+        //    get => projectListViewModel;
+        //    set
+        //    {
+        //        projectListViewModel = value;
+        //        OnPropertyChanged();
 
-            }
-        }
+        //    }
+        //}
 
-        public ClientAppSettingsModel ClientAppSettingsModel { get; }
+        //public ClientAppSettingsModel ClientAppSettingsModel { get; }
 
-        public SettingsViewModel SettingsViewModel { get; }
+        //public SettingsViewModel SettingsViewModel { get; }
 
         public IProjectLoader ProjectLoader { get; }
 
@@ -70,15 +70,15 @@
         }
 
 
-        public bool IsLoading
-        {
-            get => _isLoading;
-            private set
-            {
-                _isLoading = value;
-                OnPropertyChanged();
-            }
-        }
+        //public bool IsLoading
+        //{
+        //    get => _isLoading;
+        //    private set
+        //    {
+        //        _isLoading = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         #endregion
 
@@ -95,12 +95,19 @@
 
         public MainWindowViewModel() { }
 
-        public MainWindowViewModel(ClientAppSettingsModel clientAppSettingsModel, IProjectLoader projectLoader)
+        public MainWindowViewModel(IProjectLoader projectLoader)
         {
-            ClientAppSettingsModel = clientAppSettingsModel;
-            SettingsViewModel = new SettingsViewModel(clientAppSettingsModel);
+            //ClientAppSettingsModel = clientAppSettingsModel;
+            //SettingsViewModel = new SettingsViewModel(clientAppSettingsModel);
             ProjectLoader = projectLoader;
 
+
+            /*
+            CurrentPage = new LoginView()
+            {
+                ViewModel = new LoginViewModel(projectLoader),
+            };
+            */
 
             CurrentPage = new LoginView()
             {
@@ -113,20 +120,20 @@
 
 
             //OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
-/*
-            // When project count setting is saved...
-            SettingsViewModel.ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (value) =>
-            {
-                // Reset project list
-                ProjectList.ProjectList = new ObservableCollection<ProjectItemViewModel>();
+            /*
+                        // When project count setting is saved...
+                        SettingsViewModel.ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (value) =>
+                        {
+                            // Reset project list
+                            ProjectList.ProjectList = new ObservableCollection<ProjectItemViewModel>();
 
-                // Display loading text
-                IsLoading = true;
+                            // Display loading text
+                            IsLoading = true;
 
-                // Load new project list
-                await SetupRSSProjectListAsync();
-            });
-*/
+                            // Load new project list
+                            await SetupRSSProjectListAsync();
+                        });
+            */
 
             //ProjectLoader.ProjectsListUpdated += (newProjectList) =>
             //{
