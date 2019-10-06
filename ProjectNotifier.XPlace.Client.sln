@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectNotifier.XPlace.Clie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectNotifier.XPlace.Core", "Source\ProjectNotifier.XPlace.Core\ProjectNotifier.XPlace.Core.csproj", "{2E0EE2DB-56F3-4A5B-BAA7-30CD34C2C2F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectNotifier.XPlace.WebServer", "Source\ProjectNotifier.XPlace.WebServer\ProjectNotifier.XPlace.WebServer\ProjectNotifier.XPlace.WebServer.csproj", "{717EA966-D638-425C-BB4C-8973614D9B01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2E0EE2DB-56F3-4A5B-BAA7-30CD34C2C2F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E0EE2DB-56F3-4A5B-BAA7-30CD34C2C2F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E0EE2DB-56F3-4A5B-BAA7-30CD34C2C2F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{717EA966-D638-425C-BB4C-8973614D9B01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{717EA966-D638-425C-BB4C-8973614D9B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{717EA966-D638-425C-BB4C-8973614D9B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{717EA966-D638-425C-BB4C-8973614D9B01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
