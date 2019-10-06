@@ -75,7 +75,7 @@
 		public TextEntryViewModel(T value)
 		{
 			Value = value;
-			PreviousValue = value;
+			PreviousValue = default;
 
 
 			SaveChangesCommnad = new RelayCommand(ExecuteSaveChangesCommnad);
