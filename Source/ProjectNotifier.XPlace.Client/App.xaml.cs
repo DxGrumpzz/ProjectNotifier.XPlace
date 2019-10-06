@@ -45,21 +45,17 @@
 				KeepNotificationOpenSeconds = Convert.ToInt32(configurationBuilder.GetSection(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds)).Value),
 			};
 
-            //_ProjectLoader _projectLoader = new _ProjectLoader(TimeSpan.FromMinutes(10).TotalMilliseconds, clientAppSettingsModel);
-
             IProjectLoader projectLoader = new ProjectLoader(clientAppSettingsModel, AppLinks.RSSFeedUrl);
-
 
             // Bind services
             ServiceCollection serviceCollection = new ServiceCollection();
 
 
-			// If in Debug attach console  logger
 #if DEBUG == TRUE
-
+			// If in Debug attach console  logger
 			serviceCollection.AddSingleton<ILoggerBase>(new ConsoleLogger());
 #else
-			// attach file logger
+			// If in Release attach file logger
 			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
 #endif
 
@@ -73,7 +69,7 @@
 
 			serviceCollection.AddSingleton<IUIManager>(new UIManager());
 
-            serviceCollection.AddSingleton(new MainWindowViewModel(clientAppSettingsModel, projectLoader)
+            serviceCollection.AddSingleton(new MainWindowViewModel(projectLoader)
             {
                 Model = new MainWindowModel()
                 {
