@@ -21,6 +21,7 @@
         //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
         //private ProjectListViewModel projectListViewModel;
 
+        private readonly IProjectLoader _projectLoader;
 
         #endregion
 
@@ -52,7 +53,6 @@
 
         //public SettingsViewModel SettingsViewModel { get; }
 
-        public IProjectLoader ProjectLoader { get; }
 
 
 
@@ -93,13 +93,11 @@
 
 
 
-        public MainWindowViewModel() { }
-
         public MainWindowViewModel(IProjectLoader projectLoader)
         {
             //ClientAppSettingsModel = clientAppSettingsModel;
             //SettingsViewModel = new SettingsViewModel(clientAppSettingsModel);
-            ProjectLoader = projectLoader;
+            _projectLoader = projectLoader;
 
 
             /*
