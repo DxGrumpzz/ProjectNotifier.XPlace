@@ -203,7 +203,7 @@
                                                 <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                                                                  To="-360"
                                                                  
-                                                                 BeginTime="0:0:1"
+                                                                 BeginTime="0:0:0.5"
                                                                  Duration="0:0:5"
                                                                  
                                                                  RepeatBehavior="Forever"/>
