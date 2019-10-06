@@ -10,15 +10,8 @@
 
         #region Private fields
 
-        public object _viewModel;
-
-        
-        public ViewAnimation _viewLoadAnimation = ViewAnimation.SlideInFromTop;
-
-        public ViewAnimation _viewUnloadAnimation  = ViewAnimation.SlideOutToBottom;
-
-        public bool _waitForUnloadAnimation;
-
+        private object _viewModel;
+     
         #endregion
 
 
@@ -83,8 +76,8 @@
         /// </summary>
         public bool WaitForUnloadAnimation
         {
-            get => (bool)GetValue(WaitForUnloadAnimationDPProperty);
-            set => SetValue(WaitForUnloadAnimationDPProperty, value);
+            get => (bool)GetValue(WaitForUnloadAnimationProperty);
+            set => SetValue(WaitForUnloadAnimationProperty, value);
         }
 
         #endregion
@@ -110,7 +103,7 @@
         /// <returns></returns>
         public async Task AnimateIn()
         {
-            switch (_viewLoadAnimation)
+            switch (ViewLoadAnimation)
             {
                 case ViewAnimation.SlideInFromTop:
                 {
@@ -141,7 +134,7 @@
         /// <returns></returns>
         public async Task AnimateOut()
         {
-            switch (_viewUnloadAnimation)
+            switch (ViewUnloadAnimation)
             {
                 case ViewAnimation.SlideOutToBottom:
                 {
@@ -174,16 +167,15 @@
 
         #region Dependency properties
 
-
         /// <summary>
         /// Dependency property for <see cref="ViewLoadAnimation"/>
         /// </summary>
         public static readonly DependencyProperty ViewLoadAnimationProperty =
             DependencyProperty.Register(
-                nameof(ViewLoadAnimation), 
-                typeof(ViewAnimation), 
+                nameof(ViewLoadAnimation),
+                typeof(ViewAnimation),
                 typeof(BaseView),
-                new UIPropertyMetadata(ViewAnimation.SlideInFromTop, null, ViewLoadAnimationChanged));
+                new UIPropertyMetadata(ViewAnimation.SlideInFromTop));
 
 
         /// <summary>
@@ -191,42 +183,20 @@
         /// </summary>
         public static readonly DependencyProperty ViewUnloadAnimationProperty =
             DependencyProperty.Register(
-                nameof(ViewUnloadAnimation), 
-                typeof(ViewAnimation), 
-                typeof(BaseView), 
-                new UIPropertyMetadata(ViewAnimation.SlideOutToBottom, null, ViewUnloadAnimationChanged));
+                nameof(ViewUnloadAnimation),
+                typeof(ViewAnimation),
+                typeof(BaseView),
+                new UIPropertyMetadata(ViewAnimation.SlideOutToBottom));
 
         /// <summary>
         /// dependency property for <see cref="WaitForUnloadAnimation"/>
         /// </summary>
-        public static readonly DependencyProperty WaitForUnloadAnimationDPProperty =
+        public static readonly DependencyProperty WaitForUnloadAnimationProperty =
             DependencyProperty.Register(
                 nameof(WaitForUnloadAnimation),
                 typeof(bool),
                 typeof(BaseView),
-                new PropertyMetadata(false, null, (d, baseValue) =>
-                {
-                    (d as BaseView)._waitForUnloadAnimation = (bool)baseValue;
-                    return baseValue;
-                }));
-
-
-        #region Callbacks
-
-        private static object ViewLoadAnimationChanged(DependencyObject d, object baseValue)
-        {
-            (d as BaseView)._viewLoadAnimation = (ViewAnimation)baseValue;
-            return baseValue;
-        }
-
-        private static object ViewUnloadAnimationChanged(DependencyObject d, object baseValue)
-        {
-            (d as BaseView)._viewUnloadAnimation = (ViewAnimation)baseValue;
-            return baseValue;
-        }
-
-
-        #endregion
+                new PropertyMetadata(false));
 
         #endregion
 
