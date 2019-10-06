@@ -107,6 +107,10 @@
                 UnloadAnimation = ViewAnimation.SlideOutToTop;
                 WaitForUnloadAnimation = true;
 
+#if DEBUG == TRUE
+                // Fake working thing
+                await Task.Delay(2000);
+#endif
 
                 // Change to projects view
                 DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
@@ -129,7 +133,7 @@
             };
         }
 
-        #endregion
+#endregion
 
     };
 };
