@@ -16,12 +16,6 @@ namespace ProjectNotifier.XPlace.WebServer
             {
                 // Disable Endpoint routing for now, maybe I'll use it in the futures
                 config.EnableEndpointRouting = false;
-            })
-            // Customize json serializer
-            .AddJsonOptions(config =>
-            {
-                config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                //config.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
         }
 
