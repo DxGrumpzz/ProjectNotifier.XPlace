@@ -2,7 +2,6 @@ namespace ProjectNotifier.XPlace.WebServer
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
@@ -12,6 +11,18 @@ namespace ProjectNotifier.XPlace.WebServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add controllers without views
+            services.AddControllers(config =>
+            {
+                // Disable Endpoint routing for now, maybe I'll use it in the futures
+                config.EnableEndpointRouting = false;
+            })
+            // Customize json serializer
+            .AddJsonOptions(config =>
+            {
+                config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                //config.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -22,15 +33,7 @@ namespace ProjectNotifier.XPlace.WebServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
+            app.UseMvc();
         }
     }
 }
