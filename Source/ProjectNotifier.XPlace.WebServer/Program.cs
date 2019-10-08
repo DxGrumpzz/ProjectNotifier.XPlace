@@ -3,6 +3,7 @@ namespace ProjectNotifier.XPlace.WebServer
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Configuration;
     using System;
 
     public class Program
@@ -17,6 +18,11 @@ namespace ProjectNotifier.XPlace.WebServer
             {
                 // Add a console logger
                 logger.AddConsole();
+            })
+            // Add json configuration
+            .ConfigureAppConfiguration(config =>
+            {
+                config.AddJsonFile("appsettings.json");
             })
             // Specify root folder
             .UseContentRoot(Environment.CurrentDirectory)
