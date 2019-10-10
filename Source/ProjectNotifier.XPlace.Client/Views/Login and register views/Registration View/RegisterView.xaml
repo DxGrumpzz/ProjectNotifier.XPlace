@@ -229,6 +229,8 @@
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </DataTrigger.EnterActions>
+                                    
+                                    
                                 </DataTrigger>
 
                             </Style.Triggers>
@@ -257,6 +259,20 @@
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </DataTrigger.EnterActions>
+
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard >
+
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                 
+                                                                 To="0"
+                                                                 Duration="0:0:1"/>
+
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+
                             </DataTrigger>
 
                         </Style.Triggers>
