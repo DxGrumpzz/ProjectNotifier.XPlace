@@ -2,6 +2,7 @@
 {
     using ProjectNotifier.XPlace.Core;
     using System.Diagnostics;
+    using System.Security;
     using System.Threading.Tasks;
     using System.Windows;
 
@@ -28,6 +29,11 @@
 
         private readonly IProjectLoader _projectLoader;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool _loginWorking;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string _username;
 
         #endregion
 
@@ -62,7 +68,6 @@
             }
         }
 
-        private bool _loginWorking;
 
         public bool LoginWorking
         {
@@ -74,6 +79,17 @@
             }
         }
 
+
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
 
@@ -81,7 +97,7 @@
 
         public RelayCommand GotoRegisterPageCommand { get; }
 
-        public RelayCommand LoginCommand { get; }
+        public RelayCommand<IHavePassword> LoginCommand { get; }
 
         #endregion
 
@@ -91,13 +107,13 @@
             _projectLoader = projectLoader;
 
             GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
-            LoginCommand = new RelayCommand(ExecuteLoginCommandAsync);
+            LoginCommand = new RelayCommand<IHavePassword>(ExecuteLoginCommandAsync);
         }
 
 
         #region Command callbacks
 
-        private async Task ExecuteLoginCommandAsync()
+        private async Task ExecuteLoginCommandAsync(IHavePassword password)
         {
             await RunCommandAsync(async () =>
             {
