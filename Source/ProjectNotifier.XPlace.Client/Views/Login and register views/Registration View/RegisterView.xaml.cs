@@ -1,11 +1,12 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
+    using System.Security;
     using System.Windows.Controls;
 
     /// <summary>
     /// Interaction logic for RegisterView.xaml
     /// </summary>
-    public partial class RegisterView : BaseView<RegisterViewModel>
+    public partial class RegisterView : BaseView<RegisterViewModel>, IHaveMultiplePassword
     {
         public RegisterView()
         {
@@ -17,5 +18,8 @@
         {
             InitializeComponent();
         }
+
+        public SecureString Password => PasswordFeid.SecurePassword;
+        public SecureString ConfirmPassword => ConfirmedPasswordField.SecurePassword;
     };
 };

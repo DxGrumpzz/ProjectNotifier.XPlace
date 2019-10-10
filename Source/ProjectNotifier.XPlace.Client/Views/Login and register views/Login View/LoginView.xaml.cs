@@ -1,11 +1,12 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
+    using System.Security;
     using System.Windows;
 
     /// <summary>
     /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class LoginView : BaseView<LoginViewModel>
+    public partial class LoginView : BaseView<LoginViewModel>, IHavePassword
 	{
 		public LoginView()
 		{
@@ -17,5 +18,7 @@
         {
             InitializeComponent();
         }
+
+        public SecureString Password => PasswordField.SecurePassword;
     };
 };
