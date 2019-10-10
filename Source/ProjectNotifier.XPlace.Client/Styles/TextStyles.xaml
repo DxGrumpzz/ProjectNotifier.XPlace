@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ProjectNotifier.XPlace.Client">
+
+    
+    <Style x:Key="TextEntryControlStyle" TargetType="{x:Type TextBox}">
+
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#111"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="MaxLength" Value="{Binding MaxLength}"/>
+        <Setter Property="FontFamily" Value="Open Sans Hebrew"/>
+        <Setter Property="FontSize" Value="15"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+        <Setter Property="FontFamily" Value="Open Sans Hebrew"/>
+
+        <Setter Property="AllowDrop" Value="true"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+
+        <Setter Property="Template">
+
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+
+
+                    <Border x:Name="border" 
+							
+                            Background="{TemplateBinding Background}" 
+							BorderThickness="{TemplateBinding BorderThickness}" 
+							BorderBrush="{TemplateBinding BorderBrush}" 
+							
+                            SnapsToDevicePixels="True">
+
+                        
+                        <Grid>
+
+                            <!-- Text presenter -->
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          
+                                          Focusable="false"
+                                          
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden"/>
+
+                            <!-- The small black line under the text -->
+                            <Rectangle MinHeight="1"
+
+                                       VerticalAlignment="Bottom"
+                                      
+									   Fill="#111"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    
+    </Style>
+    
+</ResourceDictionary>
