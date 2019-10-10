@@ -18,6 +18,7 @@
                 WaitForUnloadAnimation="{Binding WaitForUnloadAnimation}"
                 ViewUnloadAnimation="{Binding UnloadAnimation}"
                 
+                x:Name="This"
 			    d:DataContext="{x:Static local:LoginViewModel.Instance}">
 
 
@@ -78,20 +79,19 @@
 							Grid.Column="1"
 							Grid.Row="0">
 
-
-                        <!--<TextBlock x:Name="Text"
-                               Text="Texxt"/>-->
                         <TextBlock Text="שם משתמש"
 								   
 								TextAlignment="Center"/>
 
 
-                        <local:TextEntryControl DataContext="{Binding UsernameEntry}"
-												
-											HorizontalAlignment="Center"
-											
-											MinWidth="70"
-											MaxWidth="90"/>
+                        <TextBox Text="{Binding Username}"
+								
+                                 HorizontalAlignment="Center"
+                                 
+                                 MinWidth="70"
+                                 MaxWidth="90"
+                                 
+                                 Style="{StaticResource TextEntryControlStyle}"/>
 
                     </StackPanel>
 
@@ -105,15 +105,14 @@
 							   TextAlignment="Center"/>
 
 
-                        <!-- TODO: Make a password entry control-->
-                        <local:TextEntryControl x:Name="PasswordField"
-                                            
-                                            DataContext="{Binding PasswordEntry}"
-												
-											HorizontalAlignment="Center"
-											
-											MinWidth="70"
-											MaxWidth="90"/>
+                        <PasswordBox HorizontalAlignment="Center"
+									 
+                                     x:Name="PasswordField"
+                                     
+									 MinWidth="70"
+									 MaxWidth="90"
+                                     
+                                     Style="{StaticResource PasswordEntryControlStyle}"/>
 
                     </StackPanel>
 
@@ -123,21 +122,21 @@
                 <!-- Login and register button -->
                 <StackPanel Orientation="Horizontal"
 							
-						VerticalAlignment="Bottom"
-						HorizontalAlignment="Center">
+						    VerticalAlignment="Bottom"
+						    HorizontalAlignment="Center">
 
 
                     <!-- Login button -->
                     <Button Content="התחבר"
 						
-						Width="70"
-						
-						Margin="0,0,10,0"
-						
-                        Command="{Binding LoginCommand}"
-                        
-                        Style="{StaticResource AppButtonStyle1}" />
-
+						    Width="70"
+						    
+						    Margin="0,0,10,0"
+						    
+                            Command="{Binding LoginCommand}"
+                            CommandParameter="{Binding ElementName=This}"
+                            
+                            Style="{StaticResource AppButtonStyle1}" />
 
 
                     <!-- Switch to registration view button -->
@@ -263,5 +262,6 @@
             </Border>
 
         </Grid>
+        
     </Border>
 </local:BaseView>
