@@ -27,6 +27,9 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ViewAnimation _viewUnloadAnimation = ViewAnimation.SlideOutToBottom;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string _username = "";
+
         #endregion
 
 
@@ -38,13 +41,12 @@
         public bool RegisterWorking
         {
             get => _registerWorking;
-            set
+            private set
             {
                 _registerWorking = value;
                 OnPropertyChanged();
             }
         }
-
 
         public bool WaitForUnloadAnimation
         {
@@ -56,7 +58,6 @@
             }
         }
 
-
         public ViewAnimation ViewUnloadAnimation
         {
             get => _viewUnloadAnimation;
@@ -67,13 +68,28 @@
             }
         }
 
+
+        /// <summary>
+        /// The user's chosen username
+        /// </summary>
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         #endregion
 
 
         #region Commands
 
         public RelayCommand GotoLoginPageCommand { get; }
-        public RelayCommand RegisterCommand { get; }
+        public RelayCommand<IHaveMultiplePassword> RegisterCommand { get; }
 
         #endregion
 
@@ -81,7 +97,7 @@
         public RegisterViewModel()
         {
             GotoLoginPageCommand = new RelayCommand(ExecuteGotoLoginPageCommand);
-            RegisterCommand = new RelayCommand(ExecuteRegisterCommand);
+            RegisterCommand = new RelayCommand<IHaveMultiplePassword>(ExecuteRegisterCommand);
         }
 
 
@@ -89,7 +105,7 @@
 
         #region Command callbacks
 
-        private async Task ExecuteRegisterCommand()
+        private async Task ExecuteRegisterCommand(IHaveMultiplePassword passwords)
         {
             await RunCommandAsync(async () =>
             {
@@ -102,6 +118,7 @@
 #if DEBUG == TRUE
                 await Task.Delay(3000);
 #endif
+
                 DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
                 {
                     ViewModel = new LoginViewModel(DI.GetService<IProjectLoader>())
@@ -118,7 +135,7 @@
             };
         }
 
-#endregion
+        #endregion
 
     };
 };
