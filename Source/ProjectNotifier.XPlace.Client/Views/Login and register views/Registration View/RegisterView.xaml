@@ -103,13 +103,14 @@
 								   
 								   TextAlignment="Center"/>
 
-                        <!-- TODO: Make a password entry control-->
-                        <local:TextEntryControl DataContext="{Binding PasswordEntry}"
-												
-												HorizontalAlignment="Center"
-												
-												MinWidth="70"
-												MaxWidth="90"/>
+                        <PasswordBox x:Name="Password"
+                                     
+                                     HorizontalAlignment="Center"
+												    
+					                 MinWidth="70"
+					                 MaxWidth="90"
+                                     
+                                     Style="{StaticResource PasswordEntryControlStyle}"/>
 
                     </StackPanel>
 
@@ -121,15 +122,17 @@
 								   
 								   TextAlignment="Center"/>
 
-                        <!-- TODO: Make a password entry control-->
-                        <local:TextEntryControl DataContext="{Binding PasswordConfirmationEntry}"
-												
-												HorizontalAlignment="Center"
-												
-												MinWidth="70"
-												MaxWidth="90"/>
+                        <PasswordBox x:Name="ConfirmedPassword"
+                                     
+                                     HorizontalAlignment="Center"
+												    
+					                 MinWidth="70"
+					                 MaxWidth="90"
+                                     
+                                     Style="{StaticResource PasswordEntryControlStyle}"/>
 
                     </StackPanel>
+                    
                 </Grid>
 
 
@@ -164,6 +167,7 @@
             
             </Grid>
 
+            <!-- The loading indicator -->
             <Border CornerRadius="12"
                     
                     Opacity="0"
