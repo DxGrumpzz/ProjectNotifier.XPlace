@@ -1,6 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using System.Diagnostics;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using ProjectNotifier.XPlace.Core;
 
@@ -115,13 +116,33 @@
                 WaitForUnloadAnimation = true;
                 ViewUnloadAnimation = ViewAnimation.SlideOutToTop;
 
-#if DEBUG == TRUE
-                await Task.Delay(3000);
-#endif
+                // Send a registration request to the server
+                HttpClient client = new HttpClient();
 
-                DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
+                var response = await client.PostAsJsonAsync("https://localhost:5001/Account/Register", new RegisterModel()
                 {
-                    ViewModel = new LoginViewModel(DI.GetService<IProjectLoader>())
+                    Username = Username,
+                    Password = passwords.Password.Unsecure(),
+                    ConfirmationPassword = passwords.ConfirmPassword.Unsecure(),
+                });
+
+
+                // If registration was unsuccesful
+                if (response.IsSuccessStatusCode == false)
+                {
+                    RegisterWorking = false;
+                }
+                // If registration was succesful
+                else
+                { 
+                    // Move to login page
+                    DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
+                    {
+                        ViewModel = new LoginViewModel(DI.GetService<IProjectLoader>())
+                        {
+                            Username = Username,
+                        }
+                    };
                 };
             });
         }
