@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq.Expressions;
+    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
@@ -34,6 +36,16 @@
         /// <returns></returns>
         protected async Task RunCommandAsync(Func<Task> function)
         {
+            await RunCommandAsync(null, function);
+        }
+
+        /// <summary>
+        /// Runs a single command until execution is finalized and allows passing of a boolean flag that indicates if the function is finished working
+        /// </summary>
+        /// <param name="function"> The function to execute </param>
+        /// <returns></returns>
+        protected async Task RunCommandAsync(Expression<Func<bool>> wrokingFlag, Func<Task> function)
+        {
             lock (_synchronizingObject)
             {
                 // Check if current command is already running
@@ -46,16 +58,27 @@
 
             try
             {
+                // Set working flag to true
+                if (wrokingFlag != null)
+                    SetFlagValue(wrokingFlag, true);
+                
+
                 // Invoke and wait for command to finish execution
                 await function?.Invoke();
             }
             finally
             {
+                // Set working flag to false
+                if (wrokingFlag != null)
+                    SetFlagValue(wrokingFlag, false);
+
                 // No matter what happens during execution (execptions and such) make sure that command is removed
                 _runningCommands.Remove(function.Method.MetadataToken);
             };
         }
 
+
+        #region Private helpers
 
         /// <summary>
         /// Check if a command is currently running
@@ -70,5 +93,22 @@
             else
                 return true;
         }
+
+
+        /// <summary>
+        /// Takes an expression and sets it's value to to something
+        /// </summary>
+        /// <param name="wrokingFlag"> The function's working flag </param>
+        /// <param name="value"> The value to set </param>
+        private void SetFlagValue(Expression<Func<bool>> wrokingFlag, bool value)
+        {
+            var expression = (wrokingFlag as LambdaExpression).Body as MemberExpression;
+
+            var propertyInfo = (PropertyInfo)expression.Member;
+            var target = Expression.Lambda(expression.Expression).Compile().DynamicInvoke();
+
+            propertyInfo.SetValue(target, value);
+        }
+        #endregion
     }
 }
