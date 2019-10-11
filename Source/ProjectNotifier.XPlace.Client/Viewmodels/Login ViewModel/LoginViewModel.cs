@@ -2,9 +2,8 @@
 {
     using ProjectNotifier.XPlace.Core;
     using System.Diagnostics;
-    using System.Security;
+    using System.Net.Http;
     using System.Threading.Tasks;
-    using System.Windows;
 
 
     /// <summary>
@@ -115,26 +114,37 @@
 
         private async Task ExecuteLoginCommandAsync(IHavePassword password)
         {
-            await RunCommandAsync(async () =>
+            await RunCommandAsync(() => LoginWorking,
+            async () =>
             {
-                LoginWorking = true;
-
                 // Move page out of view
                 UnloadAnimation = ViewAnimation.SlideOutToTop;
                 WaitForUnloadAnimation = true;
 
-#if DEBUG == TRUE
-                // Fake working thing
-                await Task.Delay(2000);
-#endif
+                HttpClient httpClient = new HttpClient();
 
-                // Change to projects view
-                DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
+                var response = await httpClient.PostAsJsonAsync("https://localhost:5001/Account/Login",
+                new LoginModel()
                 {
-                    ViewModel = new ProjectsPageViewModel()
+                    Username = Username,
+                    Password = password.Password.Unsecure(),
+                });
+
+
+                if (response.IsSuccessStatusCode == false)
+                {
+                    LoginWorking = false;
+                }
+                else
+                {
+                    // Change to projects view
+                    DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
                     {
-                        ProjectList = await _projectLoader.LoadProjectsAsObservableAsync(),
-                    },
+                        ViewModel = new ProjectsPageViewModel()
+                        {
+                            ProjectList = await _projectLoader.LoadProjectsAsObservableAsync(),
+                        },
+                    };
                 };
             });
         }
@@ -149,7 +159,7 @@
             };
         }
 
-#endregion
+        #endregion
 
     };
 };
