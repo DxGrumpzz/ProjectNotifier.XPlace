@@ -108,7 +108,8 @@
 
         private async Task ExecuteRegisterCommand(IHaveMultiplePassword passwords)
         {
-            await RunCommandAsync(async () =>
+            await RunCommandAsync(() => RegisterWorking,
+            async () =>
             {
                 RegisterWorking = true;
 
