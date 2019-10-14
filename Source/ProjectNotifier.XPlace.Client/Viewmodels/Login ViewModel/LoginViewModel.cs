@@ -117,12 +117,9 @@
             await RunCommandAsync(() => LoginWorking,
             async () =>
             {
-                // Move page out of view
-                UnloadAnimation = ViewAnimation.SlideOutToTop;
-                WaitForUnloadAnimation = true;
 
                 HttpClient httpClient = new HttpClient();
-
+                
                 var response = await httpClient.PostAsJsonAsync("https://localhost:5001/Account/Login",
                 new LoginModel()
                 {
@@ -133,10 +130,14 @@
 
                 if (response.IsSuccessStatusCode == false)
                 {
-                    LoginWorking = false;
+                    return;
                 }
                 else
                 {
+                    // Move page out of view
+                    UnloadAnimation = ViewAnimation.SlideOutToTop;
+                    WaitForUnloadAnimation = true;
+                    
                     // Change to projects view
                     DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
                     {
