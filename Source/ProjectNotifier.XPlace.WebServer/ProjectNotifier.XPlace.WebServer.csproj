@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProjectNotifier.XPlace.Client\ProjectNotifier.XPlace.Client.csproj" />
+    <ProjectReference Include="..\ProjectNotifier.XPlace.Core\ProjectNotifier.XPlace.Core.csproj" />
   </ItemGroup>
 
 
