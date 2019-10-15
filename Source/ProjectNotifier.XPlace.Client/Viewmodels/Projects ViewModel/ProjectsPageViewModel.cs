@@ -1,8 +1,11 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Linq;
+    using System.Net.Http;
 
     /// <summary>
     /// 
@@ -49,15 +52,29 @@
             // Bind settings view events
             SettingsViewModel.ProjectCountSetting.SaveChangesAction += async (value) =>
             {
-                // Reset project list
-                ProjectList = new ObservableCollection<ProjectItemViewModel>();
+                // Request new project list
+                var response = await DI.GetService<HttpClient>().GetAsync($"Https://LocalHost:5001/Projects/{value.Value}");
 
-                // Display loading text
-                //IsLoading = true
+                // If an error occured
+                if (response.IsSuccessStatusCode == false)
+                    return;
+                else
+                {
+                    // Reset project list
+                    ProjectList = new ObservableCollection<ProjectItemViewModel>();
 
-                // Load new project list
-                ProjectList = await DI.ProjectLoader().LoadProjectsAsObservableAsync();
-                
+                    // Display loading text
+                    //IsLoading = true
+
+                    // Load new project list
+                    ProjectList = new ObservableCollection<ProjectItemViewModel>(
+                        (await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>())
+                        .Select((project) => new ProjectItemViewModel()
+                        {
+                            ProjectModel = project,
+                        })
+                        .AsEnumerable());
+                }
             };
 
 
