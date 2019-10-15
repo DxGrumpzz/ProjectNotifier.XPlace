@@ -1,8 +1,10 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Net.Http;
+    using System.Linq;
     using System.Threading.Tasks;
 
 
@@ -26,7 +28,7 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _waitForUnloadAnimation;
 
-        private readonly IProjectLoader _projectLoader;
+        private readonly ClientAppSettingsModel _settings;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _loginWorking;
@@ -101,9 +103,9 @@
         #endregion
 
 
-        public LoginViewModel(IProjectLoader projectLoader)
+        public LoginViewModel(ClientAppSettingsModel settings)
         {
-            _projectLoader = projectLoader;
+            _settings = settings;
 
             GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
             LoginCommand = new RelayCommand<IHavePassword>(ExecuteLoginCommandAsync);
@@ -119,9 +121,9 @@
             {
 
                 HttpClient httpClient = new HttpClient();
-                
+
                 var response = await httpClient.PostAsJsonAsync("https://localhost:5001/Account/Login",
-                new LoginModel()
+                new LoginRequestModel()
                 {
                     Username = Username,
                     Password = password.Password.Unsecure(),
@@ -137,13 +139,22 @@
                     // Move page out of view
                     UnloadAnimation = ViewAnimation.SlideOutToTop;
                     WaitForUnloadAnimation = true;
-                    
+
+                    var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
+
                     // Change to projects view
                     DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
                     {
                         ViewModel = new ProjectsPageViewModel()
                         {
-                            ProjectList = await _projectLoader.LoadProjectsAsObservableAsync(),
+                            // Convert the list of IEnumerable to an ObservableCollection
+                            ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
+                            .Select((p) => new ProjectItemViewModel()
+                            {
+                                ProjectModel = p,
+                            })
+                            .AsEnumerable()
+                            .Take(_settings.ProjectsToDisplay))
                         },
                     };
                 };
