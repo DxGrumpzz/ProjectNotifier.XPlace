@@ -118,7 +118,7 @@
                 ViewUnloadAnimation = ViewAnimation.SlideOutToTop;
 
                 // Send a registration request to the server
-                HttpClient client = new HttpClient();
+                HttpClient client = DI.GetService<HttpClient>();
 
                 var response = await client.PostAsJsonAsync("https://localhost:5001/Account/Register", new RegisterModel()
                 {
