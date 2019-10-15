@@ -120,7 +120,7 @@
             async () =>
             {
 
-                HttpClient httpClient = new HttpClient();
+                HttpClient httpClient = DI.GetService<HttpClient>();
 
                 var response = await httpClient.PostAsJsonAsync("https://localhost:5001/Account/Login",
                 new LoginRequestModel()
