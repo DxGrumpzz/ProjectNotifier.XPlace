@@ -14,13 +14,13 @@
     {
         private readonly SignInManager<AppUserModel> _signInManager;
         private readonly UserManager<AppUserModel> _userManager;
-        private readonly IPasswordValidator<AppUserModel> _passwordValidator;
+        private readonly ProjectList _projectList;
 
-        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, IPasswordValidator<AppUserModel> passwordValidator)
+        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _passwordValidator = passwordValidator;
+            _projectList = projectList;
         }
 
 
@@ -32,7 +32,7 @@
 
 
         [HttpPost("Login")]
-        public async Task<ActionResult<AppUserModel>> LoginAsync(LoginModel loginModel)
+        public async Task<ActionResult<LoginResponseModel>> LoginAsync(LoginRequestModel loginModel)
         {
             // Attemp user sing in
             var singInResult = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
@@ -50,8 +50,16 @@
             // Login was succesfull
             else
             {
-                // Find user by username and return the user's data
-                return await _userManager.FindByNameAsync(loginModel.Username);
+                var p = _projectList.Projects;
+
+                return new LoginResponseModel()
+                {
+                    // Find user by username and return the user's data
+                    UserModel = await _userManager.FindByNameAsync(loginModel.Username),
+
+                    // Load projects
+                    Projects = p,
+                };
             };
         }
 
