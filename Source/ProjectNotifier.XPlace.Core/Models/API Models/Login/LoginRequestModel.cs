@@ -7,7 +7,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class LoginModel
+    public class LoginRequestModel
     {
         public string Username { get; set; }
 
