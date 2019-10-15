@@ -43,7 +43,7 @@
         /// </summary>
         public async Task UpdateListAsync()
         {
-            Projects = await _projectLoader.LoadProjectsAsync();
+            Projects = await _projectLoader.LoadProjectsAsync(100);
         }
     };
 };
