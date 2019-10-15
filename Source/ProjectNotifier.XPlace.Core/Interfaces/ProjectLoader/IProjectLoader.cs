@@ -1,7 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.Core
 {
 
-	using ProjectNotifier.XPlace.Core;
 	using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -18,7 +17,8 @@
 		/// </summary>
 		/// <returns></returns>
 		public Task<IEnumerable<ProjectModel>> LoadProjectsAsync(CancellationToken cancellationToken = default);
+		public Task<IEnumerable<ProjectModel>> LoadProjectsAsync(int count, CancellationToken cancellationToken = default);
 
 
-	}
+    }
 }
