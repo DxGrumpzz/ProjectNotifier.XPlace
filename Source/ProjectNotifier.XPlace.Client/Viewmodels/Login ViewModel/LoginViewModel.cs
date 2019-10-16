@@ -6,6 +6,7 @@
     using System.Net.Http;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.SignalR.Client;
 
 
     /// <summary>
@@ -136,11 +137,24 @@
                 }
                 else
                 {
+                    // Build hub connection
+                    await (DI.GetService<IServerConnection>().ProjectsHubConnection =
+                    new HubConnectionBuilder()
+                    // Connect to project hub url
+                    .WithUrl("Https://LocalHost:5001/ProjectsHub")
+                    // Build hub connection
+                    .Build())
+                    // Start the connection
+                    .StartAsync();
+
+                    // Read response content
+                    var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
+
+
                     // Move page out of view
                     UnloadAnimation = ViewAnimation.SlideOutToTop;
                     WaitForUnloadAnimation = true;
 
-                    var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
                     // Change to projects view
                     DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
@@ -160,7 +174,6 @@
                 };
             });
         }
-
 
         public void ExecuteGotoRegisterPageCommand()
         {
