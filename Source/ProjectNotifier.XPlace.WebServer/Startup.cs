@@ -96,12 +96,13 @@ namespace ProjectNotifier.XPlace.WebServer
             provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMinutes(15).TotalMilliseconds, 
             async () =>
             {
-                await projectList.UpdateListAsync();
+                //await projectList.UpdateListAsync();
 
                 await projectsHub.Clients.All.SendAsync("ProjectListUpdated", projectList.Projects);
 
             }, "ProjectLoader"));
 
+            app.UseRouting();
 
             app.UseEndpoints(config =>
             {
