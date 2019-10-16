@@ -1,10 +1,10 @@
 ﻿namespace ProjectNotifier.XPlace.WebServer.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using ProjectNotifier.XPlace.Core;
     using System;
-    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -14,12 +14,14 @@
     {
         private readonly SignInManager<AppUserModel> _signInManager;
         private readonly UserManager<AppUserModel> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ProjectList _projectList;
 
-        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList)
+        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, RoleManager<IdentityRole> roleManager, ProjectList projectList)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
             _projectList = projectList;
         }
 
@@ -50,18 +52,17 @@
             // Login was succesfull
             else
             {
-                var p = _projectList.Projects;
-
                 return new LoginResponseModel()
                 {
                     // Find user by username and return the user's data
                     UserModel = await _userManager.FindByNameAsync(loginModel.Username),
 
                     // Load projects
-                    Projects = p,
+                    Projects = _projectList.Projects,
                 };
             };
         }
+
 
         [HttpPost("Register")]
         public async Task<ActionResult> RegisterAsync(RegisterModel registerModel)
@@ -98,7 +99,9 @@
             // Creation was succesfull
             else
             {
-                // Find user by username and return the user's data
+                // Add newly registered user to User role
+                await _userManager.AddToRoleAsync(userModel, "User");
+
                 return Content("Registerd succesfully");
             };
         }
