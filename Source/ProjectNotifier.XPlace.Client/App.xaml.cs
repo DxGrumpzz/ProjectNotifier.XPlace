@@ -4,11 +4,9 @@
     using Microsoft.Extensions.DependencyInjection;
     using ProjectNotifier.XPlace.Core;
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Net.Http;
-    using System.Threading.Tasks;
     using System.Windows;
+
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -79,8 +77,11 @@
 
             serviceCollection.AddSingleton(new HttpClient());
 
+            serviceCollection.AddSingleton<IServerConnection>(new ServerConnection());
+
             // Build provider
             DI.SetupDI(serviceCollection.BuildServiceProvider());
+
 
             // Setup MainWindow
             (Current.MainWindow = new MainWindow(DI.GetService<MainWindowViewModel>()))
