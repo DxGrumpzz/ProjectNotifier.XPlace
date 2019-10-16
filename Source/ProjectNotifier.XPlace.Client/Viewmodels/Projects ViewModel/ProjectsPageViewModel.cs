@@ -5,7 +5,9 @@
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
+    using Microsoft.AspNetCore.SignalR.Client;
     using System.Net.Http;
+    using System;
 
     /// <summary>
     /// 
@@ -81,7 +83,12 @@
 
             // Open settings page when user clicks the settings button
             OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
+
+            // Bind hub events
+            DI.GetService<IServerConnection>().ProjectsHubConnection.On<IEnumerable<ProjectModel>>("ProjectListUpdated", ProjectListUpdated);
         }
+
+
 
 
         #region Command Callbacks
@@ -89,6 +96,27 @@
 
 
         #endregion
+
+
+        private void ProjectListUpdated(IEnumerable<ProjectModel> projects)
+        {
+            // Reset project list
+            ProjectList = new ObservableCollection<ProjectItemViewModel>();
+
+            // Display loading text
+            //IsLoading = true
+
+            // Load new project list
+            ProjectList = new ObservableCollection<ProjectItemViewModel>(
+                projects
+                .Select((project) => new ProjectItemViewModel()
+                {
+                    ProjectModel = project,
+                })
+                .AsEnumerable());
+
+            DI.UIManager().ShowProjectNotification(projects.Take(8));
+        }
 
     };
 };
