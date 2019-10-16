@@ -111,12 +111,7 @@
             await RunCommandAsync(() => RegisterWorking,
             async () =>
             {
-                RegisterWorking = true;
-
-                // Change to login page
-                WaitForUnloadAnimation = true;
-                ViewUnloadAnimation = ViewAnimation.SlideOutToTop;
-
+                
                 // Send a registration request to the server
                 HttpClient client = DI.GetService<HttpClient>();
 
@@ -135,7 +130,11 @@
                 }
                 // If registration was succesful
                 else
-                { 
+                {
+                    // Change to login page
+                    WaitForUnloadAnimation = true;
+                    ViewUnloadAnimation = ViewAnimation.SlideOutToTop;
+
                     // Move to login page
                     DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
                     {
