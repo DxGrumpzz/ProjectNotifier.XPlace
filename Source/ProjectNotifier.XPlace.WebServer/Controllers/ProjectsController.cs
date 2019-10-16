@@ -1,5 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.WebServer
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using ProjectNotifier.XPlace.Core;
     using System.Collections.Generic;
@@ -18,6 +19,7 @@
         }
 
             
+        [Authorize(Roles = "User")]
         [HttpGet("{count?}")]
         public IEnumerable<ProjectModel> Get(int count = 100)
         {
