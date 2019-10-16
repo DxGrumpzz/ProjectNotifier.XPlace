@@ -14,6 +14,7 @@ namespace ProjectNotifier.XPlace.WebServer
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     public class Startup
     {
@@ -91,9 +92,14 @@ namespace ProjectNotifier.XPlace.WebServer
             app.UseAuthentication();
 
             // Ensure database was created
-            dbContext.Database.EnsureCreated();
+            if (dbContext.Database.EnsureCreated())
+            {
+                // Add roles
+                provider.GetService<RoleManager<IdentityRole>>().CreateAsync(new IdentityRole("User")).Wait();
+                provider.GetService<RoleManager<IdentityRole>>().CreateAsync(new IdentityRole("Admin")).Wait();
+            };
 
-            provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMinutes(15).TotalMilliseconds, 
+            provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMilliseconds(15).TotalMilliseconds,
             async () =>
             {
                 //await projectList.UpdateListAsync();
@@ -102,12 +108,17 @@ namespace ProjectNotifier.XPlace.WebServer
 
             }, "ProjectLoader"));
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            // Add routing to make SignalR hubs work 
             app.UseRouting();
 
             app.UseEndpoints(config =>
             {
                 config.MapHub<ProjectsHub>("/ProjectsHub");
             });
+
 
             // Not using async await because it will probably cause a race condition.
             // In addition there is no point in async call here because here is where the server is being set-up
