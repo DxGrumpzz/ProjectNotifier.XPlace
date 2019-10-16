@@ -3,6 +3,7 @@ namespace ProjectNotifier.XPlace.WebServer
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -79,7 +80,7 @@ namespace ProjectNotifier.XPlace.WebServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider, ProjectList projectList, AppDBContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider, IHubContext<ProjectsHub> projectsHub, ProjectList projectList, AppDBContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -96,8 +97,16 @@ namespace ProjectNotifier.XPlace.WebServer
             async () =>
             {
                 await projectList.UpdateListAsync();
+
+                await projectsHub.Clients.All.SendAsync("ProjectListUpdated", projectList.Projects);
+
             }, "ProjectLoader"));
 
+
+            app.UseEndpoints(config =>
+            {
+                config.MapHub<ProjectsHub>("/ProjectsHub");
+            });
 
             // Not using async await because it will probably cause a race condition.
             // In addition there is no point in async call here because here is where the server is being set-up
