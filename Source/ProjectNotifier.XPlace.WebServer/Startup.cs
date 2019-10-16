@@ -99,7 +99,7 @@ namespace ProjectNotifier.XPlace.WebServer
                 provider.GetService<RoleManager<IdentityRole>>().CreateAsync(new IdentityRole("Admin")).Wait();
             };
 
-            provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMilliseconds(15).TotalMilliseconds,
+            provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMinutes(15).TotalMilliseconds,
             async () =>
             {
                 //await projectList.UpdateListAsync();
