@@ -7,9 +7,12 @@ namespace ProjectNotifier.XPlace.WebServer
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Console;
     using ProjectNotifier.XPlace.Core;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     public class Startup
     {
@@ -64,12 +67,19 @@ namespace ProjectNotifier.XPlace.WebServer
                 // Disable Endpoint routing for now, maybe I'll use it in the futures
                 config.EnableEndpointRouting = false;
             });
-            
+
+            // Add project list as a singelton
             services.AddSingleton(new ProjectList(_projectLoader));
+
+            // Add a timed notifier
+            services.AddSingleton(new Notifier());
+
+            // Add signlarR
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider, AppDBContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider, ProjectList projectList, AppDBContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -81,6 +91,13 @@ namespace ProjectNotifier.XPlace.WebServer
 
             // Ensure database was created
             dbContext.Database.EnsureCreated();
+
+            provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMinutes(15).TotalMilliseconds, 
+            async () =>
+            {
+                await projectList.UpdateListAsync();
+            }, "ProjectLoader"));
+
 
             // Not using async await because it will probably cause a race condition.
             // In addition there is no point in async call here because here is where the server is being set-up
