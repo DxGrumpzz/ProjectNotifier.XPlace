@@ -37,6 +37,12 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string _username;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool _hasLoginError;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string _loginErrorText;
+
         #endregion
 
 
@@ -70,7 +76,6 @@
             }
         }
 
-
         public bool LoginWorking
         {
             get => _loginWorking;
@@ -81,13 +86,33 @@
             }
         }
 
-
         public string Username
         {
             get => _username;
             set
             {
                 _username = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool HasLoginError
+        {
+            get => _hasLoginError;
+            set
+            {
+                _hasLoginError = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public string LoginErrorText
+        {
+            get => _loginErrorText;
+            set
+            {
+                _loginErrorText = value;
                 OnPropertyChanged();
             }
         }
@@ -133,7 +158,12 @@
 
                 if (response.IsSuccessStatusCode == false)
                 {
-                    return;
+                    // Display error
+                    HasLoginError = true;
+                    HasLoginError = false;
+
+                    // Display sign-in error
+                    LoginErrorText = "קרתה בעיה בהתחברות";
                 }
                 else
                 {
