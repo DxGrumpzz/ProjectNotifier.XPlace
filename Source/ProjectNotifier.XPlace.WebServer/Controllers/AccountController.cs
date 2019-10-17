@@ -14,14 +14,12 @@
     {
         private readonly SignInManager<AppUserModel> _signInManager;
         private readonly UserManager<AppUserModel> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ProjectList _projectList;
 
-        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, RoleManager<IdentityRole> roleManager, ProjectList projectList)
+        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-            _roleManager = roleManager;
             _projectList = projectList;
         }
 
@@ -72,7 +70,7 @@
             {
                 return new ContentResult()
                 {
-                    Content = "Password doesn't match confirmation password",
+                    Content = $"Registration failed. {Environment.NewLine}Password doesn't match confirmation password.",
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                 };
             };
