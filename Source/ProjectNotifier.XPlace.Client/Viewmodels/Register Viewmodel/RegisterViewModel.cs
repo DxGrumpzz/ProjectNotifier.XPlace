@@ -31,6 +31,12 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string _username = "";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool _hasError;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string _errorText;
+
         #endregion
 
 
@@ -84,6 +90,32 @@
         }
 
 
+        /// <summary>
+        /// A boolean flag that indicates if the registration failed
+        /// </summary>
+        public bool HasError
+        {
+            get => _hasError;
+            set
+            {
+                _hasError = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Contains the registration error
+        /// </summary>
+        public string ErrorText
+        {
+            get => _errorText;
+            set
+            {
+                _errorText = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
 
@@ -103,7 +135,6 @@
 
 
 
-
         #region Command callbacks
 
         private async Task ExecuteRegisterCommand(IHaveMultiplePassword passwords)
@@ -111,11 +142,12 @@
             await RunCommandAsync(() => RegisterWorking,
             async () =>
             {
-                
+
                 // Send a registration request to the server
                 HttpClient client = DI.GetService<HttpClient>();
 
-                var response = await client.PostAsJsonAsync("https://localhost:5001/Account/Register", new RegisterModel()
+                var response = await client.PostAsJsonAsync("https://localhost:5001/Account/Register", 
+                new RegisterModel()
                 {
                     Username = Username,
                     Password = passwords.Password.Unsecure(),
@@ -126,7 +158,15 @@
                 // If registration was unsuccesful
                 if (response.IsSuccessStatusCode == false)
                 {
+                    // Remove working overlay
                     RegisterWorking = false;
+
+                    // Display error overlay
+                    HasError = true;
+                    HasError = false;
+
+                    // Set text
+                    ErrorText = await response.Content.ReadAsStringAsync();
                 }
                 // If registration was succesful
                 else
