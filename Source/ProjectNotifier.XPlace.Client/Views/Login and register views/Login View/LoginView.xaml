@@ -44,8 +44,8 @@
 						      Direction="270"
 						      								  
 						      ShadowDepth="1"/>
+            
         </Border.Effect>
-
 
         <Grid>
 
@@ -158,7 +158,88 @@
             <!-- The working/loading indicator -->
             <local:WorkingIndicatorView Working="{Binding LoginWorking}"/>
 
+            <!-- Sign in error display -->
+            <Border CornerRadius="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}, 
+                    Path=CornerRadius}"
+                    
+                    Opacity="0"
+                    Visibility="Collapsed">
+
+                <Border.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.2"/>
+                </Border.Background>
+
+                <Border.Style>
+
+                    <Style TargetType="Border">
+
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding HasLoginError}" Value="True">
+
+                                <DataTrigger.EnterActions>
+
+                                    <BeginStoryboard>
+
+                                        <Storyboard>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
+
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:5.2" Value="{x:Static Visibility.Collapsed}"/>
+
+                                            </ObjectAnimationUsingKeyFrames>
+
+
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             
+                                                             To="1"
+                                                             
+                                                             Duration="0:0:0.2"/>
+
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             
+                                                             To="0"
+                                                             
+                                                             BeginTime="0:0:5"
+                                                             
+                                                             Duration="0:0:0.2"/>
+
+                                        </Storyboard>
+
+                                    </BeginStoryboard>
+                                    
+                                </DataTrigger.EnterActions>
+
+                            </DataTrigger>
+
+                        </Style.Triggers>
+
+                    </Style>
+
+                </Border.Style>
+
+                <Border Background="White"
+                        
+                        Margin="10,0"
+                        
+                        VerticalAlignment="Center"
+                        CornerRadius="8">
+
+                    <!-- A text that displays the login error -->
+                    <TextBlock Text="{Binding LoginErrorText}"
+                               
+                               TextWrapping="Wrap"
+                               
+                               TextAlignment="Center"/>
+
+                </Border>
+
+            </Border>
+
         </Grid>
 
     </Border>
+
 </local:BaseView>
