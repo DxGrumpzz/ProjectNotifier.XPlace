@@ -249,7 +249,7 @@
                         Margin="10,0"
                         
                         VerticalAlignment="Center"
-                        CornerRadius="8">
+                        CornerRadius="4">
 
                     <!-- A text that displays the error -->
                     <TextBlock Text="{Binding ErrorText}"
