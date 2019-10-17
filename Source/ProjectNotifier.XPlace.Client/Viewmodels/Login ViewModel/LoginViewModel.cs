@@ -38,10 +38,10 @@
         private string _username;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool _hasLoginError;
+        private bool _hasError;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string _loginErrorText;
+        private string _errorText;
 
         #endregion
 
@@ -96,23 +96,22 @@
             }
         }
 
-        public bool HasLoginError
+        public bool HasError
         {
-            get => _hasLoginError;
+            get => _hasError;
             set
             {
-                _hasLoginError = value;
+                _hasError = value;
                 OnPropertyChanged();
             }
         }
 
-
-        public string LoginErrorText
+        public string ErrorText
         {
-            get => _loginErrorText;
+            get => _errorText;
             set
             {
-                _loginErrorText = value;
+                _errorText = value;
                 OnPropertyChanged();
             }
         }
@@ -158,12 +157,15 @@
 
                 if (response.IsSuccessStatusCode == false)
                 {
+                    // Remove working overlay
+                    LoginWorking = false;
+
                     // Display error
-                    HasLoginError = true;
-                    HasLoginError = false;
+                    HasError = true;
+                    HasError = false;
 
                     // Display sign-in error
-                    LoginErrorText = "קרתה בעיה בהתחברות";
+                    ErrorText = "שם משתמש או סיסמא לא נכונים";
                 }
                 else
                 {

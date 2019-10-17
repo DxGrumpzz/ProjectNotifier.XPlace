@@ -175,7 +175,8 @@
 
                         <Style.Triggers>
 
-                            <DataTrigger Binding="{Binding HasLoginError}" Value="True">
+                            <!-- When HasError is true  -->
+                            <DataTrigger Binding="{Binding HasError}" Value="True">
 
                                 <DataTrigger.EnterActions>
 
@@ -185,19 +186,23 @@
 
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
 
+                                                <!-- Set control visibility to visible-->
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
 
+                                                <!-- After some time set it back to collpased-->
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:5.2" Value="{x:Static Visibility.Collapsed}"/>
 
                                             </ObjectAnimationUsingKeyFrames>
 
 
+                                            <!-- Fade in -->
                                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                              
                                                              To="1"
                                                              
                                                              Duration="0:0:0.2"/>
 
+                                            <!-- Fade out after a couple of seconds -->
                                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                              
                                                              To="0"
@@ -225,10 +230,10 @@
                         Margin="10,0"
                         
                         VerticalAlignment="Center"
-                        CornerRadius="8">
+                        CornerRadius="4">
 
                     <!-- A text that displays the login error -->
-                    <TextBlock Text="{Binding LoginErrorText}"
+                    <TextBlock Text="{Binding ErrorText}"
                                
                                TextWrapping="Wrap"
                                
