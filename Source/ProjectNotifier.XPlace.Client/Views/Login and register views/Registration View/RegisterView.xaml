@@ -249,14 +249,15 @@
                         Margin="10,0"
                         
                         VerticalAlignment="Center"
-                        CornerRadius="4">
+                        CornerRadius="8">
 
                     <!-- A text that displays the error -->
                     <TextBlock Text="{Binding ErrorText}"
-                               
+                               FontFamily="Open Sans Hebrew"
                                TextWrapping="Wrap"
-                               
-                               TextAlignment="Center"/>
+                               TextAlignment="Center"
+                               FontWeight="Light"
+                               FontSize="15"/>
 
                 </Border>
 
