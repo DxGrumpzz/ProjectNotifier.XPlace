@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using ProjectNotifier.XPlace.Core;
     using System;
+    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -35,7 +36,7 @@
         public async Task<ActionResult<LoginResponseModel>> LoginAsync(LoginRequestModel loginModel)
         {
             // Attemp user sing in
-            var singInResult = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
+            var singInResult = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, false, false);
 
             // If login failed
             if (singInResult.Succeeded == false)
@@ -43,7 +44,7 @@
                 // Return a result indicating that the login failed
                 return new ContentResult()
                 {
-                    Content = "Username or password was incorrect",
+                    Content = $".התחברות נכשלה{Environment.NewLine}שם המשתמש או סיסמא אינם נכונים",
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                 };
             }
@@ -70,7 +71,7 @@
             {
                 return new ContentResult()
                 {
-                    Content = $"Registration failed. {Environment.NewLine}Password doesn't match confirmation password.",
+                    Content = $".הרשמה נכשלה{Environment.NewLine}{new HebrewIdentityErrorDescriber().PasswordMismatch().Description}",
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                 };
             };
@@ -83,6 +84,7 @@
             // Attemp to register the user
             var createResult = await _userManager.CreateAsync(userModel, registerModel.Password);
 
+            
 
             // If user creation failed
             if (createResult.Succeeded == false)
@@ -90,7 +92,7 @@
                 // Return a result containing registration erorrs failed
                 return new ContentResult()
                 {
-                    Content = $"Registration failed. {Environment.NewLine}{createResult.Errors.ToErrorString()}",
+                    Content = $".הרשמה נכשלה{Environment.NewLine}{createResult.Errors.ToErrorString()}",
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                 };
             }
