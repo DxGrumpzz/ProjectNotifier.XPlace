@@ -102,7 +102,7 @@
                 // Add newly registered user to User role
                 await _userManager.AddToRoleAsync(userModel, "User");
 
-                return Content("Registerd succesfully");
+                return Content("נרשמת בהצלחה");
             };
         }
 
