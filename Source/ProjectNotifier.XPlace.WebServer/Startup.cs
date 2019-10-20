@@ -46,9 +46,13 @@ namespace ProjectNotifier.XPlace.WebServer
 
             // Add identity sotres for password hashers, UserManagers, and roles
             services.AddIdentity<AppUserModel, IdentityRole>()
+            // Add Hebrew identityErrors to error describer
+            .AddErrorDescriber<HebrewIdentityErrorDescriber>()
+            // Add AppDBContext as the identity provider
             .AddEntityFrameworkStores<AppDBContext>()
             // Add a provider that generates unique tokens for things like user's profile update requests
             .AddDefaultTokenProviders();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -63,6 +67,7 @@ namespace ProjectNotifier.XPlace.WebServer
                 };
             });
 
+
             // Add controllers without views
             services.AddControllers(config =>
             {
@@ -70,11 +75,14 @@ namespace ProjectNotifier.XPlace.WebServer
                 config.EnableEndpointRouting = false;
             });
 
+
             // Add project list as a singelton
             services.AddSingleton(new ProjectList(_projectLoader));
 
+
             // Add a timed notifier
             services.AddSingleton(new Notifier());
+
 
             // Add signlarR
             services.AddSignalR();
