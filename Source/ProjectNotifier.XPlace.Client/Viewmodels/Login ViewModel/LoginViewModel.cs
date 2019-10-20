@@ -165,7 +165,7 @@
                     HasError = false;
 
                     // Display sign-in error
-                    ErrorText = "שם משתמש או סיסמא לא נכונים";
+                    ErrorText = await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
