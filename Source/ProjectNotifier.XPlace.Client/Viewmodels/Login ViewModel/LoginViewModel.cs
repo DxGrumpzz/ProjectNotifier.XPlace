@@ -35,7 +35,7 @@
         private bool _loginWorking;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string _username;
+        private string _username = "";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _hasError;
