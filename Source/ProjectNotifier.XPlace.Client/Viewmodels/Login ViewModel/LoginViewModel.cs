@@ -182,6 +182,8 @@
                     // Read response content
                     var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
+                    // Update cache
+                    DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
 
                     // Move page out of view
                     UnloadAnimation = ViewAnimation.SlideOutToTop;

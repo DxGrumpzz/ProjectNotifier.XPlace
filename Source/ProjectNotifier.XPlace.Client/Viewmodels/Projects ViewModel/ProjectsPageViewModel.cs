@@ -52,33 +52,26 @@
             SettingsViewModel = new SettingsViewModel(DI.ClientAppSettings());
 
             // Bind settings view events
-            SettingsViewModel.ProjectCountSetting.SaveChangesAction += async (value) =>
+            SettingsViewModel.ProjectCountSetting.SaveChangesAction += (value) =>
             {
                 // Request new project list
-                var response = await DI.GetService<HttpClient>().GetAsync($"Https://LocalHost:5001/Projects/{value.Value}");
+                ProjectList = new ObservableCollection<ProjectItemViewModel>();
 
-                // If an error occured
-                if (response.IsSuccessStatusCode == false)
-                    return;
-                else
-                {
-                    // Reset project list
-                    ProjectList = new ObservableCollection<ProjectItemViewModel>();
+                // Display loading text
+                //IsLoading = true
 
-                    // Display loading text
-                    //IsLoading = true
-
-                    // Load new project list
-                    ProjectList = new ObservableCollection<ProjectItemViewModel>(
-                        (await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>())
-                        .Select((project) => new ProjectItemViewModel()
-                        {
-                            ProjectModel = project,
-                        })
-                        .AsEnumerable());
-                }
+                // Load new project list
+                ProjectList = new ObservableCollection<ProjectItemViewModel>(
+                 // Get cached project list
+                 DI.GetService<IClientCache>().ProjectListCache
+                 // Take however necessary
+                 .Take(value.Value)
+                 // Select ProjectModel list to a list of ProjectItemViewModel
+                 .Select((project) => new ProjectItemViewModel()
+                 {
+                     ProjectModel = project,
+                 }));
             };
-
 
 
             // Open settings page when user clicks the settings button
@@ -100,6 +93,10 @@
 
         private void ProjectListUpdated(IEnumerable<ProjectModel> projects)
         {
+            // Update project list cache 
+            DI.GetService<IClientCache>().ProjectListCache = projects;
+
+
             // Reset project list
             ProjectList = new ObservableCollection<ProjectItemViewModel>();
 
