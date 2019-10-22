@@ -147,7 +147,16 @@
             return new IdentityError()
             {
                 Code = nameof(PasswordTooShort),
-                Description = $".({length}) סיסמא קצרה מדי"
+                Description = "סיסמא קצרה מדי, נדרש לפחות" + $"{length} " + "אותיות.", 
+            };
+        }
+
+        public override IdentityError PasswordRequiresUniqueChars(int uniqueChars)
+        {
+            return new IdentityError()
+            {
+                Code = nameof(PasswordRequiresUniqueChars),
+                Description = "סיסמא לא תקינה, נדרש לפחות" + $"{uniqueChars} " + "אותיות יחודיות.",
             };
         }
 
