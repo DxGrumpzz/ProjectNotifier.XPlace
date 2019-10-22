@@ -79,6 +79,8 @@
 
             serviceCollection.AddSingleton<IServerConnection>(new ServerConnection());
 
+            serviceCollection.AddSingleton<IClientCache, ClientCache>();
+
             // Build provider
             DI.SetupDI(serviceCollection.BuildServiceProvider());
 
