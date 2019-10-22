@@ -44,7 +44,7 @@
                 // Return a result indicating that the login failed
                 return new ContentResult()
                 {
-                    Content = $".התחברות נכשלה{Environment.NewLine}שם המשתמש או סיסמא אינם נכונים",
+                    Content = "התחברות נכשלה." + $"{Environment.NewLine}" + "שם המשתמש או סיסמא אינם נכונים.",
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                 };
             }
@@ -71,7 +71,7 @@
             {
                 return new ContentResult()
                 {
-                    Content = $".הרשמה נכשלה{Environment.NewLine}{new HebrewIdentityErrorDescriber().PasswordMismatch().Description}",
+                    Content = "הרשמה נכשלה." + $"{Environment.NewLine}{new HebrewIdentityErrorDescriber().PasswordMismatch().Description}",
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                 };
             };
@@ -92,7 +92,7 @@
                 // Return a result containing registration erorrs failed
                 return new ContentResult()
                 {
-                    Content = $".הרשמה נכשלה{Environment.NewLine}{createResult.Errors.ToErrorString()}",
+                    Content = "הרשמה נכשלה." + $"{Environment.NewLine}{createResult.Errors.ToErrorString()}",
                     StatusCode = (int)HttpStatusCode.Unauthorized,
                 };
             }
