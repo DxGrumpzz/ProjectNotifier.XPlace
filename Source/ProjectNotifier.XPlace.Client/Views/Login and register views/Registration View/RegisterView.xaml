@@ -257,7 +257,9 @@
                                TextWrapping="Wrap"
                                TextAlignment="Center"
                                FontWeight="Light"
-                               FontSize="15"/>
+                               FontSize="15"
+                               
+                               FlowDirection="RightToLeft"/>
 
                 </Border>
 
