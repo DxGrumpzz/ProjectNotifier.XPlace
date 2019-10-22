@@ -49,6 +49,7 @@
 
         #endregion
 
+    
         #region Public events
 
         /// <summary>
@@ -63,6 +64,7 @@
 
         #endregion
 
+   
         #region Commands
 
         public RelayCommand SaveChangesCommnad { get; }
