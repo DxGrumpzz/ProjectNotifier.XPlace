@@ -20,5 +20,7 @@
         }
 
         public SecureString Password => PasswordField.SecurePassword;
+
+        public SecureString ConfirmPassword => null;
     };
 };

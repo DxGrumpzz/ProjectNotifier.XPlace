@@ -6,7 +6,7 @@
     /// <summary>
     /// Interaction logic for RegisterView.xaml
     /// </summary>
-    public partial class RegisterView : BaseView<RegisterViewModel>, IHaveMultiplePassword
+    public partial class RegisterView : BaseView<RegisterViewModel>, IHavePassword
     {
         public RegisterView()
         {
