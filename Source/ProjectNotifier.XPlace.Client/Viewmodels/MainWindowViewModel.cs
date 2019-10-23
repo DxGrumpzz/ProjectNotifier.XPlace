@@ -1,11 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
-    using System;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class MainWindowViewModel : BaseViewModel
     {
@@ -15,11 +11,8 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private MainWindowModel _model;
 
-        //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        //private bool _isLoading = true;
-
-        //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        //private ProjectListViewModel projectListViewModel;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private BaseView _currentPage;
 
         private readonly ClientAppSettingsModel _settings;
 
@@ -28,6 +21,9 @@
 
         #region Public properties
 
+        /// <summary>
+        /// A model associated with this view
+        /// </summary>
         public MainWindowModel Model
         {
             get => _model;
@@ -38,27 +34,9 @@
             }
         }
 
-        //public ProjectListViewModel ProjectList
-        //{
-        //    get => projectListViewModel;
-        //    set
-        //    {
-        //        projectListViewModel = value;
-        //        OnPropertyChanged();
-
-        //    }
-        //}
-
-        //public ClientAppSettingsModel ClientAppSettingsModel { get; }
-
-        //public SettingsViewModel SettingsViewModel { get; }
-
-
-
-
-
-
-        private BaseView _currentPage;
+        /// <summary>
+        /// The currently displayed view
+        /// </summary>
         public BaseView CurrentPage
         {
             get => _currentPage;
@@ -70,121 +48,23 @@
         }
 
 
-        //public bool IsLoading
-        //{
-        //    get => _isLoading;
-        //    private set
-        //    {
-        //        _isLoading = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
         #endregion
 
 
-        #region Commands
+        public MainWindowViewModel()
+        {
 
-        public RelayCommand OpenSettingsCommand { get; }
-
-        public RelayCommand Command { get; }
-
-        #endregion
-
-
+        }
 
         public MainWindowViewModel(ClientAppSettingsModel settings)
         {
-            //ClientAppSettingsModel = clientAppSettingsModel;
-            //SettingsViewModel = new SettingsViewModel(clientAppSettingsModel);
             _settings = settings;
-
-
-            /*
-            CurrentPage = new LoginView()
-            {
-                ViewModel = new LoginViewModel(projectLoader),
-            };
-            */
 
             CurrentPage = new LoginView()
             {
                 ViewModel = new LoginViewModel(_settings),
             };
 
-
-            //Task.Run(SetupRSSProjectListAsync);
-            //ProjectLoader.StartAutoUpdating();
-
-
-            //OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
-            /*
-                        // When project count setting is saved...
-                        SettingsViewModel.ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (value) =>
-                        {
-                            // Reset project list
-                            ProjectList.ProjectList = new ObservableCollection<ProjectItemViewModel>();
-
-                            // Display loading text
-                            IsLoading = true;
-
-                            // Load new project list
-                            await SetupRSSProjectListAsync();
-                        });
-            */
-
-            //ProjectLoader.ProjectsListUpdated += (newProjectList) =>
-            //{
-            //    var currentProjectListFirstProject = ProjectList.ProjectList.First().ProjectModel;
-            //    var newProjectListFirstProject = newProjectList.ProjectList.First().ProjectModel;
-
-            //    // Comapre the 2 projects 
-            //    if (currentProjectListFirstProject.ProjectID != newProjectListFirstProject.ProjectID)
-            //    {
-            //        // Find the newer projects
-            //        var newProjectsList = newProjectList.ProjectList
-            //        .Where(model =>
-            //        {
-            //            return model.ProjectModel.ProjectID > currentProjectListFirstProject.ProjectID;
-            //        })
-            //        // Convert results into ProjectModel
-            //        .Select(result => new ProjectModel()
-            //        {
-            //            Title = result.ProjectModel.Title,
-            //            Link = result.ProjectModel.Link,
-            //        });
-
-
-            //        // update list
-            //        ProjectList = new ProjectListViewModel();
-            //        IsLoading = true;
-            //        ProjectList = newProjectList;
-            //        IsLoading = false;
-
-
-            //        // Notify user for the new projects
-            //        DI.UIManager().ShowProjectNotification(newProjectsList);
-            //    };
-            //};
         }
-
-
-        #region Private methods
-
-        /// <summary>
-        /// Asynchrounsly loads rss feed content
-        /// </summary>
-        /// <returns></returns>
-        //private async Task SetupRSSProjectListAsync()
-        //{
-            //// Load projects
-            //await Task.Run(() => ProjectList = ProjectLoader.LoadProjects());
-
-            //// Finished loading content
-            //IsLoading = false;
-        //}
-
-        #endregion
-
-    }
-}
+    };
+};
