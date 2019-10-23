@@ -8,5 +8,8 @@
     public interface IHavePassword
     {
         public SecureString Password { get; }
+
+        public SecureString ConfirmPassword { get; }
+
     };
 }
