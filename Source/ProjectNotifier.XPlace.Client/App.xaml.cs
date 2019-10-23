@@ -75,7 +75,6 @@
                 },
             });
 
-            serviceCollection.AddSingleton<HttpClient>();
 
             serviceCollection.AddSingleton<IServerConnection, ServerConnection>();
 
