@@ -12,7 +12,7 @@
 		/// <summary>
 		/// Main provider
 		/// </summary>
-		public ServiceProvider Provider { get; }
+		public static ServiceProvider Provider { get; }
 
 
 		/// <summary>
@@ -20,14 +20,18 @@
 		/// </summary>
 		/// <typeparam name="TService"> The type of service </typeparam>
 		/// <returns></returns>
-		public TService GetService<TService>();
+		public static TService GetService<TService>()
+        { 
+            return default; 
+        }
 
 
 		/// <summary>
 		/// Sets up the injecting service provider 
 		/// </summary>
 		/// <param name="provider"></param>
-		public void SetupDI(ServiceProvider provider);
-
+		public static void SetupDI(ServiceProvider provider)
+        {
+        }
 	};
-}
+};
