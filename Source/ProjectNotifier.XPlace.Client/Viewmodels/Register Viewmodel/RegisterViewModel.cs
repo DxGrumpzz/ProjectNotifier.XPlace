@@ -122,7 +122,7 @@
         #region Commands
 
         public RelayCommand GotoLoginPageCommand { get; }
-        public RelayCommand<IHaveMultiplePassword> RegisterCommand { get; }
+        public RelayCommand<IHavePassword> RegisterCommand { get; }
 
         #endregion
 
@@ -130,14 +130,14 @@
         public RegisterViewModel()
         {
             GotoLoginPageCommand = new RelayCommand(ExecuteGotoLoginPageCommand);
-            RegisterCommand = new RelayCommand<IHaveMultiplePassword>(ExecuteRegisterCommand);
+            RegisterCommand = new RelayCommand<IHavePassword>(ExecuteRegisterCommand);
         }
 
 
 
         #region Command callbacks
 
-        private async Task ExecuteRegisterCommand(IHaveMultiplePassword passwords)
+        private async Task ExecuteRegisterCommand(IHavePassword passwords)
         {
             await RunCommandAsync(() => RegisterWorking,
             async () =>
