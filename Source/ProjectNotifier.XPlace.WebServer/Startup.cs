@@ -118,7 +118,7 @@ namespace ProjectNotifier.XPlace.WebServer
 
             // Not using async await because it will probably cause a race condition.
             // In addition there is no point in async call here because here is where the server is being set-up
-            provider.GetService<ProjectList>().UpdateListAsync().Wait();
+            // provider.GetService<ProjectList>().UpdateListAsync().Wait();
 
             // Add notifications
             provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMinutes(15).TotalMilliseconds,
