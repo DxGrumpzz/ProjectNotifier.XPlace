@@ -8,13 +8,8 @@ namespace ProjectNotifier.XPlace.WebServer
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Console;
     using ProjectNotifier.XPlace.Core;
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading.Tasks;
 
     public class Startup
     {
@@ -97,7 +92,20 @@ namespace ProjectNotifier.XPlace.WebServer
             }
 
             // Identity setup
+            // Add routing to make SignalR hubs work 
+            app.UseRouting();
+
             app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(config =>
+            {
+                config.MapHub<ProjectsHub>("/ProjectsHub");
+            });
+
+
+            app.UseMvc();
+
 
             // Ensure database was created
             if (dbContext.Database.EnsureCreated())
@@ -107,6 +115,12 @@ namespace ProjectNotifier.XPlace.WebServer
                 provider.GetService<RoleManager<IdentityRole>>().CreateAsync(new IdentityRole("Admin")).Wait();
             };
 
+
+            // Not using async await because it will probably cause a race condition.
+            // In addition there is no point in async call here because here is where the server is being set-up
+            provider.GetService<ProjectList>().UpdateListAsync().Wait();
+
+            // Add notifications
             provider.GetService<Notifier>().Notifications.Add(new NotificationItem((int)TimeSpan.FromMinutes(15).TotalMilliseconds,
             async () =>
             {
@@ -115,24 +129,6 @@ namespace ProjectNotifier.XPlace.WebServer
                 await projectsHub.Clients.All.SendAsync("ProjectListUpdated", projectList.Projects);
 
             }, "ProjectLoader"));
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            // Add routing to make SignalR hubs work 
-            app.UseRouting();
-
-            app.UseEndpoints(config =>
-            {
-                config.MapHub<ProjectsHub>("/ProjectsHub");
-            });
-
-
-            // Not using async await because it will probably cause a race condition.
-            // In addition there is no point in async call here because here is where the server is being set-up
-            provider.GetService<ProjectList>().UpdateListAsync().Wait();
-
-            app.UseMvc();
         }
-    }
-}
+    };
+};
