@@ -53,7 +53,7 @@
 
 #if DEBUG == TRUE
             // If in Debug attach console  logger
-            serviceCollection.AddSingleton<ILoggerBase>(new ConsoleLogger());
+            serviceCollection.AddSingleton<ILoggerBase, ConsoleLogger>();
 #else
 			// If in Release attach file logger
 			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
@@ -65,7 +65,7 @@
 
             serviceCollection.AddSingleton(new JsonConfigManager(AppFiles.ConfigFileName));
 
-            serviceCollection.AddSingleton<IUIManager>(new UIManager());
+            serviceCollection.AddSingleton<IUIManager, UIManager>();
 
             serviceCollection.AddSingleton(new MainWindowViewModel(clientAppSettingsModel)
             {
@@ -75,9 +75,9 @@
                 },
             });
 
-            serviceCollection.AddSingleton(new HttpClient());
+            serviceCollection.AddSingleton<HttpClient>();
 
-            serviceCollection.AddSingleton<IServerConnection>(new ServerConnection());
+            serviceCollection.AddSingleton<IServerConnection, ServerConnection>();
 
             serviceCollection.AddSingleton<IClientCache, ClientCache>();
 
