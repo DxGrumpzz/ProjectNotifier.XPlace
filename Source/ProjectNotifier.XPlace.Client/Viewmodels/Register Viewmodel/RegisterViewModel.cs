@@ -144,9 +144,8 @@
             {
 
                 // Send a registration request to the server
-                HttpClient client = DI.GetService<HttpClient>();
-
-                var response = await client.PostAsJsonAsync("https://localhost:5001/Account/Register", 
+                var response = await DI.GetService<IServerConnection>().Client
+                .PostAsJsonAsync("https://localhost:5001/Account/Register", 
                 new RegisterModel()
                 {
                     Username = Username,
