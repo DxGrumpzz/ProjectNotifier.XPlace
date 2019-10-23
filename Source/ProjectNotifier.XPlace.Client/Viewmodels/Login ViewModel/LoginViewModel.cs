@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR.Client;
+    using System.Net;
 
 
     /// <summary>
@@ -145,9 +146,7 @@
             async () =>
             {
 
-                HttpClient httpClient = DI.GetService<HttpClient>();
-
-                var response = await httpClient.PostAsJsonAsync("https://localhost:5001/Account/Login",
+                var response = await DI.GetService<IServerConnection>().Client.PostAsJsonAsync("https://localhost:5001/Account/Login",
                 new LoginRequestModel()
                 {
                     Username = Username,
@@ -173,7 +172,11 @@
                     await (DI.GetService<IServerConnection>().ProjectsHubConnection =
                     new HubConnectionBuilder()
                     // Connect to project hub url
-                    .WithUrl("Https://LocalHost:5001/ProjectsHub")
+                    .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
+                    {
+                        // Authorize user with cookies
+                        options.Cookies = DI.GetService<IServerConnection>().Cookies;
+                    })
                     // Build hub connection
                     .Build())
                     // Start the connection
