@@ -115,7 +115,7 @@
                 DI.ClientAppSettings().ProjectsToDisplay = setting.Value;
 
                 // Update config value
-                DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.ProjectsToDisplay), setting.Value);
+                //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.ProjectsToDisplay), setting.Value);
 
                 // Show settings saved notification
                 await ShowSavedNOtificationAsync();
@@ -152,7 +152,7 @@
                 DI.ClientAppSettings().KeepNotificationOpenSeconds = setting.Value;
 
                 // Update config value
-                DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds), setting.Value);
+                //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds), setting.Value);
 
                 // Show settings saved notification
                 await ShowSavedNOtificationAsync();
