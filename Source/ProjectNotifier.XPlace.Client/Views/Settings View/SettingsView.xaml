@@ -9,7 +9,7 @@
 			 
 			 TextBlock.FontFamily="Open Sans Hebrew"
 			 
-			UseLayoutRounding="True"
+			 UseLayoutRounding="True"
 			 
 			 d:DesignHeight="500" 
 			 d:DesignWidth="600">
@@ -241,7 +241,10 @@ must be created -->
                     </Grid.ColumnDefinitions>
 
 
-                    <StackPanel Grid.Column="2">
+                    <StackPanel Grid.Column="2"
+                                
+                                TextBlock.FontWeight="Light"
+								TextBlock.FontSize="15">
 
                         <!-- App settings title -->
                         <TextBlock Text="הגדרות תוכנה"
@@ -290,19 +293,41 @@ must be created -->
 													Margin="0,0,5,0"/>
 
                             <TextBlock Text="כמה שניות להציג הודעות"
-									   FontWeight="Light"
-									   FontSize="15"
-					      			   
+									  
 									   Grid.Column="1"
 									      
 									   Foreground="#111"/>
 
                         </Grid>
 
+                        <!-- Rememeber me setting -->
+                        <Grid>
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="AUTO"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <CheckBox VerticalAlignment="Center"
+                                      Margin="0,2,25,0"
+                                      HorizontalAlignment="Center"
+                                      
+                                      IsChecked="{Binding RememberMe, 
+                                                  UpdateSourceTrigger=PropertyChanged,
+                                                  Mode=TwoWay}"/>
+                            
+                            <TextBlock Text="התחברות אוטומטית"
+                                       
+                                       Grid.Column="1"
+                                       HorizontalAlignment="Right"/>
+
+                        </Grid>
+                        
                     </StackPanel>
                 </Grid>
 
-
+                
                 <!-- Settings saved notification -->
                 <Border Grid.Row="2" 
 						HorizontalAlignment="Center"
@@ -339,7 +364,7 @@ must be created -->
 
                             <Style.Triggers>
 
-                                <DataTrigger Binding="{Binding ShowSavedNotification}" Value="True">
+                                <DataTrigger Binding="{Binding SavedNotificationOpen}" Value="True">
 
                                     <DataTrigger.EnterActions>
 
@@ -389,6 +414,7 @@ must be created -->
 							   VerticalAlignment="Center"/>
 
                 </Border>
+                
             </Grid>
         </Border>
     </Grid>
