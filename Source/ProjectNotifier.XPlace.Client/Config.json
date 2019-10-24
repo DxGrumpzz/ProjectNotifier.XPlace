@@ -6,5 +6,5 @@
     "KeepNotificationOpenSeconds": 5,
 
     // Remeber user login info and auto login
-    "RememberMe": "True:"
+    "RememberMe": "True"
 }
