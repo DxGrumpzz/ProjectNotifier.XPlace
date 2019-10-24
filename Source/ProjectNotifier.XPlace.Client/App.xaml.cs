@@ -1,11 +1,10 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using ProjectNotifier.XPlace.Core;
-    using System;
-    using System.Net.Http;
     using System.Windows;
+
+    using Microsoft.Extensions.DependencyInjection;
+
+    using ProjectNotifier.XPlace.Core;
 
 
     /// <summary>
@@ -32,22 +31,18 @@
 
             base.OnStartup(e);
 
-            var configurationBuilder = new ConfigurationBuilder()
-            .AddJsonFile(AppFiles.ConfigFileName, false, true)
-            .Build();
 
+        
             // Pre provider building objects.
+            
+            // Main config
+            IConfig config = new JsonConfig(AppFiles.ConfigFileName);
+            
             // Objects that *will* be used as the main instance for DI but are necessary for DI object initializtion
-            var clientAppSettingsModel = new ClientAppSettingsModel()
-            {
-                // Get number of project to display
-                ProjectsToDisplay = Convert.ToInt32(configurationBuilder.GetSection(nameof(ClientAppSettingsModel.ProjectsToDisplay)).Value),
+            var clientAppSettingsModel = new ClientAppSettingsModel(config);
 
-                // Get number of seconds to display notificaiton
-                KeepNotificationOpenSeconds = Convert.ToInt32(configurationBuilder.GetSection(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds)).Value),
-            };
 
-            // Bind services
+            // Add services
             ServiceCollection serviceCollection = new ServiceCollection();
 
 
@@ -59,11 +54,9 @@
 			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
 #endif
 
-            serviceCollection.AddSingleton(configurationBuilder);
-
             serviceCollection.AddSingleton(clientAppSettingsModel);
 
-            serviceCollection.AddSingleton(new JsonConfigManager(AppFiles.ConfigFileName));
+            serviceCollection.AddSingleton(config);
 
             serviceCollection.AddSingleton<IUIManager, UIManager>();
 
