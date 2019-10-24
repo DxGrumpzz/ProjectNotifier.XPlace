@@ -3,5 +3,8 @@
 	"ProjectsToDisplay": 25,
 
 	// How long to keep the new project notification open for
-	"KeepNotificationOpenSeconds": 5
+    "KeepNotificationOpenSeconds": 5,
+
+    // Remeber user login info and auto login
+    "RememberMe": "True:"
 }
