@@ -2,7 +2,6 @@
 {
     using ProjectNotifier.XPlace.Core;
     using System;
-    using System.Diagnostics;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -19,21 +18,35 @@
 
         private bool _isOpening;
 
+        private bool _rememberMe;
+
+        /// <summary>
+        /// Application settings
+        /// </summary>
+        private ClientAppSettingsModel _clientAppSettingsModel;
+
         #endregion
 
 
         #region Public properties
 
-        /// <summary>
-        /// Application settings
-        /// </summary>
-        public ClientAppSettingsModel ClientAppSettingsModel { get; private set; }
 
+
+        /// <summary>
+        /// How many projects are currently being disaplyed
+        /// </summary>
         public TextEntryViewModel<int> ProjectCountSetting { get; private set; }
+
+        /// <summary>
+        /// How long the new projects notification will be displayed for
+        /// </summary>
         public TextEntryViewModel<int> NotificationDispalySecondsSetting { get; private set; }
 
 
-        public bool ShowSavedNotification
+        /// <summary>
+        /// A boolean flag that indicates if the settings saved notification is open
+        /// </summary>
+        public bool SavedNotificationOpen
         {
             get => _isSaved;
             private set
@@ -42,6 +55,26 @@
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// A boolean flag that indiactes if the user will automatically login next time the app opens
+        /// </summary>
+        public bool RememberMe
+        {
+            get => _rememberMe;
+            set
+            {
+                _rememberMe = value;
+                OnPropertyChanged();
+
+                // Update config value
+                _clientAppSettingsModel.RememberMe = value;
+
+                // Show saved notification
+                Task.Run(ShowSavedNOtificationAsync);
+            }
+        }
+
 
         /// <summary>
         /// A boolean flag that indicates if this control is open or in view
@@ -65,22 +98,24 @@
 
         public SettingsViewModel(ClientAppSettingsModel settings)
         {
-            ClientAppSettingsModel = settings;
+            _clientAppSettingsModel = settings;
 
 
-            ProjectCountSetting = new TextEntryViewModel<int>(ClientAppSettingsModel.ProjectsToDisplay)
+            ProjectCountSetting = new TextEntryViewModel<int>(settings.ProjectsToDisplay)
             {
                 IsNumericOnly = true,
 
                 MaxLength = 3,
             };
-          
-            NotificationDispalySecondsSetting = new TextEntryViewModel<int>(ClientAppSettingsModel.KeepNotificationOpenSeconds)
+
+            NotificationDispalySecondsSetting = new TextEntryViewModel<int>(settings.KeepNotificationOpenSeconds)
             {
                 IsNumericOnly = true,
 
                 MaxLength = 2,
             };
+
+            RememberMe = settings.RememberMe;
 
 
             // Bind events
@@ -200,14 +235,17 @@
         /// </summary>
         private async Task ShowSavedNOtificationAsync()
         {
+            if (SavedNotificationOpen == true)
+                return;
+
             // Show saved notification
-            ShowSavedNotification = true;
+            SavedNotificationOpen = true;
 
             // Wait a-bit
             await Task.Delay(1500);
 
             // Hide notification
-            ShowSavedNotification = false;
+            SavedNotificationOpen = false;
         }
 
         #endregion
