@@ -49,7 +49,7 @@
 
         public ProjectsPageViewModel()
         {
-            SettingsViewModel = new SettingsViewModel(DI.ClientAppSettings());
+            SettingsViewModel = new SettingsViewModel();
 
             // Bind settings view events
             SettingsViewModel.ProjectCountSetting.SaveChangesAction += (value) =>

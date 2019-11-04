@@ -177,7 +177,7 @@
                     // Move to login page
                     DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
                     {
-                        ViewModel = new LoginViewModel(DI.GetService<ClientAppSettingsModel>())
+                        ViewModel = new LoginViewModel(/*DI.GetService<ClientAppSettingsModel>()*/)
                         {
                             Username = Username,
                         },
@@ -191,7 +191,7 @@
             // Change to login page
             DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
             {
-                ViewModel = new LoginViewModel(DI.GetService<ClientAppSettingsModel>())
+                ViewModel = new LoginViewModel(/*DI.GetService<ClientAppSettingsModel>()*/)
             };
         }
 

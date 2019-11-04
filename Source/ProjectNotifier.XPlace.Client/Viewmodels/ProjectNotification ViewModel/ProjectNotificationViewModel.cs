@@ -106,15 +106,13 @@
 		#endregion
 
 
-		public ProjectNotificationViewModel() { }
 
-
-		public ProjectNotificationViewModel(ClientAppSettingsModel settings)
+		public ProjectNotificationViewModel()
 		{
-			_settings = settings;
+			_settings = DI.GetService< ClientAppSettingsModel>();
 
 
-			CloseWindowCommand = new RelayCommand(async () =>
+            CloseWindowCommand = new RelayCommand(async () =>
 			{
 				// Animate window closing
 				await AnimateOut(TimeSpan.FromSeconds(0.2), (sender, e) =>
@@ -138,7 +136,6 @@
 			// hook events
 			window.Loaded += Window_Loaded;
 		}
-
 
 
 		#region Event callbacks

@@ -1,13 +1,18 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using ProjectNotifier.XPlace.Core;
+    using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using System.Net.Http;
+    using System.IO;
     using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.SignalR.Client;
     using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.SignalR.Client;
+
+    using ProjectNotifier.XPlace.Core;
 
 
     /// <summary>
@@ -16,7 +21,7 @@
     public class LoginViewModel : BaseViewModel
     {
 
-        public static LoginViewModel Instance => new LoginViewModel(null)
+        public static LoginViewModel Instance => new LoginViewModel()
         {
 
         };
@@ -129,9 +134,9 @@
         #endregion
 
 
-        public LoginViewModel(ClientAppSettingsModel settings)
+        public LoginViewModel()
         {
-            _settings = settings;
+            _settings = DI.GetService<ClientAppSettingsModel>();
 
             GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
             LoginCommand = new RelayCommand<IHavePassword>(ExecuteLoginCommandAsync);
@@ -145,13 +150,13 @@
             await RunCommandAsync(() => LoginWorking,
             async () =>
             {
-
                 var response = await DI.GetService<IServerConnection>().Client.PostAsJsonAsync("https://localhost:5001/Account/Login",
                 new LoginRequestModel()
                 {
                     Username = Username,
                     Password = password.Password.Unsecure(),
                 });
+
 
 
                 if (response.IsSuccessStatusCode == false)

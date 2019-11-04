@@ -96,26 +96,26 @@
         public RelayCommand CloseSettingsCommand { get; }
 
 
-        public SettingsViewModel(ClientAppSettingsModel settings)
+        public SettingsViewModel()
         {
-            _clientAppSettingsModel = settings;
+            _clientAppSettingsModel = DI.GetService< ClientAppSettingsModel>();
 
 
-            ProjectCountSetting = new TextEntryViewModel<int>(settings.ProjectsToDisplay)
+            ProjectCountSetting = new TextEntryViewModel<int>(_clientAppSettingsModel.ProjectsToDisplay)
             {
                 IsNumericOnly = true,
 
                 MaxLength = 3,
             };
 
-            NotificationDispalySecondsSetting = new TextEntryViewModel<int>(settings.KeepNotificationOpenSeconds)
+            NotificationDispalySecondsSetting = new TextEntryViewModel<int>(_clientAppSettingsModel.KeepNotificationOpenSeconds)
             {
                 IsNumericOnly = true,
 
                 MaxLength = 2,
             };
 
-            RememberMe = settings.RememberMe;
+            RememberMe = _clientAppSettingsModel.RememberMe;
 
 
             // Bind events
