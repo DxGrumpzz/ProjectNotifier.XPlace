@@ -130,6 +130,12 @@
             // Get local data store
             var dataStore = await DI.GetService<IClientDataStore>().GetLoginCredentialsAsync();
 
+            if(dataStore is null)
+            {
+                settings.RememberMe = false;
+                return;
+            };
+
             // Set the cookies
             DI.GetService<IServerConnection>().Cookies.SetCookies(new Uri("https://localhost:5001"), dataStore.Cookie);
 
