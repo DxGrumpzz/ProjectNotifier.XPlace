@@ -187,6 +187,14 @@
                     // Start the connection
                     .StartAsync();
 
+
+                    // Save cookies
+                    await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
+                    {
+                        DataModelID = Guid.NewGuid().ToString("N"),
+                        Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001")),
+                    });
+
                     // Read response content
                     var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
