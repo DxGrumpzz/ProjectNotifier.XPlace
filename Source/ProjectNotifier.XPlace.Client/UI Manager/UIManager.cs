@@ -41,7 +41,7 @@
 
 
 				// Create instance of Project notification
-				new ProjectNotificationView(new ProjectNotificationViewModel(DI.ClientAppSettings())
+				new ProjectNotificationView(new ProjectNotificationViewModel()
 				{
 					NewProjectList = new List<ProjectNotificationItemViewModel>(projects),
 				})

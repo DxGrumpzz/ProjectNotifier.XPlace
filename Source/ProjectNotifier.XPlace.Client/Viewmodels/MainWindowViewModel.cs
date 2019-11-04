@@ -1,6 +1,5 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using ProjectNotifier.XPlace.Core;
     using System.Diagnostics;
 
     public class MainWindowViewModel : BaseViewModel
@@ -13,8 +12,6 @@
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private BaseView _currentPage;
-
-        private readonly ClientAppSettingsModel _settings;
 
         #endregion
 
@@ -50,19 +47,11 @@
 
         #endregion
 
-
         public MainWindowViewModel()
         {
-
-        }
-
-        public MainWindowViewModel(ClientAppSettingsModel settings)
-        {
-            _settings = settings;
-
             CurrentPage = new LoginView()
             {
-                ViewModel = new LoginViewModel(_settings),
+                ViewModel = new LoginViewModel(),
             };
 
         }
