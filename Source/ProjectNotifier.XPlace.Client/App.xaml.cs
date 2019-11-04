@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Windows;
-
+    using Microsoft.AspNetCore.SignalR.Client;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -34,13 +36,60 @@
 
         protected async override void OnStartup(StartupEventArgs e)
         {
-
-
             base.OnStartup(e);
 
 
             // Application setup stuff, DI build and such
             await ApplicationSetup();
+
+            var settings = DI.ClientAppSettings();
+
+            if (settings.RememberMe == true)
+            {
+                var dataStore = await DI.GetService<IClientDataStore>().GetLoginCredentialsAsync();
+
+                DI.GetService<IServerConnection>().Cookies.SetCookies(new Uri("https://localhost:5001"), dataStore.Cookie);
+
+
+                var response = await DI.GetService<IServerConnection>().Client.GetAsync($"https://localhost:5001/Projects/{settings.ProjectsToDisplay}");
+
+                var responseContent = await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>();
+
+                // Build hub connection
+                await (DI.GetService<IServerConnection>().ProjectsHubConnection =
+                new HubConnectionBuilder()
+                // Connect to project hub url
+                .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
+                {
+                    // Authorize user with cookies
+                    options.Cookies = DI.GetService<IServerConnection>().Cookies;
+                })
+                // Build hub connection
+                .Build())
+                // Start the connection
+                .StartAsync();
+
+
+                // Update cache
+                DI.GetService<IClientCache>().ProjectListCache = responseContent;
+
+
+                // Change to projects view
+                DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
+                {
+                    ViewModel = new ProjectsPageViewModel()
+                    {
+                        // Convert the list of IEnumerable to an ObservableCollection
+                        ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent
+                        .Select((p) => new ProjectItemViewModel()
+                        {
+                            ProjectModel = p,
+                        })
+                        .AsEnumerable()
+                        .Take(settings.ProjectsToDisplay))
+                    },
+                };
+            };
 
             // Setup MainWindow
             (Current.MainWindow = new MainWindow(DI.GetService<MainWindowViewModel>()))
@@ -63,9 +112,9 @@
 
 
 #if DEBUG == TRUE
-            
+
             AllocConsole();
-      
+
             // If in Debug attach console  logger
             serviceCollection.AddSingleton<ILoggerBase, ConsoleLogger>();
 #else
