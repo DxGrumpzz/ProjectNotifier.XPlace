@@ -50,6 +50,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectNotifier.XPlace.Core\ProjectNotifier.XPlace.Core.csproj" />
+    <ProjectReference Include="..\ProjectNotifier.XPlace.Relational\ProjectNotifier.XPlace.Relational.csproj" />
   </ItemGroup>
 
   <ItemGroup>
