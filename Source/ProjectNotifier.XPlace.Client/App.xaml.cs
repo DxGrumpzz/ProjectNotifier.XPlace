@@ -136,42 +136,52 @@
             // Get project list
             var response = await DI.GetService<IServerConnection>().Client.GetAsync($"https://localhost:5001/Projects");
 
-            // Convert response to a list of projects
-            var responseContent = await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>();
 
-            // Build hub connection
-            await (DI.GetService<IServerConnection>().ProjectsHubConnection =
-            new HubConnectionBuilder()
-            // Connect to project hub url
-            .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
+            if (response.IsSuccessStatusCode == true)
             {
-                // Authorize user with cookies
-                options.Cookies = DI.GetService<IServerConnection>().Cookies;
-            })
-            // Build hub connection
-            .Build())
-            // Start the connection
-            .StartAsync();
+                // Convert response to a list of projects
+                var responseContent = await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>();
 
-
-            // Update cache
-            DI.GetService<IClientCache>().ProjectListCache = responseContent;
-
-
-            // Change to projects view
-            DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
-            {
-                ViewModel = new ProjectsPageViewModel()
+                // Build hub connection
+                await (DI.GetService<IServerConnection>().ProjectsHubConnection =
+                new HubConnectionBuilder()
+                // Connect to project hub url
+                .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
                 {
-                    // Convert the list of IEnumerable to an ObservableCollection
-                    ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent
-                    .Select((p) => new ProjectItemViewModel()
+                    // Authorize user with cookies
+                    options.Cookies = DI.GetService<IServerConnection>().Cookies;
+                })
+                // Build hub connection
+                .Build())
+                // Start the connection
+                .StartAsync();
+
+
+                // Update cache
+                DI.GetService<IClientCache>().ProjectListCache = responseContent;
+
+
+                // Change to projects view
+                DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
+                {
+                    ViewModel = new ProjectsPageViewModel()
                     {
-                        ProjectModel = p,
-                    })
-                    .Take(settings.ProjectsToDisplay))
-                },
+                        // Convert the list of IEnumerable to an ObservableCollection
+                        ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent
+                        .Select((p) => new ProjectItemViewModel()
+                        {
+                            ProjectModel = p,
+                        })
+                        .Take(settings.ProjectsToDisplay))
+                    },
+                };
+            }
+            else
+            {
+                settings.RememberMe = false;
             };
+            
+
         }
     }
 }
