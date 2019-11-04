@@ -48,6 +48,11 @@ namespace ProjectNotifier.XPlace.WebServer
             // Add a provider that generates unique tokens for things like user's profile update requests
             .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options => 
+            {
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+            });
 
             services.Configure<IdentityOptions>(options =>
             {
