@@ -1,18 +1,14 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using System;
+    using ProjectNotifier.XPlace.Core;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
     using System.Net.Http;
-    using System.Text;
+    using System.Linq;
     using System.Threading.Tasks;
-
     using Microsoft.AspNetCore.SignalR.Client;
-
-    using ProjectNotifier.XPlace.Core;
+    using System.Net;
+    using System;
 
 
     /// <summary>
@@ -136,7 +132,7 @@
 
         public LoginViewModel()
         {
-            _settings = DI.GetService<ClientAppSettingsModel>();
+            _settings = DI.ClientAppSettings();
 
             GotoRegisterPageCommand = new RelayCommand(ExecuteGotoRegisterPageCommand);
             LoginCommand = new RelayCommand<IHavePassword>(ExecuteLoginCommandAsync);
@@ -156,7 +152,6 @@
                     Username = Username,
                     Password = password.Password.Unsecure(),
                 });
-
 
 
                 if (response.IsSuccessStatusCode == false)
@@ -187,6 +182,14 @@
                     // Start the connection
                     .StartAsync();
 
+
+                    // Save cookie
+                    await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
+                    {
+                        DataModelID = Guid.NewGuid().ToString(),
+                        Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
+                    });
+
                     // Read response content
                     var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
@@ -209,7 +212,6 @@
                             {
                                 ProjectModel = p,
                             })
-                            .AsEnumerable()
                             .Take(_settings.ProjectsToDisplay))
                         },
                     };
@@ -227,6 +229,5 @@
         }
 
         #endregion
-
     };
 };
