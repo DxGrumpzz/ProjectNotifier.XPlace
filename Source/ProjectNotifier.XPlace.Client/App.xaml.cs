@@ -51,7 +51,7 @@
                 DI.GetService<IServerConnection>().Cookies.SetCookies(new Uri("https://localhost:5001"), dataStore.Cookie);
 
 
-                var response = await DI.GetService<IServerConnection>().Client.GetAsync($"https://localhost:5001/Projects/{settings.ProjectsToDisplay}");
+                var response = await DI.GetService<IServerConnection>().Client.GetAsync($"https://localhost:5001/Projects");
 
                 var responseContent = await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>();
 
@@ -85,7 +85,6 @@
                         {
                             ProjectModel = p,
                         })
-                        .AsEnumerable()
                         .Take(settings.ProjectsToDisplay))
                     },
                 };
