@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR.Client;
     using System.Net;
+    using System;
 
 
     /// <summary>
@@ -145,7 +146,6 @@
             await RunCommandAsync(() => LoginWorking,
             async () =>
             {
-
                 var response = await DI.GetService<IServerConnection>().Client.PostAsJsonAsync("https://localhost:5001/Account/Login",
                 new LoginRequestModel()
                 {
@@ -182,6 +182,14 @@
                     // Start the connection
                     .StartAsync();
 
+
+                    // Save cookie
+                    await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
+                    {
+                        DataModelID = Guid.NewGuid().ToString(),
+                        Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
+                    });
+
                     // Read response content
                     var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
@@ -204,7 +212,6 @@
                             {
                                 ProjectModel = p,
                             })
-                            .AsEnumerable()
                             .Take(_settings.ProjectsToDisplay))
                         },
                     };
@@ -222,6 +229,5 @@
         }
 
         #endregion
-
     };
 };
