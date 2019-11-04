@@ -51,20 +51,15 @@
         #endregion
 
 
+
         public MainWindowViewModel()
         {
-
-        }
-
-        public MainWindowViewModel(ClientAppSettingsModel settings)
-        {
-            _settings = settings;
+            _settings = DI.GetService<ClientAppSettingsModel>();
 
             CurrentPage = new LoginView()
             {
                 ViewModel = new LoginViewModel(_settings),
             };
-
         }
     };
 };
