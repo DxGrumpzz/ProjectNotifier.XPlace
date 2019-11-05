@@ -201,14 +201,11 @@
                                     <BeginStoryboard>
 
                                         <Storyboard>
-                                            
+
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
 
                                                 <!-- Set control visibility to visible-->
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
-
-                                                <!-- After some time set it back to collpased-->
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:5.2" Value="{x:Static Visibility.Collapsed}"/>
 
                                             </ObjectAnimationUsingKeyFrames>
 
@@ -220,20 +217,35 @@
                                                              
                                                              Duration="0:0:0.2"/>
 
-                                            <!-- Fade out after a couple of seconds -->
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             
-                                                             To="0"
-                                                             
-                                                             BeginTime="0:0:5"
-                                                             
-                                                             Duration="0:0:0.2"/>
-
                                         </Storyboard>
 
                                     </BeginStoryboard>
 
                                 </DataTrigger.EnterActions>
+
+                                <DataTrigger.ExitActions>
+
+                                    <BeginStoryboard>
+
+                                        <Storyboard>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
+
+                                                <!-- After some time set it back to collpased-->
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Collapsed}"/>
+
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <!-- Fade out after a couple of seconds -->
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             
+                                                             To="0"
+                                                             
+                                                             Duration="0:0:0.2"/>
+                                        </Storyboard>
+
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
 
                             </DataTrigger>
 
