@@ -159,12 +159,11 @@
                     // Remove working overlay
                     LoginWorking = false;
 
-                    // Display error
-                    HasError = true;
-                    HasError = false;
-
                     // Display sign-in error
                     ErrorText = await response.Content.ReadAsStringAsync();
+
+                    // Display error
+                    await ShowErrorDisplay();
                 }
                 else
                 {
@@ -226,6 +225,27 @@
             {
                 ViewModel = new RegisterViewModel()
             };
+        }
+
+        #endregion
+
+
+        #region Private helpers
+
+        /// <summary>
+        /// Show the error display and automatically closed
+        /// </summary>
+        /// <returns></returns>
+        private async Task ShowErrorDisplay()
+        {
+            // Show error display
+            HasError = true;
+
+            // wait a bit
+            await Task.Delay(3000);
+
+            // Close
+            HasError = false;
         }
 
         #endregion

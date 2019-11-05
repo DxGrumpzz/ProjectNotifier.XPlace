@@ -160,12 +160,11 @@
                     // Remove working overlay
                     RegisterWorking = false;
 
-                    // Display error overlay
-                    HasError = true;
-                    HasError = false;
-
                     // Set text
                     ErrorText = await response.Content.ReadAsStringAsync();
+
+                    // Display error overlay
+                    await ShowErrorDisplay();
                 }
                 // If registration was succesful
                 else
@@ -193,6 +192,27 @@
             {
                 ViewModel = new LoginViewModel(/*DI.GetService<ClientAppSettingsModel>()*/)
             };
+        }
+
+        #endregion
+
+
+        #region Private helpers
+
+        /// <summary>
+        /// Show the error display and automatically closed
+        /// </summary>
+        /// <returns></returns>
+        private async Task ShowErrorDisplay()
+        {
+            // Show error display
+            HasError = true;
+
+            // wait a bit
+            await Task.Delay(3000);
+
+            // Close
+            HasError = false;
         }
 
         #endregion
