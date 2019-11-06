@@ -211,7 +211,7 @@
                             {
                                 ProjectModel = p,
                             })
-                            .Take(_settings.ProjectsToDisplay))
+                            .Take(10))
                         },
                     };
                 };

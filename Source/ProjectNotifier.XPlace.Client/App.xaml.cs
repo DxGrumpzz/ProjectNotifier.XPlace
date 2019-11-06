@@ -7,6 +7,8 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Numerics;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
     using Microsoft.AspNetCore.SignalR.Client;
@@ -31,7 +33,6 @@
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         private static extern bool AllocConsole();
 #endif
-
 
 
         protected async override void OnStartup(StartupEventArgs e)
@@ -76,8 +77,8 @@
             // If in Debug attach console  logger
             serviceCollection.AddSingleton<ILoggerBase, ConsoleLogger>();
 #else
-			// If in Release attach file logger
-			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
+            // If in Release attach file logger
+            serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
 #endif
 
 
@@ -119,6 +120,7 @@
 
         }
 
+
         /// <summary>
         /// Use a cookie to auto login
         /// </summary>
@@ -131,6 +133,8 @@
             if (dataStore is null)
             {
                 settings.RememberMe = false;
+
+                await DI.GetService<ClientDataStore>().SaveClientAppSettingsAsync();
                 return;
             };
 
@@ -176,7 +180,7 @@
                         {
                             ProjectModel = p,
                         })
-                        .Take(settings.ProjectsToDisplay))
+                        .Take(10))
                     },
                 };
             }
