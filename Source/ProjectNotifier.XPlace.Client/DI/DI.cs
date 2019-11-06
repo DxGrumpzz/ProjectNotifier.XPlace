@@ -67,9 +67,9 @@
 		/// Returns the main settings model
 		/// </summary>
 		/// <returns></returns>
-		public static ClientAppSettingsModel ClientAppSettings()
+		public static AppSettingsDataModel ClientAppSettings()
 		{
-			return GetService<ClientAppSettingsModel>();
+			return GetService<IClientDataStore>().GetClientAppSettings();
 		}
 
 
