@@ -118,7 +118,7 @@
                 if (sender.VerticalOffset >= (_viewportHeight - 10))
                 {
                     // The number of projects avaiable to load
-                    int projectsCount = DI.GetService<IClientCache>().ProjectListCache.Count() - ProjectList.Count;
+                    int projectsCount = DI.ClientAppSettings().ProjectsToDisplay - ProjectList.Count;
 
                     // How big of a chuck to take out of the cached project list
                     int chunccSize = 5 > projectsCount ?
