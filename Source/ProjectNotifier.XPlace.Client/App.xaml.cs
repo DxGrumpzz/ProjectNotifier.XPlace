@@ -42,6 +42,7 @@
             // Application setup stuff, DI build and such
             await ApplicationSetupAsync();
 
+
             var settings = DI.ClientAppSettings();
 
             // If user requested to automatically login
@@ -67,9 +68,6 @@
             // Add services
             ServiceCollection serviceCollection = new ServiceCollection();
 
-            // Main config
-            serviceCollection.AddSingleton<IConfig>(new JsonConfig(AppFiles.ConfigFileName));
-
 
 #if DEBUG == TRUE
 
@@ -82,8 +80,6 @@
 			serviceCollection.AddSingleton<ILoggerBase>(new FileLogger());
 #endif
 
-            serviceCollection.AddSingleton((provider) =>
-            new ClientAppSettingsModel(provider.GetService<IConfig>()));
 
 
             serviceCollection.AddSingleton<IUIManager, UIManager>();
@@ -117,20 +113,22 @@
             // Build provider
             DI.SetupDI(serviceCollection.BuildServiceProvider());
 
+
             // Ensure local data store is created
             await DI.GetService<IClientDataStore>().EnsureDataStoreCreatedAsync();
+
         }
 
         /// <summary>
         /// Use a cookie to auto login
         /// </summary>
         /// <returns></returns>
-        private async Task LoginAsync(ClientAppSettingsModel settings)
+        private async Task LoginAsync(AppSettingsDataModel settings)
         {
             // Get local data store
             var dataStore = await DI.GetService<IClientDataStore>().GetLoginCredentialsAsync();
 
-            if(dataStore is null)
+            if (dataStore is null)
             {
                 settings.RememberMe = false;
                 return;
@@ -186,7 +184,7 @@
             {
                 settings.RememberMe = false;
             };
-            
+
 
         }
     }
