@@ -16,8 +16,7 @@
 		/// Returns a <see cref="ProjectListViewModel"/> containing a list of projects
 		/// </summary>
 		/// <returns></returns>
-		public Task<IEnumerable<ProjectModel>> LoadProjectsAsync(CancellationToken cancellationToken = default);
-		public Task<IEnumerable<ProjectModel>> LoadProjectsAsync(int count, CancellationToken cancellationToken = default);
+		public Task<IEnumerable<ProjectModel>> LoadProjectsAsync(int count = 100, CancellationToken cancellationToken = default);
 
 
     }

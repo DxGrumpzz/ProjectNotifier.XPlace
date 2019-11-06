@@ -32,17 +32,6 @@
         /// Loads a list of projects from somewhere
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<ProjectModel>> LoadProjectsAsync(CancellationToken cancellationToken = default)
-        {
-            var projects = await LoadProjectsAsync(50);
-
-            return projects;
-        }
-
-        /// <summary>
-        /// Loads a list of projects from somewhere
-        /// </summary>
-        /// <returns></returns>
         public async Task<IEnumerable<ProjectModel>> LoadProjectsAsync(int count = 100, CancellationToken cancellationToken = default)
         {
             // Grab however many results the user requested from the RSS feed
