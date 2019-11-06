@@ -31,7 +31,7 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _waitForUnloadAnimation;
 
-        private readonly ClientAppSettingsModel _settings;
+        private readonly AppSettingsDataModel _settings;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _loginWorking;

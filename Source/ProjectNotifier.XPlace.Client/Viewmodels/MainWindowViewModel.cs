@@ -14,7 +14,7 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private BaseView _currentPage;
 
-        private readonly ClientAppSettingsModel _settings;
+        private readonly AppSettingsDataModel _settings;
 
         #endregion
 
@@ -54,7 +54,7 @@
 
         public MainWindowViewModel()
         {
-            _settings = DI.GetService<ClientAppSettingsModel>();
+            _settings = DI.ClientAppSettings();
 
             CurrentPage = new LoginView()
             {

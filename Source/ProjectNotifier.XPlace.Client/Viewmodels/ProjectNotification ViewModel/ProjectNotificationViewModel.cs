@@ -65,7 +65,7 @@
 
 		private Window _window;
 
-		private ClientAppSettingsModel _settings;
+		private AppSettingsDataModel _settings;
 
 		#endregion
 
@@ -109,7 +109,7 @@
 
 		public ProjectNotificationViewModel()
 		{
-			_settings = DI.GetService< ClientAppSettingsModel>();
+			_settings = DI.ClientAppSettings();
 
 
             CloseWindowCommand = new RelayCommand(async () =>

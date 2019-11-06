@@ -23,7 +23,7 @@
         /// <summary>
         /// Application settings
         /// </summary>
-        private ClientAppSettingsModel _clientAppSettingsModel;
+        private AppSettingsDataModel _clientAppSettingsModel;
 
         #endregion
 
@@ -64,14 +64,23 @@
             get => _rememberMe;
             set
             {
-                _rememberMe = value;
-                OnPropertyChanged();
+                if (_rememberMe != value)
+                {
+                    _rememberMe = value;
 
-                // Update config value
-                _clientAppSettingsModel.RememberMe = value;
+                    OnPropertyChanged();
 
-                // Show saved notification
-                Task.Run(ShowSavedNOtificationAsync);
+                    var settings = DI.GetService<IClientDataStore>().GetClientAppSettings();
+
+                    settings.RememberMe = value;
+                    // Update config value
+                    //_clientAppSettingsModel.RememberMe = value;
+
+                    DI.GetService<IClientDataStore>().SaveClientAppSettings();
+
+                    // Show saved notification
+                    Task.Run(ShowSavedNOtificationAsync);
+                };
             }
         }
 
@@ -98,7 +107,7 @@
 
         public SettingsViewModel()
         {
-            _clientAppSettingsModel = DI.GetService< ClientAppSettingsModel>();
+            _clientAppSettingsModel = DI.ClientAppSettings();
 
 
             ProjectCountSetting = new TextEntryViewModel<int>(_clientAppSettingsModel.ProjectsToDisplay)
@@ -144,10 +153,14 @@
 
             ProjectCountSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (setting) =>
             {
-                DI.Logger().Log($"User changed {nameof(ClientAppSettingsModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
+                DI.Logger().Log($"User changed {nameof(AppSettingsDataModel.ProjectsToDisplay)} setting to {setting.Value}", LogLevel.Informative);
 
                 // Update value 
-                DI.ClientAppSettings().ProjectsToDisplay = setting.Value;
+                var settings = await DI.GetService<IClientDataStore>().GetClientAppSettingsAsync();
+
+                settings.ProjectsToDisplay = setting.Value;
+
+                await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
 
                 // Update config value
                 //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.ProjectsToDisplay), setting.Value);
@@ -181,10 +194,14 @@
 
             NotificationDispalySecondsSetting.SaveChangesAction += new Action<TextEntryViewModel<int>>(async (setting) =>
             {
-                DI.Logger().Log($"User changed {nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds)} setting to {setting.Value}", LogLevel.Informative);
+                DI.Logger().Log($"User changed {nameof(AppSettingsDataModel.KeepNotificationOpenSeconds)} setting to {setting.Value}", LogLevel.Informative);
 
                 // Update value 
-                DI.ClientAppSettings().KeepNotificationOpenSeconds = setting.Value;
+                var settings = await DI.GetService<IClientDataStore>().GetClientAppSettingsAsync();
+
+                settings.KeepNotificationOpenSeconds = setting.Value;
+
+                await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
 
                 // Update config value
                 //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds), setting.Value);
