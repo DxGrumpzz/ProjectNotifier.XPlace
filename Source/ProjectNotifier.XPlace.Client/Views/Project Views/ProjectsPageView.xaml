@@ -6,10 +6,15 @@
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                 xmlns:local="clr-namespace:ProjectNotifier.XPlace.Client"
                 
+                xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                
 			    mc:Ignorable="d" 
 			    
                 d:DesignHeight="450" 
-			    d:DesignWidth="800">
+			    d:DesignWidth="800"
+                
+                >
+                <!--DataContext="{x:Static local:ProjectsPageViewModel.DesginInstance}"-->
 
     <Grid ClipToBounds="True">
 
@@ -28,8 +33,43 @@
 				Command="{Binding OpenSettingsCommand}"/>
 
         
-        <local:ProjectListView DataContext="{Binding ProjectList}"/>
+        <!--<local:ProjectListView DataContext="{Binding ProjectList}"/>-->
 
+        <ScrollViewer>
+
+             <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ScrollChanged">
+                    <i:InvokeCommandAction Command="{Binding ProjectListScrolledCommand}"
+                                           PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <!-- The list of projects -->
+            <ItemsControl ItemsSource="{Binding ProjectList}"
+						  
+						  Margin="0,30,0,0">
+
+                <!-- Allows item virtualization -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel VirtualizingPanel.IsVirtualizing="True"
+												VirtualizingPanel.VirtualizationMode="Recycling"
+												VirtualizingPanel.IsContainerVirtualizable="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+
+                        <!-- The actual project-->
+                        <local:ProjectItemView DataContext="{Binding}"
+                                               Margin="10"/>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
 
         <!-- Settings view -->
         <local:SettingsView DataContext="{Binding SettingsViewModel}"
