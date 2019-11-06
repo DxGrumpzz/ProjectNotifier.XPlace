@@ -20,7 +20,7 @@
         public async static Task<ObservableCollection<ProjectItemViewModel>> LoadProjectsAsObservableAsync(this IProjectLoader projectLoader, CancellationToken cancellationToken = default)
         {
             // Get a list of projects
-            var projects = (await projectLoader.LoadProjectsAsync(cancellationToken))
+            var projects = (await projectLoader.LoadProjectsAsync(cancellationToken: cancellationToken))
             // Convert the ProjectModel to a ProjectItemViewModel
             .Select(project => new ProjectItemViewModel()
             {
