@@ -16,13 +16,9 @@ namespace ProjectNotifier.XPlace.WebServer
 
         private readonly IConfiguration _confg;
 
-        private readonly IProjectLoader _projectLoader;
-
-
         public Startup(IConfiguration confg)
         {
             _confg = confg;
-            _projectLoader = new ProjectLoader(confg["ProjectLoderUrl"]);
         }
 
 
@@ -48,11 +44,13 @@ namespace ProjectNotifier.XPlace.WebServer
             // Add a provider that generates unique tokens for things like user's profile update requests
             .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options => 
+
+            services.ConfigureApplicationCookie(options =>
             {
                 options.SlidingExpiration = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -76,12 +74,19 @@ namespace ProjectNotifier.XPlace.WebServer
             });
 
 
+
+            // Add the project loader
+            services.AddScoped<IProjectLoader, ProjectLoader>((provider) =>
+                new ProjectLoader(_confg["ProjectLoderUrl"]));
+
             // Add project list as a singelton
-            services.AddSingleton(new ProjectList(_projectLoader));
+            services.AddSingleton(
+                (provider) =>
+                new ProjectList(provider.GetService<IProjectLoader>()));
 
 
             // Add a timed notifier
-            services.AddSingleton(new Notifier());
+            services.AddSingleton<Notifier>();
 
 
             // Add signlarR
