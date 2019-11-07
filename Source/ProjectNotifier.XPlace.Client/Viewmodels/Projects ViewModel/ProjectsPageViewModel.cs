@@ -140,10 +140,6 @@
                             ProjectModel = project,
                         });
                     });
-
-
-                    // Log project list update
-                    DI.Logger().Log($"Project list updated, \nDisplaying {ProjectList.Count} projects", LogLevel.Informative);
                 };
             };
         }
