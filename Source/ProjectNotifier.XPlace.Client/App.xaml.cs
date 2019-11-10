@@ -106,6 +106,10 @@
 
             serviceCollection.AddSingleton<IServerConnection, ServerConnection>();
 
+            serviceCollection.AddTransient<ISignInManager,SignInManager>((provider) =>
+            new SignInManager(provider.GetService<IServerConnection>()));
+
+
             serviceCollection.AddSingleton<IClientCache, ClientCache>();
 
             // Add local data stores
@@ -149,10 +153,9 @@
             };
 
 
-            ISignInManager signInManager = new SignInManager(DI.GetService<IServerConnection>());
 
             // Sign in using cookies
-            await signInManager.CookieSignInAsync(dataStore.Cookie,
+            await DI.GetService<ISignInManager>().CookieSignInAsync(dataStore.Cookie,
             signSuccessfull: async (response) =>
             {
                 // Convert response to a list of projects

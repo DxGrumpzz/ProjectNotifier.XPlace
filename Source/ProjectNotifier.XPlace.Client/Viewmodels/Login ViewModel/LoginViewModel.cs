@@ -146,9 +146,7 @@
             await RunCommandAsync(() => LoginWorking,
             async () =>
             {
-                ISignInManager signInManager = new SignInManager(DI.GetService<IServerConnection>());
-
-                await signInManager.SignInAsync(Username, password.Password,
+                await DI.GetService<ISignInManager>().SignInAsync(Username, password.Password,
                 signSuccessfull: async (response) =>
                 {
                     // Build and start projects hub connection
