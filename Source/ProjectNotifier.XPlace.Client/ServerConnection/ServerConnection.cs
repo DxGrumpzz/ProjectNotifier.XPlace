@@ -1,5 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
+    using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -11,7 +12,7 @@
     /// </summary>
     public class ServerConnection : IServerConnection
     {
-   
+
         #region Public proeprties
 
         /// <summary>
@@ -58,9 +59,18 @@
         /// <param name="url"> The url for the hub's connection </param>
         /// <param name="cookies"> A cookie used as a form of authorization </param>
         /// <returns></returns>
-        public Task StartHubConnection(string url, CookieContainer cookies)
+        public async Task StartHubConnectionAsync(string url, CookieContainer cookies)
         {
-            throw new System.NotImplementedException();
+            // Build hub connection
+            await (ProjectsHubConnection = new HubConnectionBuilder()
+            // Connect to project hub url
+            .WithUrl(url,
+            // Authorize user with cookies
+            options => options.Cookies = cookies)
+            // Build hub connection
+            .Build())
+            // Start the connection
+            .StartAsync();
         }
     };
 };
