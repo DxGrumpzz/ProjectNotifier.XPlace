@@ -146,75 +146,70 @@
             await RunCommandAsync(() => LoginWorking,
             async () =>
             {
-                var response = await DI.GetService<IServerConnection>().Client.PostAsJsonAsync("https://localhost:5001/Account/Login",
-                new LoginRequestModel()
-                {
-                    Username = Username,
-                    Password = password.Password.Unsecure(),
-                });
+                ISignInManager signInManager = new SignInManager(DI.GetService<IServerConnection>());
 
-
-                if (response.IsSuccessStatusCode == false)
-                {
-                    // Remove working overlay
-                    LoginWorking = false;
-
-                    // Display sign-in error
-                    ErrorText = await response.Content.ReadAsStringAsync();
-
-                    // Display error
-                    await ShowErrorDisplay();
-                }
-                else
-                {
-                    // Build hub connection
-                    await (DI.GetService<IServerConnection>().ProjectsHubConnection =
-                    new HubConnectionBuilder()
-                    // Connect to project hub url
-                    .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
+                await signInManager.SignInAsync(Username, password.Password,
+                    signSuccessfull: async (response) =>
                     {
-                        // Authorize user with cookies
-                        options.Cookies = DI.GetService<IServerConnection>().Cookies;
-                    })
-                    // Build hub connection
-                    .Build())
-                    // Start the connection
-                    .StartAsync();
-
-
-                    // Save cookie
-                    await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
-                    {
-                        DataModelID = Guid.NewGuid().ToString(),
-                        Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
-                    });
-
-                    // Read response content
-                    var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
-
-                    // Update cache
-                    DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
-
-                    // Move page out of view
-                    UnloadAnimation = ViewAnimation.SlideOutToTop;
-                    WaitForUnloadAnimation = true;
-
-
-                    // Change to projects view
-                    DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
-                    {
-                        ViewModel = new ProjectsPageViewModel()
+                        // Build hub connection
+                        await (DI.GetService<IServerConnection>().ProjectsHubConnection =
+                        new HubConnectionBuilder()
+                        // Connect to project hub url
+                        .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
                         {
-                            // Convert the list of IEnumerable to an ObservableCollection
-                            ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
-                            .Select((p) => new ProjectItemViewModel()
+                            // Authorize user with cookies
+                            options.Cookies = DI.GetService<IServerConnection>().Cookies;
+                        })
+                        // Build hub connection
+                        .Build())
+                        // Start the connection
+                        .StartAsync();
+
+
+                        // Save cookie
+                        await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
+                        {
+                            DataModelID = Guid.NewGuid().ToString(),
+                            Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
+                        });
+
+                        // Read response content
+                        var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
+
+                        // Update cache
+                        DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
+
+                        // Move page out of view
+                        UnloadAnimation = ViewAnimation.SlideOutToTop;
+                        WaitForUnloadAnimation = true;
+
+
+                        // Change to projects view
+                        DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
+                        {
+                            ViewModel = new ProjectsPageViewModel()
                             {
-                                ProjectModel = p,
-                            })
-                            .Take(10))
-                        },
-                    };
-                };
+                                // Convert the list of IEnumerable to an ObservableCollection
+                                ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
+                                .Select((p) => new ProjectItemViewModel()
+                                {
+                                    ProjectModel = p,
+                                })
+                                .Take(10))
+                            },
+                        };
+                    },
+                    signInFailed: async (response) =>
+                    {
+                        // Remove working overlay
+                        LoginWorking = false;
+
+                        // Display sign-in error
+                        ErrorText = await response.Content.ReadAsStringAsync();
+
+                        // Display error
+                        await ShowErrorDisplay();
+                    });
             });
         }
 
