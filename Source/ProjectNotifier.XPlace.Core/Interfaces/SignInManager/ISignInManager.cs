@@ -19,15 +19,17 @@
         /// <param name="signSuccessfull"> An action that will be executed if the sign in was succesfull, contains the server reponse message </param>
         /// <param name="signInFailed"> An action that will be executed if the sign in was unsuccesfull, contains the server reponse message </param>
         /// <returns></returns>
-        public Task<HttpResponseMessage> SignInAsync(string username, SecureString password, Action<HttpResponseMessage> signSuccessfull, Action<HttpResponseMessage> signInFailed);
+        public Task<HttpResponseMessage> SignInAsync(string username, SecureString password, Func<HttpResponseMessage, Task> signSuccessfull = null, Func<HttpResponseMessage, Task> signInFailed = null);
 
 
         /// <summary>
         /// Sign in using a stored cookie 
         /// </summary>
         /// <param name="cookie"> The stored cookie </param>
+        /// <param name="signSuccessfull"> An action that will be executed if the sign in was succesfull, contains the server reponse message </param>
+        /// <param name="signInFailed"> An action that will be executed if the sign in was unsuccesfull, contains the server reponse message </param>
         /// <returns></returns>
-        public Task<HttpResponseMessage> CookieSignInAsync(string cookie);
+        public Task<HttpResponseMessage> CookieSignInAsync(string cookie, Func<HttpResponseMessage, Task> signSuccessfull = null, Func<HttpResponseMessage, Task> signInFailed = null);
 
     };
 };
