@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interfaces\Config\**" />
+    <EmbeddedResource Remove="Interfaces\Config\**" />
+    <None Remove="Interfaces\Config\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="DI\DI.cs" />
   </ItemGroup>
 
@@ -14,10 +20,6 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\Config\" />
   </ItemGroup>
 
 </Project>
