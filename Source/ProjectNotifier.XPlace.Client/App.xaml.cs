@@ -142,38 +142,24 @@
             {
                 settings.RememberMe = false;
 
-                await DI.GetService<ClientDataStore>().SaveClientAppSettingsAsync();
+                await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
 
                 DI.Logger().Log("Auto sign-in failed, credentials store is empty", LogLevel.Verbose);
                 return;
             };
 
-            // Set the cookies
-            DI.GetService<IServerConnection>().Cookies.SetCookies(new Uri("https://localhost:5001"), dataStore.Cookie);
 
-            // Get project list
-            var response = await DI.GetService<IServerConnection>().Client.GetAsync($"https://localhost:5001/Projects");
+            ISignInManager signInManager = new SignInManager(DI.GetService<IServerConnection>());
 
-
-            if (response.IsSuccessStatusCode == true)
+            // Sign in using cookies
+            await signInManager.CookieSignInAsync(dataStore.Cookie,
+            signSuccessfull: async (response) =>
             {
                 // Convert response to a list of projects
                 var responseContent = await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>();
 
                 // Build hub connection
-                await (DI.GetService<IServerConnection>().ProjectsHubConnection =
-                new HubConnectionBuilder()
-                // Connect to project hub url
-                .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
-                {
-                    // Authorize user with cookies
-                    options.Cookies = DI.GetService<IServerConnection>().Cookies;
-                })
-                // Build hub connection
-                .Build())
-                // Start the connection
-                .StartAsync();
-
+                await DI.GetService<IServerConnection>().StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", DI.GetService<IServerConnection>().Cookies);
 
                 // Update cache
                 DI.GetService<IClientCache>().ProjectListCache = responseContent;
@@ -195,13 +181,15 @@
                 };
 
                 DI.Logger().Log("Succesfully logged in", LogLevel.Informative);
-            }
-            else
+            },
+            signInFailed: async (response) =>
             {
                 DI.Logger().Log($"Auto sign-in failed, Server error response {response.StatusCode}/{(int)response.StatusCode}", LogLevel.Verbose);
 
                 settings.RememberMe = false;
-            };
+
+                await DI.GetService<ClientDataStore>().SaveClientAppSettingsAsync();
+            });
         }
     }
 }
