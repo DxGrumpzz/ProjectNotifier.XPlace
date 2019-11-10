@@ -39,24 +39,32 @@
         {
             base.OnStartup(e);
 
-
             // Application setup stuff, DI build and such
             await ApplicationSetupAsync();
 
+
+            DI.Logger().Log("DI setup was completed succesfully", LogLevel.Informative);
 
             var settings = DI.ClientAppSettings();
 
             // If user requested to automatically login
             if (settings.RememberMe == true)
             {
+                DI.Logger().Log("Logging in using auto sign-in", LogLevel.Informative);
+
                 await LoginAsync(settings);
             };
 
+
+            DI.Logger().Log("Initializing MainWindow", LogLevel.Informative);
 
             // Setup MainWindow
             (Current.MainWindow = new MainWindow(DI.GetService<MainWindowViewModel>()))
             // Show window
             .Show();
+
+
+            DI.Logger().Log("MainWindow initialization complete", LogLevel.Informative);
         }
 
 
@@ -135,6 +143,8 @@
                 settings.RememberMe = false;
 
                 await DI.GetService<ClientDataStore>().SaveClientAppSettingsAsync();
+
+                DI.Logger().Log("Auto sign-in failed, credentials store is empty", LogLevel.Verbose);
                 return;
             };
 
@@ -183,13 +193,15 @@
                         .Take(10))
                     },
                 };
+
+                DI.Logger().Log("Succesfully logged in", LogLevel.Informative);
             }
             else
             {
+                DI.Logger().Log($"Auto sign-in failed, Server error response {response.StatusCode}/{(int)response.StatusCode}", LogLevel.Verbose);
+
                 settings.RememberMe = false;
             };
-
-
         }
     }
 }
