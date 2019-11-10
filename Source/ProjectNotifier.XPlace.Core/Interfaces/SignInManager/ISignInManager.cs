@@ -1,5 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.Core
 {
+    using System;
     using System.Net.Http;
     using System.Security;
     using System.Threading.Tasks;
@@ -14,9 +15,11 @@
         /// Sign in using regular user credentials
         /// </summary>
         /// <param name="username"> The user's username </param>
-        /// <param name="password"> The user's password  </param>
+        /// <param name="password"> The user's password </param>
+        /// <param name="signSuccessfull"> An action that will be executed if the sign in was succesfull, contains the server reponse message </param>
+        /// <param name="signInFailed"> An action that will be executed if the sign in was unsuccesfull, contains the server reponse message </param>
         /// <returns></returns>
-        public Task<HttpResponseMessage> SignInAsync(string username, SecureString password);
+        public Task<HttpResponseMessage> SignInAsync(string username, SecureString password, Action<HttpResponseMessage> signSuccessfull, Action<HttpResponseMessage> signInFailed);
 
 
         /// <summary>
