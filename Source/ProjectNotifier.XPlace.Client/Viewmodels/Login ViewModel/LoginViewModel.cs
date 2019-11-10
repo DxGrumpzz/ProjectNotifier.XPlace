@@ -149,67 +149,55 @@
                 ISignInManager signInManager = new SignInManager(DI.GetService<IServerConnection>());
 
                 await signInManager.SignInAsync(Username, password.Password,
-                    signSuccessfull: async (response) =>
+                signSuccessfull: async (response) =>
+                {
+                    // Build and start projects hub connection
+                    await DI.GetService<IServerConnection>().StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", DI.GetService<IServerConnection>().Cookies);
+
+                    // Save cookie
+                    await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
                     {
-                        // Build hub connection
-                        await (DI.GetService<IServerConnection>().ProjectsHubConnection =
-                        new HubConnectionBuilder()
-                        // Connect to project hub url
-                        .WithUrl("Https://LocalHost:5001/ProjectsHub", options =>
-                        {
-                            // Authorize user with cookies
-                            options.Cookies = DI.GetService<IServerConnection>().Cookies;
-                        })
-                        // Build hub connection
-                        .Build())
-                        // Start the connection
-                        .StartAsync();
-
-
-                        // Save cookie
-                        await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
-                        {
-                            DataModelID = Guid.NewGuid().ToString(),
-                            Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
-                        });
-
-                        // Read response content
-                        var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
-
-                        // Update cache
-                        DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
-
-                        // Move page out of view
-                        UnloadAnimation = ViewAnimation.SlideOutToTop;
-                        WaitForUnloadAnimation = true;
-
-
-                        // Change to projects view
-                        DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
-                        {
-                            ViewModel = new ProjectsPageViewModel()
-                            {
-                                // Convert the list of IEnumerable to an ObservableCollection
-                                ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
-                                .Select((p) => new ProjectItemViewModel()
-                                {
-                                    ProjectModel = p,
-                                })
-                                .Take(10))
-                            },
-                        };
-                    },
-                    signInFailed: async (response) =>
-                    {
-                        // Remove working overlay
-                        LoginWorking = false;
-
-                        // Display sign-in error
-                        ErrorText = await response.Content.ReadAsStringAsync();
-
-                        // Display error
-                        await ShowErrorDisplay();
+                        DataModelID = Guid.NewGuid().ToString(),
+                        Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
                     });
+
+                    // Read response content
+                    var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
+
+                    // Update cache
+                    DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
+
+                    // Move page out of view
+                    UnloadAnimation = ViewAnimation.SlideOutToTop;
+                    WaitForUnloadAnimation = true;
+
+
+                    // Change to projects view
+                    DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
+                    {
+                        ViewModel = new ProjectsPageViewModel()
+                        {
+                            // Convert the list of IEnumerable to an ObservableCollection
+                            ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
+                            .Select((p) => new ProjectItemViewModel()
+                            {
+                                ProjectModel = p,
+                            })
+                            .Take(10))
+                        },
+                    };
+                },
+                signInFailed: async (response) =>
+                {
+                    // Remove working overlay
+                    LoginWorking = false;
+
+                    // Display sign-in error
+                    ErrorText = await response.Content.ReadAsStringAsync();
+
+                    // Display error
+                    await ShowErrorDisplay();
+                });
             });
         }
 
