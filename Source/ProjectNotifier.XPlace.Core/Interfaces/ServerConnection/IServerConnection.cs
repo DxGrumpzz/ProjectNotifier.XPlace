@@ -2,6 +2,7 @@
 {
     using System.Net;
     using System.Net.Http;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR.Client;
 
     /// <summary>
@@ -28,5 +29,14 @@
         /// A client handler for cookie storage
         /// </summary>
         public HttpClientHandler ClientHandler { get; set; }
+
+
+        /// <summary>
+        /// Build and start a connection to server hub
+        /// </summary>
+        /// <param name="url"> The url for the hub's connection </param>
+        /// <param name="cookies"> A cookie used as a form of authorization </param>
+        /// <returns></returns>
+        public Task StartHubConnection(string url, CookieContainer cookies);
     };
 }
