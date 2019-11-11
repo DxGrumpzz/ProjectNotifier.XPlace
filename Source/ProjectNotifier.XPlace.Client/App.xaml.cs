@@ -32,6 +32,7 @@
         /// <returns></returns>
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         private static extern bool AllocConsole();
+
 #endif
 
 
@@ -39,8 +40,11 @@
         {
             base.OnStartup(e);
 
+
             // Application setup stuff, DI build and such
             await ApplicationSetupAsync();
+
+
 
 
             DI.Logger().Log("DI setup was completed succesfully", LogLevel.Informative);
@@ -90,7 +94,6 @@
 #endif
 
 
-
             serviceCollection.AddSingleton<IUIManager, UIManager>();
 
 
@@ -106,11 +109,13 @@
 
             serviceCollection.AddSingleton<IServerConnection, ServerConnection>();
 
-            serviceCollection.AddTransient<ISignInManager,SignInManager>((provider) =>
-            new SignInManager(provider.GetService<IServerConnection>()));
+
+            serviceCollection.AddTransient<ISignInManager, SignInManager>((provider) =>
+             new SignInManager(provider.GetService<IServerConnection>()));
 
 
             serviceCollection.AddSingleton<IClientCache, ClientCache>();
+
 
             // Add local data stores
             serviceCollection.AddScoped((provider) =>
@@ -120,8 +125,20 @@
                 .UseSqlite("Data Source = ProjectNotifier.XPlace.DataStore.db;")
                 .Options));
 
+
             serviceCollection.AddScoped<IClientDataStore, ClientDataStore>((provider) =>
             new ClientDataStore(provider.GetService<ClientDataStoreDBContext>()));
+
+
+            // Add the resource locator 
+            serviceCollection.AddSingleton<IResourceLocator, ResourceLocator>();
+
+
+            // Add Resource store
+            serviceCollection.AddSingleton<IResourceStore, ResourceStore>((provider) =>
+            // Pass the singelton the IResourceLocator service
+            new ResourceStore(provider.GetService<IResourceLocator>()));
+                
 
             // Build provider
             DI.SetupDI(serviceCollection.BuildServiceProvider());
