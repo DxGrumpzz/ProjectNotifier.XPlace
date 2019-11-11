@@ -18,7 +18,7 @@
         /// <summary>
         /// Settings related to the application
         /// </summary>
-        ApplicationSettings = 0,
+        ApplicationSettings = 1,
 
     };
 };
