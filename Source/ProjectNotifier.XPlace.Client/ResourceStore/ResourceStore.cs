@@ -9,7 +9,7 @@
     /// <summary>
     /// The application's resource storage
     /// </summary>
-    public class AppResourceStore : IAppResourceStore
+    public class ResourceStore : IResourceStore
     {
     
         #region Private fields
@@ -27,7 +27,7 @@
         #endregion
 
 
-        public AppResourceStore(IResourceLocator resourceLocator)
+        public ResourceStore(IResourceLocator resourceLocator)
         {
             _resourceLocator = resourceLocator;
 

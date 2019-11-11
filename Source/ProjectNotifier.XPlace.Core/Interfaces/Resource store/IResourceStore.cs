@@ -5,7 +5,7 @@
     /// <summary>
     /// An interface that specifies a definition for an app's resource storage
     /// </summary>
-    public interface IAppResourceStore
+    public interface IResourceStore
     {
 
         /// <summary>
