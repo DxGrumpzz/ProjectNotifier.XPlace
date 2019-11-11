@@ -191,7 +191,7 @@
 
                 settings.RememberMe = false;
 
-                await DI.GetService<ClientDataStore>().SaveClientAppSettingsAsync();
+                await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
             });
         }
     }
