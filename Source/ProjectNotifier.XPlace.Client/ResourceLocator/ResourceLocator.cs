@@ -58,6 +58,11 @@
                 // Finds the first match, Return null or default if no match was found
                 FirstOrDefault(_resourceName => _resourceName.Contains(resourceName));
 
+            // Check if resource exists
+            if (foundResource is null)
+                // Exit if it doesn't
+                return null;
+
             // Gets the resource's data stream
             Stream resourceStream = _currentAssembly.GetManifestResourceStream(foundResource);
 

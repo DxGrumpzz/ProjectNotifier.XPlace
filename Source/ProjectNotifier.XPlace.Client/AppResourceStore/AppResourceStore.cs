@@ -88,7 +88,7 @@
         public ResourceInfo GetResource(string resourceName)
         {
             // Finds checks if resource exists in the list
-            var resource = _resources[resourceName];
+            _resources.TryGetValue(resourceName, out ResourceInfo resource);
 
             // If resource exists
             if (resource != null)
