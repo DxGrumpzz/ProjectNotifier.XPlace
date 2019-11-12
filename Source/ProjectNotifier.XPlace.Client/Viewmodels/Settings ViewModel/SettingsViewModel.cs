@@ -25,7 +25,9 @@
         /// Application settings
         /// </summary>
         private AppSettingsDataModel _clientAppSettingsModel;
-        private UserControl _currentSettingsPage;
+
+
+        private BaseView _currentSettingsPage;
 
         #endregion
 
@@ -107,8 +109,8 @@
         public RelayCommand CloseSettingsCommand { get; }
 
 
-        public UserControl CurrentSettingsPage 
-        { 
+        public BaseView CurrentSettingsPage
+        {
             get => _currentSettingsPage;
             set
             {
@@ -122,7 +124,7 @@
         {
             CurrentSettingsPage = new SettingsListView()
             {
-                DataContext = new SettingsListViewModel()
+                ViewModel = new SettingsListViewModel()
             };
 
 
@@ -238,6 +240,13 @@
 
         public async Task OpenSettings()
         {
+            var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
+
+            ((ProjectsPageViewModel)s).SettingsViewModel.CurrentSettingsPage = new SettingsListView()
+            {
+                DataContext = new SettingsListViewModel(),
+            };
+
             IsOpen = true;
             _isOpening = true;
 
