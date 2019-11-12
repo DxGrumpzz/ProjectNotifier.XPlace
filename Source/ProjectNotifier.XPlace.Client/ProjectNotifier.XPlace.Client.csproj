@@ -38,7 +38,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\Setting Icons\AppSettingsIcon.png" />
+    <None Remove="Resources\Images\Setting Icons\UserSettingIcon.png" />
+    <None Remove="Resources\Images\Setting Icons\UserSettingIcon.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="DI\DI.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\Setting Icons\AppSettingsIcon.png" />
+    <EmbeddedResource Include="Resources\Images\Setting Icons\UserSettingIcon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
