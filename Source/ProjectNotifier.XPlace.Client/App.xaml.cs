@@ -8,6 +8,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Numerics;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
@@ -41,11 +42,11 @@
             base.OnStartup(e);
 
 
+            
+
+
             // Application setup stuff, DI build and such
             await ApplicationSetupAsync();
-
-
-
 
             DI.Logger().Log("DI setup was completed succesfully", LogLevel.Informative);
 
@@ -146,6 +147,13 @@
 
             // Ensure local data store is created
             await DI.GetService<IClientDataStore>().EnsureDataStoreCreatedAsync();
+
+            // Add Resources
+            DI.GetService<IResourceStore>().AddResources(new[]
+            {
+                "UserSettingIcon",
+                "AppSettingsIcon",
+            });
 
         }
 
