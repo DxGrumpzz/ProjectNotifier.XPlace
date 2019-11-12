@@ -14,9 +14,16 @@
     
     <StackPanel Cursor="Hand"
                 
-                Background="Transparent"
-                >
+                Background="Transparent">
 
+        <StackPanel.InputBindings>
+
+            <MouseBinding MouseAction="LeftClick"
+                          Command="{Binding GotoSettingCommand}"/>
+
+        </StackPanel.InputBindings>
+        
+        
         <!-- The settings icon -->
         <Image Source="{Binding Icon, 
                Converter={local:SettingIconToImageValueConverter}}"
