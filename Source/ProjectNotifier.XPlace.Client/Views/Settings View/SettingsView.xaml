@@ -229,35 +229,12 @@ must be created -->
 				   	          
 					       Foreground="#111"/>
 
-                
-                <!-- Settings icons -->
-                <ItemsControl Grid.Row="1" 
-                              
-                              ItemsSource="{Binding SettingIcons}">
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-
-                            <!-- The settings icon -->
-                            <local:SettingIconView Margin="10"/>
-
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            
-                            <!-- Use a WrapPanel to to contain the items -->
-                            <WrapPanel Orientation="Horizontal">
-
-                            </WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    
-                </ItemsControl>
+                <ContentPresenter Content="{Binding CurrentSettingsPage}"
+                                  
+                                  Grid.Row="1"/>
 
             </Grid>
         </Border>
-
     </Grid>
 </UserControl>
