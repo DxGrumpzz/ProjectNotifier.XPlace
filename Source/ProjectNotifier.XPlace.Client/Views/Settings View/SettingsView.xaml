@@ -230,6 +230,7 @@ must be created -->
 					       Foreground="#111"/>
 
 
+                <!-- Shows he current settings page -->
                 <ContentPresenter Content="{Binding CurrentSettingsPage}"
                                   
                                   Grid.Row="1"/>
