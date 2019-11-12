@@ -28,7 +28,10 @@
                     {
                         var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
 
-                        ((ProjectsPageViewModel)s).SettingsViewModel.CurrentSettingsPage = new AppSettingsView();
+                        ((ProjectsPageViewModel)s).SettingsViewModel.CurrentSettingsPage = new AppSettingsView()
+                        {
+                            ViewModel = new AppSettingsViewModel(),
+                        };
                     }),
                 },
 
