@@ -1,9 +1,9 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
+
     using System;
     using System.Threading.Tasks;
-    using System.Windows;
 
     /// <summary>
     ///
@@ -12,10 +12,6 @@
     {
 
         #region Private fields
-
-        private bool _isOpen;
-
-        private bool _isSaved;
 
         private bool _rememberMe;
 
@@ -42,20 +38,6 @@
 
 
         /// <summary>
-        /// A boolean flag that indicates if the settings saved notification is open
-        /// </summary>
-        public bool SavedNotificationOpen
-        {
-            get => _isSaved;
-            private set
-            {
-                _isSaved = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        /// <summary>
         /// A boolean flag that indiactes if the user will automatically login next time the app opens
         /// </summary>
         public bool RememberMe
@@ -78,7 +60,7 @@
                     DI.GetService<IClientDataStore>().SaveClientAppSettings();
 
                     // Show saved notification
-                    Task.Run(ShowSavedNOtificationAsync);
+                    Task.Run(ShowSavedNotificationAsync);
                 };
             }
         }
@@ -89,6 +71,7 @@
 
         public AppSettingsViewModel()
         {
+            
             _clientAppSettingsModel = DI.ClientAppSettings();
 
 
@@ -105,6 +88,7 @@
 
                 MaxLength = 2,
             };
+
 
             RememberMe = _clientAppSettingsModel.RememberMe;
 
@@ -148,7 +132,7 @@
                 //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.ProjectsToDisplay), setting.Value);
 
                 // Show settings saved notification
-                await ShowSavedNOtificationAsync();
+                await ShowSavedNotificationAsync();
             });
 
             NotificationDispalySecondsSetting.ValueValidationAction += new Func<TextEntryViewModel<int>, bool>(setting =>
@@ -189,15 +173,17 @@
                 //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds), setting.Value);
 
                 // Show settings saved notification
-                await ShowSavedNOtificationAsync();
+                await ShowSavedNotificationAsync();
             });
         }
 
 
-        private async Task ShowSavedNOtificationAsync()
+        private async Task ShowSavedNotificationAsync()
         {
             // Test for now
-            await Task.FromResult(MessageBox.Show("Saved"));
+            var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
+
+            await ((ProjectsPageViewModel)s).SettingsViewModel.ShowSavedNotificationAsync();
         }
     };
 };
