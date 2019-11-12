@@ -3,6 +3,8 @@
     using ProjectNotifier.XPlace.Core;
 
     using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -127,6 +129,21 @@
                 settings.ProjectsToDisplay = setting.Value;
 
                 await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
+
+
+                ((ProjectsPageViewModel)DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel)
+                // Load new project list
+                .ProjectList = new ObservableCollection<ProjectItemViewModel>(
+                 // Get cached project list
+                 DI.GetService<IClientCache>().ProjectListCache
+                 // Take however necessary
+                 .Take(setting.Value)
+                 // Select ProjectModel list to a list of ProjectItemViewModel
+                 .Select((project) => new ProjectItemViewModel()
+                 {
+                     ProjectModel = project,
+                 }));
+
 
                 // Update config value
                 //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.ProjectsToDisplay), setting.Value);
