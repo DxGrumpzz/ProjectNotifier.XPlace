@@ -9,7 +9,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class SettingsListViewModel
+    public class SettingsListViewModel : BaseViewModel
     {
 
         public List<SettingIconViewModel> SettingIcons { get; set; }
@@ -39,7 +39,9 @@
 
                     GotoSettingCommand = new RelayCommand(() =>
                     {
+                        var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
 
+                        ((ProjectsPageViewModel)s).SettingsViewModel.CurrentSettingsPage = new UserSettingsView();
                     }),
                 },
             };
