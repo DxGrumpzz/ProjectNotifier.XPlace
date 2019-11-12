@@ -6,10 +6,12 @@
     /// <summary>
     /// Interaction logic for AppSettingsPage.xaml
     /// </summary>
-    public partial class AppSettingsView : UserControl
+    public partial class AppSettingsView : BaseView
     {
         public AppSettingsView()
         {
+            ViewLoadAnimation = ViewAnimation.FadeIn;
+
             InitializeComponent();
         }
 
