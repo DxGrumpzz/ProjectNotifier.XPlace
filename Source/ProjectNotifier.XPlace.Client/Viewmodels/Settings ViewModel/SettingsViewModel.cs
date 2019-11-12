@@ -3,6 +3,7 @@
     using ProjectNotifier.XPlace.Core;
     using System;
     using System.Threading.Tasks;
+    using System.Windows.Controls;
 
     /// <summary>
     /// 
@@ -24,6 +25,7 @@
         /// Application settings
         /// </summary>
         private AppSettingsDataModel _clientAppSettingsModel;
+        private UserControl _currentSettingsPage;
 
         #endregion
 
@@ -105,8 +107,25 @@
         public RelayCommand CloseSettingsCommand { get; }
 
 
+        public UserControl CurrentSettingsPage 
+        { 
+            get => _currentSettingsPage;
+            set
+            {
+                _currentSettingsPage = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public SettingsViewModel()
         {
+            CurrentSettingsPage = new SettingsListView()
+            {
+                DataContext = new SettingsListViewModel()
+            };
+
+
             _clientAppSettingsModel = DI.ClientAppSettings();
 
 
