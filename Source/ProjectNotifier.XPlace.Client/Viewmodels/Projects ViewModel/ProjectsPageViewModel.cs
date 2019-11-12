@@ -60,28 +60,6 @@
         {
             SettingsViewModel = new SettingsViewModel();
 
-            // Bind settings view events
-            SettingsViewModel.ProjectCountSetting.SaveChangesAction += (value) =>
-            {
-                // Request new project list
-                ProjectList = new ObservableCollection<ProjectItemViewModel>();
-
-                // Display loading text
-                //IsLoading = true
-
-                // Load new project list
-                ProjectList = new ObservableCollection<ProjectItemViewModel>(
-                 // Get cached project list
-                 DI.GetService<IClientCache>().ProjectListCache
-                 // Take however necessary
-                 .Take(value.Value)
-                 // Select ProjectModel list to a list of ProjectItemViewModel
-                 .Select((project) => new ProjectItemViewModel()
-                 {
-                     ProjectModel = project,
-                 }));
-            };
-
 
             // Open settings page when user clicks the settings button
             OpenSettingsCommand = new RelayCommand(SettingsViewModel.OpenSettings);
