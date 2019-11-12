@@ -5,10 +5,12 @@
     /// <summary>
     /// Interaction logic for SettingIconView.xaml
     /// </summary>
-    public partial class SettingsListView : UserControl
+    public partial class SettingsListView : BaseView<SettingsListViewModel>
     {
         public SettingsListView()
         {
+            ViewLoadAnimation = ViewAnimation.FadeIn;
+
             InitializeComponent();
         }
     }
