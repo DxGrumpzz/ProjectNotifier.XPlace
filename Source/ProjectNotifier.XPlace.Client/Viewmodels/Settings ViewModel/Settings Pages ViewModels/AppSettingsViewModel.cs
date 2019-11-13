@@ -55,8 +55,7 @@
             {
                 // Don't user to spam the remember me option,
                 // This will be changed later
-                var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
-                if (((ProjectsPageViewModel)s).SettingsViewModel.SavedNotificationOpen == true)
+                if (DI.GetService<ProjectsPageViewModel>().SettingsViewModel.SavedNotificationOpen == true)
                     return;
 
                 if (_rememberMe != value)
