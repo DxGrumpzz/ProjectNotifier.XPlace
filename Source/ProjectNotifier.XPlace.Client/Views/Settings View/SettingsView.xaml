@@ -121,6 +121,7 @@
             </Border.Style>
         </Border>
 
+        
         <Border Background="White"
 				
 				CornerRadius="12"
@@ -129,9 +130,7 @@
 				MinWidth="250"
 
 				MaxHeight="400"
-				MaxWidth="500"
-
-				Padding="5,0">
+				MaxWidth="500">
 
             <!-- Drop shadow -->
             <Border.Effect>
@@ -212,16 +211,21 @@ must be created -->
                 </Style>
             </Border.Style>
 
+            
             <Grid ClipToBounds="True">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="AUTO"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
 
-                <!-- Settings title -->
-                <TextBlock Text="הגדרות"
+                
+                <!-- Top row -->
+                <Grid>
+
+                    <!-- Settings title -->
+                    <TextBlock Text="הגדרות"
 					       FontWeight="Light"
 					       FontSize="25"
 				   	       
@@ -229,30 +233,44 @@ must be created -->
 				   	          
 					       Foreground="#111"/>
 
-                <!-- Return to settings list page button -->
-                <Button Content="&lt;-"
+                    <!-- Return to settings list page button -->
+                    <Button Visibility="{Binding GoBackButtonVisible,
+                                        Converter={local:BoolToVisibilityValueConverter}}"
                         
-                        Visibility="{Binding GoBackButtonVisible,
-                                     Converter={local:BoolToVisibilityValueConverter}}"
-                        
-                        Padding="10,0"
-                        HorizontalAlignment="Left"
-                        
-                        Command="{Binding GoBackCommand}"/>
+                            HorizontalAlignment="Left"
+                            
+                            Command="{Binding GoBackCommand}"
+                            Style="{StaticResource GoToSettingsSelectionViewButton}"/>
 
-                <!-- Shows he current settings page -->
-                <ContentPresenter Content="{Binding CurrentSettingsPage}"
+                </Grid>
+
+                
+                <!-- Middle row -->
+                <Grid Margin="5,0"
+                      
+                      Grid.Row="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+
+                    <!-- Shows he current settings page -->
+                    <ContentPresenter Content="{Binding CurrentSettingsPage}"
                                   
-                                  Grid.Row="1"/>
+                                      Grid.Row="1"/>
 
+                </Grid>
 
+                
                 <!-- Settings saved notification -->
                 <Border Grid.Row="2" 
 						HorizontalAlignment="Center"
 						Padding="10,0"	
-						Margin="0,0,0,5"
-				
-						CornerRadius="12"
+			
+						CornerRadius="8"
 						
 						Focusable="False"
 						
@@ -273,9 +291,8 @@ must be created -->
                     </Border.Effect>
 
                     <Border.RenderTransform>
-                        <TranslateTransform Y="50"/>
+                        <TranslateTransform Y="45"/>
                     </Border.RenderTransform>
-
 
                     <Border.Style>
                         <Style TargetType="Border">
@@ -291,8 +308,7 @@ must be created -->
 
                                                 <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
 																 
-																 From="50"
-																 To="0"
+																 To="-5"
 														 		 
 																 DecelerationRatio="0.9"
 														 		 
@@ -308,8 +324,7 @@ must be created -->
 
                                                 <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
 																 
-																 From="0"
-																 To="50"
+																 To="45"
 														 		 
 																 AccelerationRatio="0.9"
 														 		 
@@ -334,6 +349,8 @@ must be created -->
                 </Border>
 
             </Grid>
+       
         </Border>
+        
     </Grid>
 </UserControl>
