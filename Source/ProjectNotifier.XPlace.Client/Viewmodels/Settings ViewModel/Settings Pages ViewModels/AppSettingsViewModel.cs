@@ -22,6 +22,11 @@
         /// </summary>
         private AppSettingsDataModel _clientAppSettingsModel;
 
+        /// <summary>
+        /// A boolean flag that indicates if this is the first time this viewmodel was loaded
+        /// </summary>
+        private bool _isFirstLoad = true;
+
         #endregion
 
 
@@ -39,6 +44,7 @@
         public TextEntryViewModel<int> NotificationDispalySecondsSetting { get; private set; }
 
 
+
         /// <summary>
         /// A boolean flag that indiactes if the user will automatically login next time the app opens
         /// </summary>
@@ -47,11 +53,23 @@
             get => _rememberMe;
             set
             {
+                // Don't user to spam the remember me option,
+                // This will be changed later
+                var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
+                if (((ProjectsPageViewModel)s).SettingsViewModel.SavedNotificationOpen == true)
+                    return;
+
                 if (_rememberMe != value)
                 {
                     _rememberMe = value;
 
                     OnPropertyChanged();
+
+                    if (_isFirstLoad == true)
+                    {
+                        _isFirstLoad = false;
+                        return;
+                    }
 
                     var settings = DI.GetService<IClientDataStore>().GetClientAppSettings();
 
@@ -73,7 +91,7 @@
 
         public AppSettingsViewModel()
         {
-            
+
             _clientAppSettingsModel = DI.ClientAppSettings();
 
 
