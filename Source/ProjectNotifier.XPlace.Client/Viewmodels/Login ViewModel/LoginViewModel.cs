@@ -165,6 +165,9 @@
                     // Update cache
                     DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
 
+                    // Save user profile 
+                    DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserModel);
+
                     // Move page out of view
                     UnloadAnimation = ViewAnimation.SlideOutToTop;
                     WaitForUnloadAnimation = true;
