@@ -44,6 +44,7 @@
             }
         }
 
+
         /// <summary>
         /// A boolean flag that indicates if this control is open or in view
         /// </summary>
@@ -56,6 +57,7 @@
                 OnPropertyChanged();
             }
         }
+
 
         /// <summary>
         /// Currently displayed settings page view
@@ -94,9 +96,14 @@
         #endregion
 
 
+        #region Commands
+
         public RelayCommand CloseSettingsCommand { get; }
 
         public RelayCommand GoBackCommand { get; }
+
+        #endregion
+
 
         public SettingsViewModel()
         {
