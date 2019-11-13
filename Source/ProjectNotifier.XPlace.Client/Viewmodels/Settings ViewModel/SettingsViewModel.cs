@@ -85,9 +85,8 @@
 
         public async Task OpenSettings()
         {
-            var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
-
-            ((ProjectsPageViewModel)s).SettingsViewModel.CurrentSettingsPage = new SettingsListView()
+            // Reset settings view to default settigns selection view
+            CurrentSettingsPage = new SettingsListView()
             {
                 DataContext = new SettingsListViewModel(),
             };
