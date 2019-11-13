@@ -1,10 +1,9 @@
 ﻿namespace ProjectNotifier.XPlace.Relational
 {
-    using System;
+    using ProjectNotifier.XPlace.Core;
+
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
-    using ProjectNotifier.XPlace.Core;
 
     /// <summary>
     /// The implementation for <see cref="IClientDataStore"/>
@@ -12,12 +11,22 @@
     public class ClientDataStore : IClientDataStore
     {
 
+        #region Private fields
+
+        private readonly object _synchronizingObject = new object();
+
+        /// <summary>
+        /// The user's profile data model
+        /// </summary>
+        private AppUserModel _appUserModel;
+
         /// <summary>
         /// The client's local database storage
         /// </summary>
         private readonly ClientDataStoreDBContext _clientDataStoreDBContext;
 
-        private readonly object _synchronizingObject = new object();
+        #endregion
+
 
         public ClientDataStore(ClientDataStoreDBContext clientDataStoreDBContext)
         {
@@ -133,6 +142,29 @@
             };
         }
 
+
+        #endregion
+
+
+        #region User profile store
+
+        /// <summary>
+        /// Retrieves the user's profile
+        /// </summary>
+        /// <returns></returns>
+        public AppUserModel GetUserProfile()
+        {
+            return _appUserModel;
+        }
+
+        /// <summary>
+        /// Save the users profile
+        /// </summary>
+        /// <returns></returns>
+        public void SaveUserProfile(AppUserModel userModel)
+        {
+            _appUserModel = userModel;
+        }
 
         #endregion
 
