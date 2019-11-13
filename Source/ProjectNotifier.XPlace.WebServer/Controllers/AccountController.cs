@@ -3,9 +3,11 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+
     using ProjectNotifier.XPlace.Core;
+
     using System;
-    using System.Linq;
+    using System.Diagnostics;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -13,9 +15,11 @@
     [ApiController]
     public class AccountController : ControllerBase
     {
+        
         private readonly SignInManager<AppUserModel> _signInManager;
         private readonly UserManager<AppUserModel> _userManager;
         private readonly ProjectList _projectList;
+
 
         public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList)
         {
@@ -25,6 +29,7 @@
         }
 
 
+
         [HttpGet("Index")]
         public IActionResult Index()
         {
@@ -32,7 +37,7 @@
         }
 
 
-        [HttpPost("Login")]
+        [HttpPost("Login/{loginModel}")]
         public async Task<ActionResult<LoginResponseModel>> LoginAsync(LoginRequestModel loginModel)
         {
             // Attemp user sing in
@@ -59,6 +64,24 @@
                     // Load projects
                     Projects = _projectList.Projects,
                 };
+            };
+        }
+
+
+        [HttpPost("Login")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<LoginResponseModel>> CookieLoginAsync()
+        {
+            // Find user using cookie/connection context
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            return new LoginResponseModel()
+            {
+                // Find user by username and return the user's data
+                UserModel = user,
+                
+                // Load projects
+                Projects = _projectList.Projects,
             };
         }
 
