@@ -74,6 +74,7 @@
             ServiceCollection serviceCollection = new ServiceCollection();
 
 
+
 #if DEBUG == TRUE
 
             AllocConsole();
@@ -111,7 +112,7 @@
 
 
             // Add local data stores
-            serviceCollection.AddScoped((provider) =>
+            serviceCollection.AddSingleton((provider) =>
             new ClientDataStoreDBContext(
                 new DbContextOptionsBuilder<ClientDataStoreDBContext>()
                 // Use SQL lite as the storage method
@@ -119,7 +120,7 @@
                 .Options));
 
 
-            serviceCollection.AddScoped<IClientDataStore, ClientDataStore>((provider) =>
+            serviceCollection.AddSingleton<IClientDataStore, ClientDataStore>((provider) =>
                 new ClientDataStore(provider.GetService<ClientDataStoreDBContext>()));
 
 
@@ -142,7 +143,7 @@
 
             // Add Resources
             DI.GetService<IResourceStore>().AddResources(new[]
-                {
+            {
                 "UserSettingIcon",
                 "AppSettingsIcon",
             });
