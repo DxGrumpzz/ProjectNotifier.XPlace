@@ -170,19 +170,17 @@
                     WaitForUnloadAnimation = true;
 
 
+                    DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
+                    .Select((p) => new ProjectItemViewModel()
+                    {
+                        ProjectModel = p,
+                    })
+                    .Take(10));
+
                     // Change to projects view
                     DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
                     {
-                        ViewModel = new ProjectsPageViewModel()
-                        {
-                            // Convert the list of IEnumerable to an ObservableCollection
-                            ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
-                            .Select((p) => new ProjectItemViewModel()
-                            {
-                                ProjectModel = p,
-                            })
-                            .Take(10))
-                        },
+                        ViewModel = DI.GetService<ProjectsPageViewModel>(),
                     };
                 },
                 signInFailed: async (response) =>

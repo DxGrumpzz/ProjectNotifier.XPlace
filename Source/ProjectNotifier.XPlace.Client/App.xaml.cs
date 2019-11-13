@@ -169,7 +169,6 @@
             };
 
 
-
             // Sign in using cookies
             await DI.GetService<ISignInManager>().CookieSignInAsync(dataStore.Cookie,
             signSuccessfull: async (response) =>
@@ -184,19 +183,17 @@
                 DI.GetService<IClientCache>().ProjectListCache = responseContent;
 
 
+                DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent
+                .Select((p) => new ProjectItemViewModel()
+                {
+                    ProjectModel = p,
+                })
+                .Take(10));
+
                 // Change to projects view
                 DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
                 {
-                    ViewModel = new ProjectsPageViewModel()
-                    {
-                        // Convert the list of IEnumerable to an ObservableCollection
-                        ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent
-                        .Select((p) => new ProjectItemViewModel()
-                        {
-                            ProjectModel = p,
-                        })
-                        .Take(10))
-                    },
+                    ViewModel = DI.GetService<ProjectsPageViewModel>(),
                 };
 
                 DI.Logger().Log("Succesfully logged in", LogLevel.Informative);
