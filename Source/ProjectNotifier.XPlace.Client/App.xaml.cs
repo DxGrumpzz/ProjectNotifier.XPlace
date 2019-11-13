@@ -174,19 +174,19 @@
             signSuccessfull: async (response) =>
             {
                 // Convert response to a list of projects
-                var responseContent = await response.Content.ReadAsAsync<IEnumerable<ProjectModel>>();
+                var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
                 // Build hub connection
                 await DI.GetService<IServerConnection>().StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", DI.GetService<IServerConnection>().Cookies);
 
                 // Update cache
-                DI.GetService<IClientCache>().ProjectListCache = responseContent;
+                DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
 
 
-                DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent
-                .Select((p) => new ProjectItemViewModel()
+                DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
+                .Select((project) => new ProjectItemViewModel()
                 {
-                    ProjectModel = p,
+                    ProjectModel = project,
                 })
                 .Take(10));
 
