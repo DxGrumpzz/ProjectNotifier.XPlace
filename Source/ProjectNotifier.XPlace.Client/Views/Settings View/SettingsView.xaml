@@ -137,14 +137,14 @@
             <Border.Effect>
 
                 <DropShadowEffect Color="#000"
-Opacity="0.5" 
-BlurRadius="10"
-							    
-RenderingBias="Quality"
-							    
-Direction="270"
-								  
-ShadowDepth="1"/>
+                                  Opacity="0.5" 
+                                  BlurRadius="10"
+                                  							    
+                                  RenderingBias="Quality"
+                                  							    
+                                  Direction="270"
+                                  								  
+                                  ShadowDepth="1"/>
             </Border.Effect>
 
             <Border.RenderTransform>
@@ -229,6 +229,16 @@ must be created -->
 				   	          
 					       Foreground="#111"/>
 
+                <!-- Return to settings list page button -->
+                <Button Content="&lt;-"
+                        
+                        Visibility="{Binding GoBackButtonVisible,
+                                     Converter={local:BoolToVisibilityValueConverter}}"
+                        
+                        Padding="10,0"
+                        HorizontalAlignment="Left"
+                        
+                        Command="{Binding GoBackCommand}"/>
 
                 <!-- Shows he current settings page -->
                 <ContentPresenter Content="{Binding CurrentSettingsPage}"
