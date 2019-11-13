@@ -38,6 +38,7 @@
             // Application setup stuff, DI build and such
             await ApplicationSetupAsync();
 
+
             DI.Logger().Log("DI setup was completed succesfully", LogLevel.Informative);
 
             var settings = DI.ClientAppSettings();
@@ -119,7 +120,7 @@
 
 
             serviceCollection.AddScoped<IClientDataStore, ClientDataStore>((provider) =>
-            new ClientDataStore(provider.GetService<ClientDataStoreDBContext>()));
+                new ClientDataStore(provider.GetService<ClientDataStoreDBContext>()));
 
 
             // Add the resource locator 
@@ -130,7 +131,7 @@
             serviceCollection.AddSingleton<IResourceStore, ResourceStore>((provider) =>
             // Pass the singelton the IResourceLocator service
             new ResourceStore(provider.GetService<IResourceLocator>()));
-                
+
 
             // Build provider
             DI.SetupDI(serviceCollection.BuildServiceProvider());
@@ -141,7 +142,7 @@
 
             // Add Resources
             DI.GetService<IResourceStore>().AddResources(new[]
-            {
+                {
                 "UserSettingIcon",
                 "AppSettingsIcon",
             });
@@ -181,6 +182,9 @@
 
                 // Update cache
                 DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
+
+                // Save profile 
+                DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserModel);
 
 
                 DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
