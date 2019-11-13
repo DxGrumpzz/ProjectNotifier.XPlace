@@ -1,7 +1,6 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using ProjectNotifier.XPlace.Core;
-
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -11,14 +10,21 @@
     {
 
         #region Private fields
-
+      
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _isOpen;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _isSaved;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _isOpening;
-
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private BaseView _currentSettingsPage;
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool _goBackButtonVisible;
 
         #endregion
 
@@ -59,7 +65,28 @@
             get => _currentSettingsPage;
             set
             {
+                // Update GoBackButtonVisible button if display a settings page
+                if (!(value is SettingsListView))
+                    GoBackButtonVisible = true;
+                else
+                    GoBackButtonVisible = false;
+
+
                 _currentSettingsPage = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        /// <summary>
+        /// A boolean flag that indicates if the return the settings list button should be visible
+        /// </summary>
+        public bool GoBackButtonVisible
+        {
+            get => _goBackButtonVisible;
+            set 
+            { 
+                _goBackButtonVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -69,6 +96,7 @@
 
         public RelayCommand CloseSettingsCommand { get; }
 
+        public RelayCommand GoBackCommand { get; }
 
         public SettingsViewModel()
         {
@@ -77,8 +105,33 @@
                 ViewModel = new SettingsListViewModel()
             };
 
+
             CloseSettingsCommand = new RelayCommand(ExecuteCloseSettingsCommand);
+
+            GoBackCommand = new RelayCommand(ExecuteGoBackCommand);
         }
+
+        
+
+        #region Commnad callbacks
+
+        private void ExecuteCloseSettingsCommand()
+        {
+            if (_isOpening == true)
+                return;
+
+            IsOpen = false;
+        }
+
+        private void ExecuteGoBackCommand()
+        {
+            CurrentSettingsPage = new SettingsListView()
+            {
+                ViewModel = new SettingsListViewModel(),
+            };
+        }
+
+        #endregion
 
 
         #region Public methods
@@ -100,24 +153,6 @@
             // Allow user to close
             _isOpening = false;
         }
-
-        #endregion
-
-
-        #region Commnad callbacks
-
-        private void ExecuteCloseSettingsCommand()
-        {
-            if (_isOpening == true)
-                return;
-
-            IsOpen = false;
-        }
-
-        #endregion
-
-
-        #region Private helpers
 
         /// <summary>
         /// Animates the settings saved notification
