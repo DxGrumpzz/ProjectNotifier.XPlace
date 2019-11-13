@@ -148,9 +148,8 @@
                 await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
 
 
-                ((ProjectsPageViewModel)DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel)
                 // Load new project list
-                .ProjectList = new ObservableCollection<ProjectItemViewModel>(
+                DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(
                  // Get cached project list
                  DI.GetService<IClientCache>().ProjectListCache
                  // Take however necessary
@@ -214,10 +213,8 @@
 
         private async Task ShowSavedNotificationAsync()
         {
-            // Test for now
-            var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
-
-            await ((ProjectsPageViewModel)s).SettingsViewModel.ShowSavedNotificationAsync();
+            // Show settings saved notification
+            await DI.GetService<ProjectsPageViewModel>().SettingsViewModel.ShowSavedNotificationAsync();
         }
     };
 };
