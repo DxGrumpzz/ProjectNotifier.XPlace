@@ -1,23 +1,17 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Numerics;
-    using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using Microsoft.AspNetCore.SignalR.Client;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
     using ProjectNotifier.XPlace.Core;
     using ProjectNotifier.XPlace.Relational;
+
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using System.Windows;
 
 
     /// <summary>
@@ -40,10 +34,6 @@
         protected async override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
-
-            
-
 
             // Application setup stuff, DI build and such
             await ApplicationSetupAsync();
@@ -107,6 +97,7 @@
                     },
                 });
 
+            serviceCollection.AddSingleton<ProjectsPageViewModel>();
 
             serviceCollection.AddSingleton<IServerConnection, ServerConnection>();
 
