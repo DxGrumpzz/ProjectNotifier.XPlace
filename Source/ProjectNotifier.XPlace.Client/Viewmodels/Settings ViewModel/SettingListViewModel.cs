@@ -26,9 +26,7 @@
 
                     GotoSettingCommand = new RelayCommand(() =>
                     {
-                        var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
-
-                        ((ProjectsPageViewModel)s).SettingsViewModel.CurrentSettingsPage = new AppSettingsView()
+                        var s = DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage = new AppSettingsView()
                         {
                             ViewModel = new AppSettingsViewModel(),
                         };
@@ -42,9 +40,7 @@
 
                     GotoSettingCommand = new RelayCommand(() =>
                     {
-                        var s = DI.GetService<MainWindowViewModel>().CurrentPage.ViewModel;
-
-                        ((ProjectsPageViewModel)s).SettingsViewModel.CurrentSettingsPage = new UserSettingsView();
+                        var s = DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage = new UserSettingsView();
                     }),
                 },
             };
