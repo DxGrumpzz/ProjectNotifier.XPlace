@@ -14,6 +14,9 @@
         /// <returns></returns>
         public Task EnsureDataStoreCreatedAsync();
 
+
+        #region Login credential store
+
         /// <summary>
         /// Retreives the user's saved credentials
         /// </summary>
@@ -27,8 +30,10 @@
         /// <returns></returns>
         public Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials);
 
+        #endregion
 
 
+        #region Client app settings
 
         /// <summary>
         /// Retreives the user's saved application settings
@@ -57,6 +62,24 @@
         /// <returns></returns>
         public void SaveClientAppSettings();
 
+        #endregion
+
+
+        #region User profile store
+
+        /// <summary>
+        /// Retrieves the user's profile
+        /// </summary>
+        /// <returns></returns>
+        public AppUserModel GetUserProfile();
+
+        /// <summary>
+        /// Save the users profile
+        /// </summary>
+        /// <returns></returns>
+        public void SaveUserProfile(AppUserModel userMode);
+
+        #endregion
 
     };
 };
