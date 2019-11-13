@@ -225,13 +225,15 @@ must be created -->
                 <Grid>
 
                     <!-- Settings title -->
-                    <TextBlock Text="הגדרות"
-					       FontWeight="Light"
-					       FontSize="25"
-				   	       
-					       HorizontalAlignment="Center"
-				   	          
-					       Foreground="#111"/>
+                    <TextBlock Text="{Binding CurrentSettingsPage,
+                                      Converter={local:BaseViewToTextValueConverter}}"
+					           FontWeight="Light"
+					           FontSize="20"
+				   	           
+                               VerticalAlignment="Center"
+					           HorizontalAlignment="Center"
+				   	              
+					           Foreground="#111"/>
 
                     <!-- Return to settings list page button -->
                     <Button Visibility="{Binding GoBackButtonVisible,
@@ -246,17 +248,9 @@ must be created -->
 
                 
                 <!-- Middle row -->
-                <Grid Margin="5,0"
-                      
+                <Grid Margin="5"
                       Grid.Row="1">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="AUTO"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-
-
+                    
                     <!-- Shows he current settings page -->
                     <ContentPresenter Content="{Binding CurrentSettingsPage}"
                                   
