@@ -5,7 +5,7 @@
 
     using ProjectNotifier.XPlace.Core;
     using ProjectNotifier.XPlace.Relational;
-
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -30,10 +30,10 @@
 
 #endif
 
-
         protected async override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
 
             // Application setup stuff, DI build and such
             await ApplicationSetupAsync();
@@ -47,6 +47,11 @@
             if (settings.RememberMe == true)
             {
                 DI.Logger().Log("Logging in using auto sign-in", LogLevel.Informative);
+
+#if DEBUG == TRUE
+                // Wait for server to spin up
+                await Task.Delay(3000);
+#endif
 
                 await LoginAsync(settings);
             };
