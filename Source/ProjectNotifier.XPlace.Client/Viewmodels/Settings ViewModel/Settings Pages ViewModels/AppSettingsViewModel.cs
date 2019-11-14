@@ -58,8 +58,6 @@
                 if (DI.GetService<ProjectsPageViewModel>().SettingsViewModel.SavedNotificationOpen == true)
                     return;
 
-                if (_rememberMe != value)
-                {
                     _rememberMe = value;
 
                     OnPropertyChanged();
@@ -80,7 +78,6 @@
 
                     // Show saved notification
                     Task.Run(ShowSavedNotificationAsync);
-                };
             }
         }
 
