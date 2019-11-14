@@ -129,8 +129,8 @@
 				MinHeight="250"
 				MinWidth="250"
 
-				MaxHeight="400"
-				MaxWidth="500">
+				MaxHeight="500"
+				MaxWidth="450">
 
             <!-- Drop shadow -->
             <Border.Effect>
