@@ -1,10 +1,9 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
-    using System;
+
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Text;
+    using System.Linq;
 
     /// <summary>
     ///
@@ -17,6 +16,7 @@
 
         public SettingsListViewModel()
         {
+
             SettingIcons = new List<SettingIconViewModel>()
             {
                 new SettingIconViewModel()
@@ -40,7 +40,17 @@
 
                     GotoSettingCommand = new RelayCommand(() =>
                     {
-                        var s = DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage = new UserSettingsView();
+                        var ss = DI.GetService<IClientDataStore>().GetUserProfile();
+
+                        var s = DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage = new UserSettingsView()
+                        {
+                            ViewModel = new UserSettingsViewModel()
+                            {
+                                ProjectPreferences = new System.Collections.ObjectModel.ObservableCollection<ProjectTypes>(
+                                    ss.UserProjectPreferences
+                                    .Select(project => project.ProjectType)),
+                            },
+                        };
                     }),
                 },
             };
