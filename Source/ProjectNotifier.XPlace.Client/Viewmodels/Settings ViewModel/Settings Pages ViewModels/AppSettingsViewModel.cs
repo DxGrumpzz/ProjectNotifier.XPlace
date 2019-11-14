@@ -53,8 +53,7 @@
             get => _rememberMe;
             set
             {
-                // Don't user to spam the remember me option,
-                // This will be changed later
+                // Don't let user to spam the remember me option,
                 if (DI.GetService<ProjectsPageViewModel>().SettingsViewModel.SavedNotificationOpen == true)
                     return;
 
@@ -71,9 +70,8 @@
                     var settings = DI.GetService<IClientDataStore>().GetClientAppSettings();
 
                     settings.RememberMe = value;
-                    // Update config value
-                    //_clientAppSettingsModel.RememberMe = value;
 
+                    // Update local config value
                     DI.GetService<IClientDataStore>().SaveClientAppSettings();
 
                     // Show saved notification
