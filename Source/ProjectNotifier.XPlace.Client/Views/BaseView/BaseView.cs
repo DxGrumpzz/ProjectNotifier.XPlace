@@ -1,6 +1,5 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
-    using System;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
@@ -152,7 +151,6 @@
                 {
                     // Do load in animation
                     await this.FadeOutAsync(LoadInAnimtaionInSeconds);
-
                     break;
                 };
 
@@ -175,7 +173,7 @@
                 nameof(ViewLoadAnimation),
                 typeof(ViewAnimation),
                 typeof(BaseView),
-                new UIPropertyMetadata(ViewAnimation.SlideInFromTop));
+                new UIPropertyMetadata(ViewAnimation.None));
 
 
         /// <summary>
@@ -186,7 +184,7 @@
                 nameof(ViewUnloadAnimation),
                 typeof(ViewAnimation),
                 typeof(BaseView),
-                new UIPropertyMetadata(ViewAnimation.SlideOutToBottom));
+                new UIPropertyMetadata(ViewAnimation.None));
 
         /// <summary>
         /// dependency property for <see cref="WaitForUnloadAnimation"/>
@@ -218,7 +216,6 @@
             await AnimateOut();
         }
 
-
     };
 
 
@@ -249,4 +246,5 @@
         {
         }
     };
+
 };
