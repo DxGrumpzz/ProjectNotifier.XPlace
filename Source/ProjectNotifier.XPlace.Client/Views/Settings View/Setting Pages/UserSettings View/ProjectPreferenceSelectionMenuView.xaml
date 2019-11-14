@@ -118,8 +118,10 @@
                 Background="White"
                 
                 Margin="5"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                
+                MaxWidth="250"
                 
                 Padding="5"
                 
@@ -139,21 +141,28 @@
                                   								  
                                   ShadowDepth="1"/>
             </Border.Effect>
+            
 
+            <!-- The list of avaiable Sproject types -->
+            <ScrollViewer>
+                
+                <ItemsControl ItemsSource="{Binding AvailableProjectTypes}">
 
-            <!-- The list of avaiable project types -->
-            <ItemsControl ItemsSource="{Binding AvailableProjectTypes}">
-
-                <ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemTemplate>
                     <DataTemplate>
 
-                        <TextBlock Text="{Binding}"/>
+                        <TextBlock Text="{Binding}"
+                                   
+                                   FontFamily="Open Sans Hebrew"
+                                   TextAlignment="Center"
+                                   
+                                   Margin="5,2"/>
 
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
-                <!-- Place the items inside a StackPanel-->
-                <ItemsControl.ItemsPanel>
+                    <!-- Place the items inside a StackPanel-->
+                    <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
 
                         <StackPanel/>
@@ -161,8 +170,10 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
-            </ItemsControl>
+                </ItemsControl>
 
+            </ScrollViewer>
+            
         </Border>
 
     </Grid>
