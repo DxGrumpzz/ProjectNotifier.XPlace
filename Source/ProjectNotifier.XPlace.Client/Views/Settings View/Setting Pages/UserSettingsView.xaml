@@ -9,12 +9,11 @@
                 d:DesignHeight="225" 
                 d:DesignWidth="450"
                 
-                Background="White"
-                
                 UseLayoutRounding="True"
                 
-                DataContext="{x:Static local:UserSettingsViewModel.DesginInstance}">
+                d:DataContext="{x:Static local:UserSettingsViewModel.DesginInstance}">
 
+    
     <Grid>
 
         <!-- User's project preferences -->
@@ -58,7 +57,9 @@
             <!-- Add new project preference -->
             <Button HorizontalAlignment="Center"
                     
-                    Width="20">
+                    Width="20"
+                    
+                    Command="{Binding ShowProjectPreferencesMenuCommand}">
 
                 <Button.Style>
 
@@ -80,6 +81,7 @@
                                 <ControlTemplate TargetType="{x:Type Button}">
 
                                     
+                                    <!-- Main container -->
                                     <Border Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
                                             CornerRadius="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
                                             
@@ -89,7 +91,8 @@
                                             BorderBrush="{TemplateBinding BorderBrush}">
 
 
-                                        <Path Stroke="Black" 
+                                        <!-- The little plus inside -->
+                                        <Path Stroke="{TemplateBinding BorderBrush}" 
                                               
                                               Data="
                                               M3,9
