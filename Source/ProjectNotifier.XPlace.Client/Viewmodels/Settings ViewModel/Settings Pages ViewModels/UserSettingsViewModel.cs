@@ -4,6 +4,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Linq;
     using System.Windows.Input;
 
     /// <summary>
@@ -49,6 +50,8 @@
             }
         }
 
+        public ProjectPreferenceSelectionMenuViewModel ProjectPreferenceSelectionMenuViewModel { get; set; }
+
         #endregion
 
 
@@ -60,14 +63,25 @@
 
         public UserSettingsViewModel()
         {
+            var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
+            
+
+
+            var userProjectsAsProjectType = userProfile.UserProjectPreferences
+                .Select(projectType => projectType.ProjectType);
+
+
+            ProjectPreferences = new ObservableCollection<ProjectTypes>(userProjectsAsProjectType);
+
+            ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(userProjectsAsProjectType);
+
+
             ShowProjectPreferencesMenuCommand = new RelayCommand(ExecuteShowProjectPreferencesMenuCommand);
         }
 
         private void ExecuteShowProjectPreferencesMenuCommand()
         {
-            
-
-
+            ProjectPreferenceSelectionMenuViewModel.IsMenuOpen = true;
         }
     };
 };
