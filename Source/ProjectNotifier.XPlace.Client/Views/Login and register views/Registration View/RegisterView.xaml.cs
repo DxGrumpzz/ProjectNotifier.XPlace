@@ -10,6 +10,9 @@
     {
         public RegisterView()
         {
+            ViewLoadAnimation = ViewAnimation.SlideInFromTop;
+            ViewUnloadAnimation = ViewAnimation.SlideOutToBottom;
+
             InitializeComponent();
         }
 

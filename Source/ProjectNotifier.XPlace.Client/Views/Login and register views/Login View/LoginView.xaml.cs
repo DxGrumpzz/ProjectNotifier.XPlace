@@ -10,7 +10,10 @@
 	{
 		public LoginView()
 		{
-			InitializeComponent();
+            ViewLoadAnimation = ViewAnimation.SlideInFromTop;
+            ViewUnloadAnimation= ViewAnimation.SlideOutToBottom;
+
+            InitializeComponent();
 		}
 
         public LoginView(LoginViewModel viewModel) : 
