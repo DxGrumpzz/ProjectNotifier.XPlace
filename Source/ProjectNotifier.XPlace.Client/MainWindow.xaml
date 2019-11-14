@@ -20,7 +20,7 @@
     <Grid>
 
 
-        <local:MainPageHost CurrentPage="{Binding CurrentPage}"/>
+        <local:BaseViewPageHost CurrentPage="{Binding CurrentPage}"/>
 
     </Grid>
 </Window>

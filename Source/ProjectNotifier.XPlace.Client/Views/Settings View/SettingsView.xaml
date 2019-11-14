@@ -121,7 +121,7 @@
             </Border.Style>
         </Border>
 
-        
+
         <Border Background="White"
 				
 				CornerRadius="12"
@@ -211,7 +211,7 @@ must be created -->
                 </Style>
             </Border.Style>
 
-            
+
             <Grid ClipToBounds="True">
 
                 <Grid.RowDefinitions>
@@ -220,7 +220,7 @@ must be created -->
                     <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
 
-                
+
                 <!-- Top row -->
                 <Grid>
 
@@ -246,19 +246,17 @@ must be created -->
 
                 </Grid>
 
-                
+
                 <!-- Middle row -->
                 <Grid Margin="5"
                       Grid.Row="1">
-                    
-                    <!-- Shows he current settings page -->
-                    <ContentPresenter Content="{Binding CurrentSettingsPage}"
-                                  
-                                      Grid.Row="1"/>
 
+                    <!-- Shows he current settings page -->
+                    <local:BaseViewPageHost CurrentPage="{Binding CurrentSettingsPage}"/>
+                    
                 </Grid>
 
-                
+
                 <!-- Settings saved notification -->
                 <Border Grid.Row="2" 
 						HorizontalAlignment="Center"
@@ -343,8 +341,8 @@ must be created -->
                 </Border>
 
             </Grid>
-       
+
         </Border>
-        
+
     </Grid>
 </UserControl>
