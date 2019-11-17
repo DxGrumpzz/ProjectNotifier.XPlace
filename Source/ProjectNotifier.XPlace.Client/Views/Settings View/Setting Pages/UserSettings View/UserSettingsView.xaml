@@ -25,17 +25,17 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="AUTO"/>
-                <RowDefinition Height="AUTO"/>
-                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            
             <TextBlock Text="העדפות הפרוייקטים שלך"
                            
-                           FontSize="15"
-                           FontWeight="Light"
-                           FontFamily="Open Sans Hebrew"
-                           
-                           TextAlignment="Right"/>
+                       FontSize="15"
+                       FontWeight="Light"
+                       FontFamily="Open Sans Hebrew"
+                       
+                       TextAlignment="Right"/>
 
 
             <!-- List of the user's preffered project types -->
@@ -45,57 +45,165 @@
                           
                           Margin="0,10">
 
-                <ItemsControl ItemsSource="{Binding ProjectPreferences}">
+                <StackPanel>
 
-                    <ItemsControl.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding ProjectPreferences}">
 
-                        <DataTemplate>
+                        <ItemsControl.ItemTemplate>
 
-                            <TextBlock Text="{Binding}"
-                                       FontSize="13"
-                                       FontWeight="Light"
-                                       FontFamily="Open Sans Hebrew"
-                                       
-                                       HorizontalAlignment="Center"/>
+                            <DataTemplate>
 
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+                                <!-- The type of project -->
+                                <Button Content="{Binding}"
+                                        
+                                        Margin="2,2,0,2"
+                                        HorizontalAlignment="Center">
+
+                                    <Button.Style>
+
+                                        <Style TargetType="{x:Type Button}">
+
+                                            <Setter Property="FontFamily" Value="Open Sans Hebrew"/>
+
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+
+                                            <Setter Property="Cursor" Value="Hand"/>
 
 
+                                            <Setter Property="Template">
 
-            <!-- Add new project preference -->
-            <Button HorizontalAlignment="Center"
+                                                <Setter.Value>
+
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    Background="{TemplateBinding Background}">
+
+                                                            <!-- Content injector -->
+                                                            <ContentPresenter x:Name="contentPresenter" 
+										  
+										                                      Focusable="False"
+										                                      
+										                                      HorizontalAlignment="Center" 
+										                                      VerticalAlignment="Center"
+                                                                              
+										                                      Margin="{TemplateBinding Padding}" />
+
+
+                                                            <!-- The little plus inside -->
+                                                            <Path x:Name="Plus" 
+                                                                  
+                                                                  Visibility="Hidden"
+                                                                  
+                                                                  Stroke="Black" 
+                                                                  StrokeThickness="2"
+                                                                  
+                                                                  Margin="0,2,0,0"
+                                                        
+                                                                  Data="
+                                                                  M5,9
+                                                                  h8"
+                                                                  
+                                                                  Focusable="False"/>
+
+                                                        </StackPanel>
+
+                                                        <ControlTemplate.Triggers>
+
+                                                            <!-- When mouse enters control  -->
+                                                            <Trigger Property="IsMouseOver" Value="True">
+
+                                                                <!-- Show plus -->
+                                                                <Trigger.EnterActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+
+                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
+                                                                                                           Storyboard.TargetName="Plus">
+
+                                                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                        
+                                                                                                        Value="{x:Static Visibility.Visible}"/>
+
+                                                                            </ObjectAnimationUsingKeyFrames>
+
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.EnterActions>
+
+                                                                <!-- Hide plus -->
+                                                                <Trigger.ExitActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+
+                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
+                                                                                                           Storyboard.TargetName="Plus">
+
+                                                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                        
+                                                                                                        Value="{x:Static Visibility.Hidden}"/>
+
+                                                                            </ObjectAnimationUsingKeyFrames>
+
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.ExitActions>
+
+                                                            </Trigger>
+
+                                                        </ControlTemplate.Triggers>
+
+                                                    </ControlTemplate>
+
+                                                </Setter.Value>
+
+                                            </Setter>
+
+                                        </Style>
+
+                                    </Button.Style>
+
+                                </Button>
+
+                            </DataTemplate>
+
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+
+                    <!-- Add new project preference -->
+                    <Button HorizontalAlignment="Center"
                         
-                        Grid.Row="2"
-                        
-                        Width="20"
-                        
-                        Command="{Binding ShowProjectPreferencesMenuCommand}">
+                                Margin="0,7,0,0"
+                                
+                                Width="20"
+                                
+                                Command="{Binding ShowProjectPreferencesMenuCommand}">
 
-                <Button.Style>
+                        <Button.Style>
 
-                    <Style TargetType="{x:Type Button}">
+                            <Style TargetType="{x:Type Button}">
 
-                        <Setter Property="BorderThickness" Value="1"/>
-                        <Setter Property="BorderBrush" Value="#111"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderBrush" Value="#111"/>
 
-                        <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Background" Value="Transparent"/>
 
-                        <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Cursor" Value="Hand"/>
 
-                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
 
-                        <Setter Property="Template">
+                                <Setter Property="Template">
 
-                            <Setter.Value>
+                                    <Setter.Value>
 
-                                <ControlTemplate TargetType="{x:Type Button}">
+                                        <ControlTemplate TargetType="{x:Type Button}">
 
 
-                                    <!-- Main container -->
-                                    <Border Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
+                                            <!-- Main container -->
+                                            <Border Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
                                             CornerRadius="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
                                             
                                             Background="{TemplateBinding Background}"
@@ -104,8 +212,8 @@
                                             BorderBrush="{TemplateBinding BorderBrush}">
 
 
-                                        <!-- The little plus inside -->
-                                        <Path Stroke="{TemplateBinding BorderBrush}" 
+                                                <!-- The little plus inside -->
+                                                <Path Stroke="{TemplateBinding BorderBrush}" 
                                               
                                               Data="
                                               M3,9
@@ -120,15 +228,21 @@
                                               Height="{TemplateBinding Height}"
                                               />
 
-                                    </Border>
+                                            </Border>
 
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
 
-            </Button>
+                        </Button.Style>
+
+                    </Button>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
 
         </Grid>
 
