@@ -63,6 +63,9 @@
                 })
                 .AsEnumerable();
 
+            // Update HasPreferences flag
+            vm.HasPreferences = true;
+
             // If user added last project type
             if (vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Count == 0)
             {
