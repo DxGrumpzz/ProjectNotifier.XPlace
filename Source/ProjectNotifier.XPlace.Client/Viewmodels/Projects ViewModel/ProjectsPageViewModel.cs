@@ -69,28 +69,20 @@
 
             var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
 
-            userProfile.UserProjectPreferences = new List<UserProjectPreference>()
-            {
-                new UserProjectPreference()
-                {
-                    ProjectType = ProjectTypes.Administration,
-                },
 
-                new UserProjectPreference()
-                {
-                    ProjectType = ProjectTypes.ArchitectureAndInteriorDesign,
-                },
+            // Add every project type except for the last one
+            var projectTypes = Enum.GetValues(typeof(ProjectTypes));
 
-                new UserProjectPreference()
-                {
-                    ProjectType = ProjectTypes.CoachingAndTraining,
-                },
+            var projets = projectTypes.OfType<ProjectTypes>()
+            .ToList()
+            .GetRange(0, projectTypes.Length - 1)
+            .Select(projectType => new UserProjectPreference()
+            { 
+                ProjectType = projectType,
+            });
 
-                new UserProjectPreference()
-                {
-                    ProjectType = ProjectTypes.Executives,
-                },
-            };
+            userProfile.UserProjectPreferences = projets;
+
 
             // Bind hub events
             DI.GetService<IServerConnection>().ProjectsHubConnection.On<IEnumerable<ProjectModel>>("ProjectListUpdated", ProjectListUpdated);
@@ -127,7 +119,7 @@
                     int chunccSize = 5 > projectsCount ?
                         projectsCount :
                         5;
-                    
+
                     // Get a chunk out of the cached projectlist
                     DI.GetService<IClientCache>().ProjectListCache
                     // Convert it to a List<> to get more functionality
