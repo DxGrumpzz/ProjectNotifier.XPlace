@@ -54,10 +54,12 @@
                             <DataTemplate>
 
                                 <!-- The type of project -->
-                                <Button Content="{Binding}"
+                                <Button Content="{Binding ProjectType}"
                                         
                                         Margin="2,2,0,2"
-                                        HorizontalAlignment="Center">
+                                        HorizontalAlignment="Center"
+                                        
+                                        Command="{Binding RemovePreferenceCommand}">
 
                                     <Button.Style>
 
