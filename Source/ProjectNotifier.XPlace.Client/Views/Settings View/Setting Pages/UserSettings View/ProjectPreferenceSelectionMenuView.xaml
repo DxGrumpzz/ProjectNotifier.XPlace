@@ -151,32 +151,117 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
 
-                            <StackPanel Orientation="Horizontal"
+                                <!-- The type of project -->
+                                <Button Margin="2,2,0,2"
+                                        
                                         HorizontalAlignment="Center">
 
-                                <!-- The type of project -->
-                                <TextBlock Text="{Binding}"
-                                   
-                                           FontFamily="Open Sans Hebrew"
-                                           
-                                           Margin="5,2"/>
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+
+                                            <Setter Property="FontFamily" Value="Open Sans Hebrew"/>
+                                            <Setter Property="Content" Value="{Binding}"/>
+
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+
+                                            <Setter Property="Cursor" Value="Hand"/>
+
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    Background="{TemplateBinding Background}">
+
+                                                            <!-- Contet injector -->
+                                                            <ContentPresenter x:Name="contentPresenter" 
+										  
+										                                      Focusable="False"
+										                                      
+										                                      HorizontalAlignment="Center" 
+										                                      VerticalAlignment="Center"
+                                                                              
+										                                      Margin="{TemplateBinding Padding}" />
 
 
-                                <!-- The little plus inside -->
-                                <Path Stroke="Black" 
-                                            
-                                      Margin="0,2,0,0"
-                                      Data="
-                                      M5,9
-                                      h8
-                                      M9,5
-                                      v8"
+                                                            <!-- The little plus inside -->
+                                                            <Path x:Name="Plus" 
+                                                                  
+                                                                  Visibility="Hidden"
+                                                                  
+                                                                  Stroke="Black" 
+                                                                  StrokeThickness="2"
+                                                                  
+                                                                  Margin="0,2,0,0"
+                                                                
+                                                                  Data="
+                                                                  M5,9
+                                                                  h8
+                                                                  M9,5
+                                                                  v8"
+                                                                  
+                                                                  Focusable="False"/>
 
-                                      StrokeThickness="2"
-                                      />
+                                                        </StackPanel>
 
 
-                            </StackPanel>
+                                                        <ControlTemplate.Triggers>
+
+                                                            <!-- When mouse enters control  -->
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                
+                                                                <!-- Show plus -->
+                                                                <Trigger.EnterActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+
+                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
+                                                                                                           Storyboard.TargetName="Plus">
+                                                                                
+                                                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                        
+                                                                                                        Value="{x:Static Visibility.Visible}"/>
+
+                                                                            </ObjectAnimationUsingKeyFrames>
+
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.EnterActions>
+
+                                                                <!-- Hide plus -->
+                                                                <Trigger.ExitActions>
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+
+                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
+                                                                                                           Storyboard.TargetName="Plus">
+
+                                                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                                                        
+                                                                                                        Value="{x:Static Visibility.Hidden}"/>
+
+                                                                            </ObjectAnimationUsingKeyFrames>
+
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </Trigger.ExitActions>
+
+                                                            </Trigger>
+
+                                                        </ControlTemplate.Triggers>
+
+                                                    </ControlTemplate>
+
+                                                </Setter.Value>
+                                            </Setter>
+
+                                        </Style>
+                                    </Button.Style>
+
+                                </Button>
+
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 
