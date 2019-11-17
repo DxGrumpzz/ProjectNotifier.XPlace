@@ -38,7 +38,7 @@
         /// <summary>
         /// The list of project types that the user can select from 
         /// </summary>
-        public ObservableCollection<ProjectTypes> AvailableProjectTypes { get; set; }
+        public ObservableCollection<ProjectPreferenceMenuItemViewModel> AvailableProjectTypes { get; set; }
 
         /// <summary>
         /// A boolean flag that indicates if the menu is open
@@ -70,7 +70,7 @@
         public ProjectPreferenceSelectionMenuViewModel(IEnumerable<ProjectTypes> userProjects)
         {
             // Load available projects
-            AvailableProjectTypes = new ObservableCollection<ProjectTypes>(GetNeccessaryProjects(userProjects));
+            AvailableProjectTypes = new ObservableCollection<ProjectPreferenceMenuItemViewModel>(GetNeccessaryProjects(userProjects));
 
 
             CloseMenuCommand = new RelayCommand(ExecuteCloseMenuCommand);
@@ -92,14 +92,19 @@
         /// Retrieves a list of preffered project types depending on the user's already existing list
         /// </summary>
         /// <param name="userProjects"> The list of the user's preffered projects </param>
-        private IEnumerable<ProjectTypes> GetNeccessaryProjects(IEnumerable<ProjectTypes> userProjects)
+        private IEnumerable<ProjectPreferenceMenuItemViewModel> GetNeccessaryProjects(IEnumerable<ProjectTypes> userProjects)
         {
             // Get a array of integers representing each value in ProjectTypes
             var projectTypeNumericValues = ((int[])Enum.GetValues(typeof(ProjectTypes)))
                 .Select(projectTypeValue => (ProjectTypes)projectTypeValue);
 
             // Get only the project types that aren't in the user's projects list
-            var differences = projectTypeNumericValues.Except(userProjects);
+            var differences = projectTypeNumericValues.Except(userProjects)
+                // Convert list of ProjectTypes to ProjectPreferenceMenuItemViewModel
+                .Select(projectType => new ProjectPreferenceMenuItemViewModel()
+                {
+                    ProjectType = projectType,
+                });
 
             return differences;
         }
