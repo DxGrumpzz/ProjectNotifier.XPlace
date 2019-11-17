@@ -47,6 +47,9 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObservableCollection<UserProjectPreferenceItemViewModel> _projectPreferences;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool _hasPreferences;
+
         #endregion
 
 
@@ -65,10 +68,25 @@
             }
         }
 
+
         /// <summary>
         /// Menu for selecting project preferences
         /// </summary>
         public ProjectPreferenceSelectionMenuViewModel ProjectPreferenceSelectionMenuViewModel { get; set; }
+
+
+        /// <summary>
+        /// A boolean flag that indicates if the user has selected preferences
+        /// </summary>
+        public bool HasPreferences
+        {
+            get => _hasPreferences;
+            set
+            {
+                _hasPreferences = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -94,6 +112,7 @@
                 {
                     ProjectType = projectType.ProjectType,
                 }));
+
 
             // Setup ProjectPreferenceSelectionMenuViewModel by...
             ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(
