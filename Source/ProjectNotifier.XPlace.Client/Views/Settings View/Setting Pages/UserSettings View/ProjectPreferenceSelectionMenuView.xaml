@@ -14,49 +14,49 @@
 
 
     <UserControl.Resources>
-        
+
         <!-- A style specifing opening and closing animations for this control-->
         <Style TargetType="{x:Type FrameworkElement}" x:Key="OpenCloseAnimations">
 
-        <Style.Triggers>
+            <Style.Triggers>
 
-            <DataTrigger  Binding="{Binding IsMenuOpen}" Value="True">
+                <DataTrigger  Binding="{Binding IsMenuOpen}" Value="True">
 
 
-                <!-- Set visibility to hidden only after the animations have been completed -->
-                <DataTrigger.EnterActions>
+                    <!-- Set visibility to hidden only after the animations have been completed -->
+                    <DataTrigger.EnterActions>
 
-                    <BeginStoryboard>
+                        <BeginStoryboard>
 
-                        <Storyboard>
+                            <Storyboard>
 
-                            <!-- Fade in -->
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                <!-- Fade in -->
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                  
                                              From="0"
                                              To="1"
                                              
                                              Duration="0:0:0.25"/>
 
-                            <!-- Stop mouse interactivity with control behind this one -->
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <!-- Stop mouse interactivity with control behind this one -->
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)">
 
-                                <DiscreteObjectKeyFrame KeyTime="0" 
+                                    <DiscreteObjectKeyFrame KeyTime="0" 
                                                         Value="{x:Static Visibility.Visible}"/>
 
-                            </ObjectAnimationUsingKeyFrames>
+                                </ObjectAnimationUsingKeyFrames>
 
-                        </Storyboard>
-                    </BeginStoryboard>
-                </DataTrigger.EnterActions>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
 
 
 
-                <DataTrigger.ExitActions>
+                    <DataTrigger.ExitActions>
 
-                    <BeginStoryboard>
+                        <BeginStoryboard>
 
-                        <Storyboard>
+                            <Storyboard>
 
                                 <!-- Fade out -->
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity"
@@ -70,23 +70,23 @@
                                 <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.25" 
                                                                Storyboard.TargetProperty="(UIElement.Visibility)">
 
-                                <DiscreteObjectKeyFrame KeyTime="0" 
+                                    <DiscreteObjectKeyFrame KeyTime="0" 
                                                         Value="{x:Static Visibility.Collapsed}"/>
 
-                            </ObjectAnimationUsingKeyFrames>
-                            
-                        </Storyboard>
-                    </BeginStoryboard>
-                </DataTrigger.ExitActions>
+                                </ObjectAnimationUsingKeyFrames>
 
-            </DataTrigger>
-        </Style.Triggers>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
 
     <Grid>
-        
+
         <!-- Overlay behind the control -->
         <Border Visibility="{Binding IsMenuOpen, 
 	    	    Converter={local:BoolToVisibilityValueConverter}}"
@@ -96,20 +96,20 @@
                 Style="{StaticResource OpenCloseAnimations}">
 
             <Border.InputBindings>
-                
+
                 <MouseBinding MouseAction="LeftClick"
                               Command="{Binding CloseMenuCommand}"/>
-                
+
             </Border.InputBindings>
 
             <Border.Background>
-            <SolidColorBrush Color="Black" Opacity="0.2"/>
-        </Border.Background>
+                <SolidColorBrush Color="Black" Opacity="0.2"/>
+            </Border.Background>
 
 
         </Border>
-        
-        
+
+
         <!-- Project type selection -->
         <Border Visibility="Collapsed"
                 
@@ -141,39 +141,58 @@
                                   								  
                                   ShadowDepth="1"/>
             </Border.Effect>
-            
+
 
             <!-- The list of avaiable Sproject types -->
-            <ScrollViewer>
-                
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+
                 <ItemsControl ItemsSource="{Binding AvailableProjectTypes}">
 
                     <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+                        <DataTemplate>
 
-                        <TextBlock Text="{Binding}"
-                                   
-                                   FontFamily="Open Sans Hebrew"
-                                   TextAlignment="Center"
-                                   
-                                   Margin="5,2"/>
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center">
 
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                                <!-- The type of project -->
+                                <TextBlock Text="{Binding}"
+                                   
+                                           FontFamily="Open Sans Hebrew"
+                                           
+                                           Margin="5,2"/>
+
+
+                                <!-- The little plus inside -->
+                                <Path Stroke="Black" 
+                                            
+                                      Margin="0,2,0,0"
+                                      Data="
+                                      M5,9
+                                      h8
+                                      M9,5
+                                      v8"
+
+                                      StrokeThickness="2"
+                                      />
+
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
                     <!-- Place the items inside a StackPanel-->
                     <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
+                        <ItemsPanelTemplate>
 
-                        <StackPanel/>
+                            <StackPanel/>
 
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
                 </ItemsControl>
 
             </ScrollViewer>
-            
+
         </Border>
 
     </Grid>
