@@ -2,6 +2,7 @@
 {
     using ProjectNotifier.XPlace.Core;
     using System.Diagnostics;
+    using System.Linq;
     using System.Windows.Input;
 
     /// <summary>
@@ -39,6 +40,8 @@
         {
             // TODO: improve later 
 
+            var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
+
             // Get user settings viewmodel
             var vm = ((UserSettingsViewModel)DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage.ViewModel);
 
@@ -48,8 +51,17 @@
             // Remove this item from project preference selection menu
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Remove(this);
 
+            // Update UserProfile project list
+            userProfile.UserProjectPreferences = vm.ProjectPreferences
+                .Select(projectType => new UserProjectPreference()
+                {
+                    ProjectType = projectType,
+                    User = userProfile,
+                })
+                .AsEnumerable();
+
             // If user added last project type
-            if(vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Count == 0)
+            if (vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Count == 0)
             {
                 // Close project preferce menu
                 vm.ProjectPreferenceSelectionMenuViewModel.IsMenuOpen = false;
