@@ -152,15 +152,17 @@
                         <DataTemplate>
 
                                 <!-- The type of project -->
-                                <Button Margin="2,2,0,2"
+                                <Button Content="{Binding ProjectType}"
                                         
-                                        HorizontalAlignment="Center">
+                                        Margin="2,2,0,2"
+                                        HorizontalAlignment="Center"
+                                        
+                                        Command="{ Binding AddProjectTypeCommand}">
 
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}">
 
                                             <Setter Property="FontFamily" Value="Open Sans Hebrew"/>
-                                            <Setter Property="Content" Value="{Binding}"/>
 
                                             <Setter Property="Background" Value="Transparent"/>
                                             <Setter Property="BorderThickness" Value="0"/>
