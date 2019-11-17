@@ -1,7 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
-
+    using System.Diagnostics;
     using System.Windows.Input;
 
     /// <summary>
@@ -47,6 +47,13 @@
 
             // Remove this item from project preference selection menu
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Remove(this);
+
+            // If user added last project type
+            if(vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Count == 0)
+            {
+                // Close project preferce menu
+                vm.ProjectPreferenceSelectionMenuViewModel.IsMenuOpen = false;
+            };
         } 
 
         #endregion
