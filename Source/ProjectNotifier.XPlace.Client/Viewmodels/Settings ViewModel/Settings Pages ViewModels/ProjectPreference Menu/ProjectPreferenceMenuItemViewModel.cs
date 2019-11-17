@@ -15,7 +15,7 @@
         /// <summary>
         /// The project types that the user can select 
         /// </summary>
-        public ProjectTypes ProjectTypes { get; set; }
+        public ProjectTypes ProjectType { get; set; }
 
         #endregion
 
@@ -39,6 +39,7 @@
         {
 
         } 
+
         #endregion
 
     };
