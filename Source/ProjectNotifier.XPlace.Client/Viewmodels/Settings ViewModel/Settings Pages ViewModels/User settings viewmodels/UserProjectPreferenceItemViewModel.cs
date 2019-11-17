@@ -60,11 +60,10 @@
                 .AsEnumerable();
 
 
-            // If user added last project type
-            //if (vm.ProjectPreferences.Count == 0)
-            //{
-
-            //};
+            // If user has removed every preference
+            if (vm.ProjectPreferences.Count == 0)
+                // Update HasPreferences flag
+                vm.HasPreferences = false;
         }
     };
 };
