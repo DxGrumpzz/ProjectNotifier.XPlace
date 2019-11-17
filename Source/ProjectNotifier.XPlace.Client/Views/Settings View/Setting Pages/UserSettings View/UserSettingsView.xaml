@@ -47,6 +47,7 @@
 
                 <StackPanel>
 
+
                     <ItemsControl ItemsSource="{Binding ProjectPreferences}">
 
                         <ItemsControl.ItemTemplate>
@@ -175,14 +176,25 @@
                     </ItemsControl>
 
 
+                    <!-- A text that will appear when the user has no selected preferences -->
+                    <TextBlock Text=". . . אין פרוייקטים מועדפים"
+                               FontFamily="Open Sans Hebrew"
+                               TextAlignment="Center"
+                               
+                               Grid.Row="1"
+                               
+                               Visibility="{Binding HasPreferences, 
+                                            Converter={local:BoolToVisibilityCollapsedValueConverter},
+                                            ConverterParameter=true}"/>
+
                     <!-- Add new project preference -->
                     <Button HorizontalAlignment="Center"
                         
-                                Margin="0,7,0,0"
-                                
-                                Width="20"
-                                
-                                Command="{Binding ShowProjectPreferencesMenuCommand}">
+                            Margin="0,7,0,0"
+                            
+                            Width="20"
+                            
+                            Command="{Binding ShowProjectPreferencesMenuCommand}">
 
                         <Button.Style>
 
@@ -244,7 +256,6 @@
                 </StackPanel>
 
             </ScrollViewer>
-
 
         </Grid>
 
