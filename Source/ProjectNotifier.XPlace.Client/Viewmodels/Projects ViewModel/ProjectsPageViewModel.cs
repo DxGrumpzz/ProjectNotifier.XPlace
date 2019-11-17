@@ -67,6 +67,31 @@
             ProjectListScrolledCommand = new RelayCommand<ScrollChangedEventArgs>(ExecuteProjectListScrolled);
 
 
+            var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
+
+            userProfile.UserProjectPreferences = new List<UserProjectPreference>()
+            {
+                new UserProjectPreference()
+                {
+                    ProjectType = ProjectTypes.Administration,
+                },
+
+                new UserProjectPreference()
+                {
+                    ProjectType = ProjectTypes.ArchitectureAndInteriorDesign,
+                },
+
+                new UserProjectPreference()
+                {
+                    ProjectType = ProjectTypes.CoachingAndTraining,
+                },
+
+                new UserProjectPreference()
+                {
+                    ProjectType = ProjectTypes.Executives,
+                },
+            };
+
             // Bind hub events
             DI.GetService<IServerConnection>().ProjectsHubConnection.On<IEnumerable<ProjectModel>>("ProjectListUpdated", ProjectListUpdated);
         }
