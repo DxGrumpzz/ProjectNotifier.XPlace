@@ -3,6 +3,7 @@
     using ProjectNotifier.XPlace.Core;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
 
@@ -31,7 +32,7 @@
         /// <summary>
         /// The list of project types that the user can select from 
         /// </summary>
-        public List<ProjectTypes> AvailableProjectTypes { get; set; }
+        public ObservableCollection<ProjectTypes> AvailableProjectTypes { get; set; }
 
         /// <summary>
         /// A boolean flag that indicates if the menu is open
@@ -63,7 +64,7 @@
         public ProjectPreferenceSelectionMenuViewModel(IEnumerable<ProjectTypes> userProjects)
         {
             // Load available projects
-            AvailableProjectTypes = new List<ProjectTypes>(GetNeccessaryProjects(userProjects));
+            AvailableProjectTypes = new ObservableCollection<ProjectTypes>(GetNeccessaryProjects(userProjects));
 
 
             CloseMenuCommand = new RelayCommand(ExecuteCloseMenuCommand);
