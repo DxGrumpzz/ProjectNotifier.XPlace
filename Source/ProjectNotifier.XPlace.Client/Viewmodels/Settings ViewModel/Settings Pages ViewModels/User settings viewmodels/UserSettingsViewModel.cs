@@ -113,6 +113,10 @@
                     ProjectType = projectType.ProjectType,
                 }));
 
+            // Project preferences present
+            if (ProjectPreferences.Count > 0)
+                // Update flag
+                HasPreferences = true;
 
             // Setup ProjectPreferenceSelectionMenuViewModel by...
             ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(
