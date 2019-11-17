@@ -3,6 +3,7 @@
     using ProjectNotifier.XPlace.Core;
 
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     /// <summary>
@@ -46,9 +47,14 @@
                         {
                             ViewModel = new UserSettingsViewModel()
                             {
-                                ProjectPreferences = new System.Collections.ObjectModel.ObservableCollection<ProjectTypes>(
+                                ProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
                                     ss.UserProjectPreferences
-                                    .Select(project => project.ProjectType)),
+                                    .Select(projectType => new UserProjectPreferenceItemViewModel()
+                                    {
+                                        ProjectType = projectType.ProjectType,
+                                    })),
+
+                                
                             },
                         };
                     }),

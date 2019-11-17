@@ -46,7 +46,10 @@
             var vm = ((UserSettingsViewModel)DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage.ViewModel);
 
             // Add this item to user preffered project list
-            vm.ProjectPreferences.Add(ProjectType);
+            vm.ProjectPreferences.Add(new UserProjectPreferenceItemViewModel()
+            {
+                ProjectType = ProjectType,
+            });
 
             // Remove this item from project preference selection menu
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Remove(this);
@@ -55,7 +58,7 @@
             userProfile.UserProjectPreferences = vm.ProjectPreferences
                 .Select(projectType => new UserProjectPreference()
                 {
-                    ProjectType = projectType,
+                    ProjectType = projectType.ProjectType,
                     User = userProfile,
                 })
                 .AsEnumerable();
