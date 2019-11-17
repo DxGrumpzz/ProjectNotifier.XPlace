@@ -13,8 +13,14 @@
     /// </summary>
     public class ProjectPreferenceSelectionMenuViewModel : BaseViewModel
     {
-
-        public static ProjectPreferenceSelectionMenuViewModel DesignInstance => new ProjectPreferenceSelectionMenuViewModel(null)
+        public static ProjectPreferenceSelectionMenuViewModel DesignInstance => new ProjectPreferenceSelectionMenuViewModel(
+            new List<ProjectTypes>()
+            {
+                ProjectTypes.Administration,
+                ProjectTypes.Translations,
+                ProjectTypes.WritingAndEditing,
+                ProjectTypes.SAP,
+            })
         {
             IsMenuOpen = true,
         };
@@ -70,13 +76,15 @@
             CloseMenuCommand = new RelayCommand(ExecuteCloseMenuCommand);
         }
 
-        
+
+        #region Command callback
 
         private void ExecuteCloseMenuCommand()
         {
             IsMenuOpen = false;
         }
 
+        #endregion
 
         #region Private helpers
 
