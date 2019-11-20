@@ -1,6 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Windows.Input;
@@ -55,13 +56,13 @@
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Remove(this);
 
             // Update UserProfile project list
-            userProfile.UserProjectPreferences = vm.ProjectPreferences
+            userProfile.UserProjectPreferences = new List<UserProjectPreference>(
+                vm.ProjectPreferences
                 .Select(projectType => new UserProjectPreference()
                 {
                     ProjectType = projectType.ProjectType,
                     User = userProfile,
-                })
-                .AsEnumerable();
+                }));
 
             // Update HasPreferences flag
             vm.HasPreferences = true;
