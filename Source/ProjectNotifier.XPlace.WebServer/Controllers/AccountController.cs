@@ -77,7 +77,8 @@
                         // Assign user properties
                         Username = user.UserName,
                         UserID = user.Id,
-                        UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
+                        // Only retrieve project preferences if it isn't null
+                        UserProjectPreferences = user.UserProjectPreferences?.Select(projctType => projctType.ProjectType),
                     },
 
                     // Load projects
@@ -108,7 +109,8 @@
                 {
                     Username = user.UserName,
                     UserID = user.Id,
-                    UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
+                    // Only retrieve project preferences if it isn't null
+                    UserProjectPreferences = user.UserProjectPreferences?.Select(projctType => projctType.ProjectType),
                 },
 
                 // Load projects
