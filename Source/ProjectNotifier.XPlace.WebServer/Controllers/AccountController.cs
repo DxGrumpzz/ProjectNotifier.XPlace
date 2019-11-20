@@ -71,10 +71,14 @@
 
                 return new LoginResponseModel()
                 {
-                    // Assign user properties
-                    Username = user.UserName,
-                    UserID = user.Id,
-                    UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
+                    // Create user profile
+                    UserProfile = new UserProfileModel()
+                    {
+                        // Assign user properties
+                        Username = user.UserName,
+                        UserID = user.Id,
+                        UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
+                    },
 
                     // Load projects
                     Projects = _projectList.Projects,
@@ -99,10 +103,13 @@
 
             return new LoginResponseModel()
             {
-                // Assign user properties
-                Username = user.UserName,
-                UserID = user.Id,
-                UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
+                // Create user profile
+                UserProfile = new UserProfileModel()
+                {
+                    Username = user.UserName,
+                    UserID = user.Id,
+                    UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
+                },
 
                 // Load projects
                 Projects = _projectList.Projects,
