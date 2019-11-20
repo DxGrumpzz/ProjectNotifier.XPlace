@@ -71,13 +71,13 @@
         /// Retrieves the user's profile
         /// </summary>
         /// <returns></returns>
-        public AppUserModel GetUserProfile();
+        public UserProfileModel GetUserProfile();
 
         /// <summary>
         /// Save the users profile
         /// </summary>
         /// <returns></returns>
-        public void SaveUserProfile(AppUserModel userMode);
+        public void SaveUserProfile(UserProfileModel userMode);
 
         #endregion
 

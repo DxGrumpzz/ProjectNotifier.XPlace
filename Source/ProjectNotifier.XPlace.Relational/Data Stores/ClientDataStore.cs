@@ -18,7 +18,7 @@
         /// <summary>
         /// The user's profile data model
         /// </summary>
-        private AppUserModel _appUserModel;
+        private UserProfileModel _userProfile;
 
         /// <summary>
         /// The client's local database storage
@@ -152,18 +152,18 @@
         /// Retrieves the user's profile
         /// </summary>
         /// <returns></returns>
-        public AppUserModel GetUserProfile()
+        public UserProfileModel GetUserProfile()
         {
-            return _appUserModel;
+            return _userProfile;
         }
 
         /// <summary>
         /// Save the users profile
         /// </summary>
         /// <returns></returns>
-        public void SaveUserProfile(AppUserModel userModel)
+        public void SaveUserProfile(UserProfileModel userModel)
         {
-            _appUserModel = userModel;
+            _userProfile = userModel;
         }
 
         #endregion
