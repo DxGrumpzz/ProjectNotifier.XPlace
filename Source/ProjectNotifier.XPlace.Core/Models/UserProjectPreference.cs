@@ -11,11 +11,16 @@
         /// </summary>
         public string RowID { get; set; }
 
+
+
         /// <summary>
         /// The <see cref="AppUserModel "/> associated with this entry
         /// </summary>
         public AppUserModel User { get; set; }
-        
+
+        public string UserID { get; set; }
+
+
         /// <summary>
         /// The type of project the user prefers to work on
         /// </summary>
