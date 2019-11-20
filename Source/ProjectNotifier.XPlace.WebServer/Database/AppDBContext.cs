@@ -10,7 +10,7 @@
     public class AppDBContext : IdentityDbContext<AppUserModel>
     {
 
-        DbSet<UserProjectPreference> UserProjectPreferences { get; set; }
+        public DbSet<UserProjectPreference> UserProjectPreferences { get; set; }
 
 
 
@@ -30,6 +30,13 @@
             builder.Entity<UserProjectPreference>()
             .HasKey(key => key.RowID);
 
+            // Map user preferences to a 1 to many relationship
+            builder.Entity<UserProjectPreference>()
+            .HasOne(property => property.User)
+            .WithMany(p => p.UserProjectPreferences)
+            .HasForeignKey(key => key.UserID);
+
+
             #endregion
 
 
@@ -38,8 +45,8 @@
             // Map user preferences to a 1 to many relationship
             builder.Entity<AppUserModel>()
             .HasMany(property => property.UserProjectPreferences)
-            .WithOne(p => p.User);
-
+            .WithOne(p => p.User)
+            .HasForeignKey(key => key.UserID);
 
             #endregion
         }
