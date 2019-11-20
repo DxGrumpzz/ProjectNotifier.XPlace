@@ -95,6 +95,7 @@
 
         public ICommand ShowProjectPreferencesMenuCommand { get; }
 
+        public ICommand SaveChangesCommand { get; }
         #endregion
 
 
@@ -126,7 +127,15 @@
                 .Select(projectType => projectType.ProjectType));
 
 
+
             ShowProjectPreferencesMenuCommand = new RelayCommand(ExecuteShowProjectPreferencesMenuCommand);
+            SaveChangesCommand = new RelayCommand(ExecuteSaveChangesCommand);
+        }
+
+
+        private void ExecuteSaveChangesCommand()
+        {
+            
         }
 
         private void ExecuteShowProjectPreferencesMenuCommand()
