@@ -17,36 +17,40 @@
     <Grid>
 
         <!-- User's project preferences -->
-        <Grid Background="Transparent"
+        <Grid Margin="5"
               
-              Margin="5"
+              MaxWidth="250"
               
               HorizontalAlignment="Right">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="AUTO"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="AUTO"/>
             </Grid.RowDefinitions>
 
             
             <TextBlock Text="העדפות הפרוייקטים שלך"
-                           
+                       
+                       Grid.Row="0"
+                       
                        FontSize="15"
                        FontWeight="Light"
                        FontFamily="Open Sans Hebrew"
                        
-                       TextAlignment="Right"/>
+                       TextAlignment="Center"/>
 
 
             <!-- List of the user's preffered project types -->
             <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              
+                          
+                          MaxHeight="350"
+                          
                           Grid.Row="1"
                           
                           Margin="0,10">
 
-                <StackPanel>
-
+                <Grid>
 
                     <ItemsControl ItemsSource="{Binding ProjectPreferences}">
 
@@ -57,8 +61,9 @@
                                 <!-- The type of project -->
                                 <Button Content="{Binding ProjectType}"
                                         
-                                        Margin="2,2,0,2"
                                         HorizontalAlignment="Center"
+                                        
+                                        Margin="0,2"
                                         
                                         Command="{Binding RemovePreferenceCommand}">
 
@@ -180,44 +185,50 @@
                     <TextBlock Text=". . . אין פרוייקטים מועדפים"
                                FontFamily="Open Sans Hebrew"
                                TextAlignment="Center"
-                               
-                               Grid.Row="1"
+                           
+                               Margin="0,2"
                                
                                Visibility="{Binding HasPreferences, 
                                             Converter={local:BoolToVisibilityCollapsedValueConverter},
                                             ConverterParameter=true}"/>
+                    
+                </Grid>
 
-                    <!-- Add new project preference -->
-                    <Button HorizontalAlignment="Center"
-                        
-                            Margin="0,7,0,0"
-                            
-                            Width="20"
-                            
-                            Command="{Binding ShowProjectPreferencesMenuCommand}">
-
-                        <Button.Style>
-
-                            <Style TargetType="{x:Type Button}">
-
-                                <Setter Property="BorderThickness" Value="1"/>
-                                <Setter Property="BorderBrush" Value="#111"/>
-
-                                <Setter Property="Background" Value="Transparent"/>
-
-                                <Setter Property="Cursor" Value="Hand"/>
-
-                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-
-                                <Setter Property="Template">
-
-                                    <Setter.Value>
-
-                                        <ControlTemplate TargetType="{x:Type Button}">
+            </ScrollViewer>
 
 
-                                            <!-- Main container -->
-                                            <Border Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
+
+            <!-- Add new project preference -->
+            <Button HorizontalAlignment="Center"
+                    Grid.Row="2"
+                    Margin="0,-2,10,0"
+
+                    Width="20"
+                    
+                    Command="{Binding ShowProjectPreferencesMenuCommand}">
+
+                <Button.Style>
+
+                    <Style TargetType="{x:Type Button}">
+
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="BorderBrush" Value="#111"/>
+
+                        <Setter Property="Background" Value="Transparent"/>
+
+                        <Setter Property="Cursor" Value="Hand"/>
+
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+                        <Setter Property="Template">
+
+                            <Setter.Value>
+
+                                <ControlTemplate TargetType="{x:Type Button}">
+
+                                    
+                                    <!-- Main container -->
+                                    <Border Height="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth}"
                                             CornerRadius="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}"
                                             
                                             Background="{TemplateBinding Background}"
@@ -225,43 +236,42 @@
                                             BorderThickness="{TemplateBinding BorderThickness}"
                                             BorderBrush="{TemplateBinding BorderBrush}">
 
+                                        
+                                        <!-- The little plus inside -->
+                                         <Path Stroke="{TemplateBinding BorderBrush}" 
+                                                                           
+                                               Data="
+                                               M5,9
+                                               h8
+                                                
+                                               M9,5
+                                               v8"
 
-                                                <!-- The little plus inside -->
-                                                <Path Stroke="{TemplateBinding BorderBrush}" 
-                                              
-                                              Data="
-                                              M3,9
-                                              h12
+                                               StrokeThickness="1" 
                                                
-                                              M9,3
-                                              v12"
+                                               Width="{TemplateBinding Width}"
+                                               Height="{TemplateBinding Height}"/>
 
-                                              StrokeThickness="1.5" 
-                                              
-                                              Width="{TemplateBinding Width}"
-                                              Height="{TemplateBinding Height}"
-                                              />
+                                    </Border>
 
-                                            </Border>
+                                </ControlTemplate>
+                                
+                            </Setter.Value>
+                        
+                        </Setter>
+                        
+                    </Style>
 
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
+                </Button.Style>
 
-                        </Button.Style>
-
-                    </Button>
-
-                </StackPanel>
-
-            </ScrollViewer>
+            </Button>
 
         </Grid>
 
-
+        
         <!-- Project preferences menu -->
         <local:ProjectPreferenceSelectionMenuView DataContext="{Binding ProjectPreferenceSelectionMenuViewModel}"/>
 
     </Grid>
+    
 </local:BaseView>
