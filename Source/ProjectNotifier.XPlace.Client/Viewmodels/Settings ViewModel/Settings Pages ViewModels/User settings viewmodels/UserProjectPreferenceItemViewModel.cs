@@ -52,12 +52,7 @@
 
 
             // Update UserProfile project list
-            userProfile.UserProjectPreferences = new List<UserProjectPreference>(vm.ProjectPreferences
-                .Select(projectType => new UserProjectPreference()
-                {
-                    ProjectType = projectType.ProjectType,
-                    User = userProfile,
-                }));
+            userProfile.UserProjectPreferences = vm.ProjectPreferences.Select(projectType => projectType.ProjectType);
 
 
             // If user has removed every preference

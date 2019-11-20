@@ -56,13 +56,7 @@
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Remove(this);
 
             // Update UserProfile project list
-            userProfile.UserProjectPreferences = new List<UserProjectPreference>(
-                vm.ProjectPreferences
-                .Select(projectType => new UserProjectPreference()
-                {
-                    ProjectType = projectType.ProjectType,
-                    User = userProfile,
-                }));
+            userProfile.UserProjectPreferences = vm.ProjectPreferences.Select(projectType => projectType.ProjectType);
 
             // Update HasPreferences flag
             vm.HasPreferences = true;

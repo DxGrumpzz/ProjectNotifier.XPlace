@@ -190,7 +190,7 @@
                 DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
 
                 // Save profile 
-                DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserModel);
+                DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserProfile);
 
 
                 DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects

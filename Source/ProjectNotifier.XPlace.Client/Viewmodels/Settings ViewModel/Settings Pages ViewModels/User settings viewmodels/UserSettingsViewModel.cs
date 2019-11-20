@@ -117,7 +117,7 @@
                     // And converting the projects to UserProjectPreferenceItemViewModel
                     .Select(projectType => new UserProjectPreferenceItemViewModel()
                     {
-                        ProjectType = projectType.ProjectType,
+                        ProjectType = projectType,
                     }));
 
                 // Project preferences present
@@ -128,9 +128,7 @@
                 // Setup ProjectPreferenceSelectionMenuViewModel by...
                 ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(
                     // Getting the user's project preferences
-                    userProfile.UserProjectPreferences
-                    // And converting the projects to ProjectTypes
-                    .Select(projectType => projectType.ProjectType));
+                    userProfile.UserProjectPreferences);
             }
             else
             {

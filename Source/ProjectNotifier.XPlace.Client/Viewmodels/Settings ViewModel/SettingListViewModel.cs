@@ -41,20 +41,29 @@
 
                     GotoSettingCommand = new RelayCommand(() =>
                     {
+                        // Get user profile
                         var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
 
+                        // Temporary list
                         var userProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>();
 
+                        // If user has project preferences
                         if(userProfile.UserProjectPreferences != null)
                         {
+                            // Create an observable list of UserProjectPreferenceItemViewModel by...
                             userProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
-                                userProfile.UserProjectPreferences.Select(projectType => new UserProjectPreferenceItemViewModel()
+                                // Getting the  user's project preferences
+                                userProfile.UserProjectPreferences
+                                // Cast the list of ProjectTypes to UserProjectPreferenceItemViewModel
+                                .Select(projectType => 
+                                new UserProjectPreferenceItemViewModel()
                                 {
-                                 ProjectType = projectType.ProjectType,
+                                    ProjectType = projectType,
                                 }));
                         };
 
-                        var s = DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage = new UserSettingsView()
+                        // Switch to User settings page
+                        DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage = new UserSettingsView()
                         {
                             ViewModel = new UserSettingsViewModel()
                             {
