@@ -12,7 +12,7 @@
         /// <summary>
         /// The user's project preferences
         /// </summary>
-        public IEnumerable<UserProjectPreference> UserProjectPreferences { get; set; }
+        public ICollection<UserProjectPreference> UserProjectPreferences { get; set; }
 
     };
 };
