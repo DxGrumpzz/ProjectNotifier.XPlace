@@ -3,29 +3,31 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.EntityFrameworkCore;
     using ProjectNotifier.XPlace.Core;
 
     using System;
-    using System.Diagnostics;
+    using System.Linq;
     using System.Net;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     [Route("[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        
+
         private readonly SignInManager<AppUserModel> _signInManager;
         private readonly UserManager<AppUserModel> _userManager;
         private readonly ProjectList _projectList;
+        private readonly AppDBContext _appDBContext;
 
-
-        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList)
+        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList, AppDBContext appDBContext)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _projectList = projectList;
+            _appDBContext = appDBContext;
         }
 
 
@@ -56,10 +58,23 @@
             // Login was succesfull
             else
             {
+                // Find user by username and return the user's data
+                var user = await _userManager.FindByNameAsync(loginModel.Username);
+
+                // Load user project preferences
+                _appDBContext.UserProjectPreferences.Include(property => property.User)
+                    // Where the project in question references the current user
+                    .Where(project => project.User == user)
+                    // "Activate" the query
+                    .ToList();
+
+
                 return new LoginResponseModel()
                 {
-                    // Find user by username and return the user's data
-                    UserModel = await _userManager.FindByNameAsync(loginModel.Username),
+                    // Assign user properties
+                    Username = user.UserName,
+                    UserID = user.Id,
+                    UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
 
                     // Load projects
                     Projects = _projectList.Projects,
@@ -75,11 +90,20 @@
             // Find user using cookie/connection context
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
+            // Load user project preferences
+            _appDBContext.UserProjectPreferences.Include(property => property.User)
+                // Where the project in question references the current user
+                .Where(project => project.User == user)
+                // "Activate" the query
+                .ToList();
+
             return new LoginResponseModel()
             {
-                // Find user by username and return the user's data
-                UserModel = user,
-                
+                // Assign user properties
+                Username = user.UserName,
+                UserID = user.Id,
+                UserProjectPreferences = user.UserProjectPreferences.Select(projctType => projctType.ProjectType),
+
                 // Load projects
                 Projects = _projectList.Projects,
             };
@@ -107,7 +131,7 @@
             // Attemp to register the user
             var createResult = await _userManager.CreateAsync(userModel, registerModel.Password);
 
-            
+
 
             // If user creation failed
             if (createResult.Succeeded == false)
@@ -124,6 +148,10 @@
             {
                 // Add newly registered user to User role
                 await _userManager.AddToRoleAsync(userModel, "User");
+
+                // Add user id claim to new user
+                await _userManager.AddClaimAsync(userModel, new Claim("UserID", userModel.Id));
+
 
                 return Content("נרשמת בהצלחה");
             };
