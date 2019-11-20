@@ -273,10 +273,13 @@
         <Button HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 
+                IsEnabled="{Binding HasPreferences}"
+                
                 Margin="0, 10"
                 
                 Content="שמור שינויים"
                 
+                Command="{Binding SaveChangesCommand}"
                 Style="{StaticResource AppButtonStyle1}"/>
 
 
