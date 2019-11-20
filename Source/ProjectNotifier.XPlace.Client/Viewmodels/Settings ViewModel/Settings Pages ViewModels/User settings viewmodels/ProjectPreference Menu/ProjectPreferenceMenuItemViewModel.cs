@@ -41,7 +41,6 @@
         {
             // TODO: improve later 
 
-            var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
 
             // Get user settings viewmodel
             var vm = ((UserSettingsViewModel)DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage.ViewModel);
@@ -55,8 +54,6 @@
             // Remove this item from project preference selection menu
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Remove(this);
 
-            // Update UserProfile project list
-            userProfile.UserProjectPreferences = vm.ProjectPreferences.Select(projectType => projectType.ProjectType);
 
             // Update HasPreferences flag
             vm.HasPreferences = true;

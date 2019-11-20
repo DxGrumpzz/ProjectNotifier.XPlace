@@ -36,8 +36,6 @@
         {
             // TODO: improve later 
 
-            var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
-
             // Get user settings viewmodel
             var vm = ((UserSettingsViewModel)DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage.ViewModel);
 
@@ -51,8 +49,6 @@
             });
 
 
-            // Update UserProfile project list
-            userProfile.UserProjectPreferences = vm.ProjectPreferences.Select(projectType => projectType.ProjectType);
 
 
             // If user has removed every preference
