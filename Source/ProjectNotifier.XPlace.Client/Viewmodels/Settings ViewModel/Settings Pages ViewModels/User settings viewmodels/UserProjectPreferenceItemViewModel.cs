@@ -1,6 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
 
@@ -51,13 +52,12 @@
 
 
             // Update UserProfile project list
-            userProfile.UserProjectPreferences = vm.ProjectPreferences
+            userProfile.UserProjectPreferences = new List<UserProjectPreference>(vm.ProjectPreferences
                 .Select(projectType => new UserProjectPreference()
                 {
                     ProjectType = projectType.ProjectType,
                     User = userProfile,
-                })
-                .AsEnumerable();
+                }));
 
 
             // If user has removed every preference
