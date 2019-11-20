@@ -41,20 +41,24 @@
 
                     GotoSettingCommand = new RelayCommand(() =>
                     {
-                        var ss = DI.GetService<IClientDataStore>().GetUserProfile();
+                        var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
+
+                        var userProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>();
+
+                        if(userProfile.UserProjectPreferences != null)
+                        {
+                            userProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
+                                userProfile.UserProjectPreferences.Select(projectType => new UserProjectPreferenceItemViewModel()
+                                {
+                                 ProjectType = projectType.ProjectType,
+                                }));
+                        };
 
                         var s = DI.GetService<ProjectsPageViewModel>().SettingsViewModel.CurrentSettingsPage = new UserSettingsView()
                         {
                             ViewModel = new UserSettingsViewModel()
                             {
-                                ProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
-                                    ss.UserProjectPreferences
-                                    .Select(projectType => new UserProjectPreferenceItemViewModel()
-                                    {
-                                        ProjectType = projectType.ProjectType,
-                                    })),
-
-                                
+                                ProjectPreferences = userProjectPreferences,
                             },
                         };
                     }),

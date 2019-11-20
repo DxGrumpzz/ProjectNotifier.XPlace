@@ -5,6 +5,8 @@
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
+    using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Windows.Input;
 
     /// <summary>
@@ -96,6 +98,7 @@
         public ICommand ShowProjectPreferencesMenuCommand { get; }
 
         public ICommand SaveChangesCommand { get; }
+
         #endregion
 
 
@@ -104,27 +107,36 @@
             var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
 
 
-            // Setup project preferences list by...
-            ProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
-                // Getting the user's project preferences
-                userProfile.UserProjectPreferences
-                // And converting the projects to UserProjectPreferenceItemViewModel
-                .Select(projectType => new UserProjectPreferenceItemViewModel()
-                {
-                    ProjectType = projectType.ProjectType,
-                }));
 
-            // Project preferences present
-            if (ProjectPreferences.Count > 0)
-                // Update flag
-                HasPreferences = true;
+            if (userProfile.UserProjectPreferences != null)
+            {
+                // Setup project preferences list by...
+                ProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
+                    // Getting the user's project preferences
+                    userProfile.UserProjectPreferences
+                    // And converting the projects to UserProjectPreferenceItemViewModel
+                    .Select(projectType => new UserProjectPreferenceItemViewModel()
+                    {
+                        ProjectType = projectType.ProjectType,
+                    }));
 
-            // Setup ProjectPreferenceSelectionMenuViewModel by...
-            ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(
-                // Getting the user's project preferences
-                userProfile.UserProjectPreferences
-                // And converting the projects to ProjectTypes
-                .Select(projectType => projectType.ProjectType));
+                // Project preferences present
+                if (ProjectPreferences.Count > 0)
+                    // Update flag
+                    HasPreferences = true;
+
+                // Setup ProjectPreferenceSelectionMenuViewModel by...
+                ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(
+                    // Getting the user's project preferences
+                    userProfile.UserProjectPreferences
+                    // And converting the projects to ProjectTypes
+                    .Select(projectType => projectType.ProjectType));
+            }
+            else
+            {
+                // Setup ProjectPreferenceSelectionMenuViewModel with an empty project types list
+                ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(Enumerable.Empty<ProjectTypes>());
+            };
 
 
 
@@ -133,9 +145,12 @@
         }
 
 
-        private void ExecuteSaveChangesCommand()
+        private async Task ExecuteSaveChangesCommand()
         {
-            
+            // Update user's profile for project preference changes
+            await DI.GetService<IServerConnection>().Client.PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{projectTypes}}",
+                ProjectPreferences
+                .Select(projectType => projectType.ProjectType));
         }
 
         private void ExecuteShowProjectPreferencesMenuCommand()
