@@ -67,22 +67,6 @@
             ProjectListScrolledCommand = new RelayCommand<ScrollChangedEventArgs>(ExecuteProjectListScrolled);
 
 
-            var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
-
-
-            // Add every project type except for the last one
-            var projectTypes = Enum.GetValues(typeof(ProjectTypes));
-
-            var projets = projectTypes.OfType<ProjectTypes>()
-            .ToList()
-            .GetRange(0, projectTypes.Length - 1)
-            .Select(projectType => new UserProjectPreference()
-            { 
-                ProjectType = projectType,
-            });
-
-            userProfile.UserProjectPreferences = projets;
-
 
             // Bind hub events
             DI.GetService<IServerConnection>().ProjectsHubConnection.On<IEnumerable<ProjectModel>>("ProjectListUpdated", ProjectListUpdated);
