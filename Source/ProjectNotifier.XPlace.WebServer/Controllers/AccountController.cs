@@ -3,16 +3,12 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+
     using ProjectNotifier.XPlace.Core;
 
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Net;
-    using System.Security.Claims;
-    using System.Text.Json;
     using System.Threading.Tasks;
 
     [Route("[controller]")]
@@ -23,14 +19,13 @@
         private readonly SignInManager<AppUserModel> _signInManager;
         private readonly UserManager<AppUserModel> _userManager;
         private readonly ProjectList _projectList;
-        private readonly AppDBContext _appDBContext;
 
-        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList, AppDBContext appDBContext)
+
+        public AccountController(SignInManager<AppUserModel> signInManager, UserManager<AppUserModel> userManager, ProjectList projectList)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _projectList = projectList;
-            _appDBContext = appDBContext;
         }
 
 
@@ -61,26 +56,14 @@
             // Login was succesfull
             else
             {
-                // Find user using cookie/connection context
-                var user = await _userManager.FindByNameAsync(loginModel.Username);
-
-                // Load user preferences
-                _appDBContext.UserProjectPreferences.Include(p => p.User).ToList();
-
-
-                var ss = new LoginResponseModel()
+                return new LoginResponseModel()
                 {
                     // Find user by username and return the user's data
-                    UserID = user.Id,
-                    Username = user.UserName,
-
-                    UserProjectPreferences = user.UserProjectPreferences.Select(projectType => projectType.ProjectType),
+                    UserModel = await _userManager.FindByNameAsync(loginModel.Username),
 
                     // Load projects
                     Projects = _projectList.Projects,
                 };
-
-                return ss;
             };
         }
 
@@ -91,15 +74,12 @@
         {
             // Find user using cookie/connection context
             var user = await _userManager.GetUserAsync(HttpContext.User);
-           
-            // Load user preferences
-            _appDBContext.UserProjectPreferences.Include(p => p.User).ToList();
 
             return new LoginResponseModel()
             {
                 // Find user by username and return the user's data
                 UserModel = user,
-
+                
                 // Load projects
                 Projects = _projectList.Projects,
             };
@@ -144,9 +124,6 @@
             {
                 // Add newly registered user to User role
                 await _userManager.AddToRoleAsync(userModel, "User");
-
-                // Add user id claim 
-                await _userManager.AddClaimAsync(userModel, new Claim("UserID", userModel.Id));
 
                 return Content("נרשמת בהצלחה");
             };
