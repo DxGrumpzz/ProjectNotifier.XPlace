@@ -1,4 +1,6 @@
-﻿namespace ProjectNotifier.XPlace.Core
+﻿using System;
+
+namespace ProjectNotifier.XPlace.Core
 {
     /// <summary>
     /// A class that holds a user's project preference(s), made specifically for EntityFramework database
@@ -9,8 +11,7 @@
         /// <summary>
         /// A unique ID for this row
         /// </summary>
-        public string RowID { get; set; }
-
+        public string RowID { get; set; } = Guid.NewGuid().ToString();
 
 
         /// <summary>
@@ -18,6 +19,9 @@
         /// </summary>
         public AppUserModel User { get; set; }
 
+        /// <summary>
+        /// A foreign key for the associated user
+        /// </summary>
         public string UserID { get; set; }
 
 
