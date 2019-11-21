@@ -44,12 +44,10 @@
                 // Activate query
                 .ToList();
 
-            // Remove current preferences
-            _appDBContext.UserProjectPreferences
-                .RemoveRange(user.UserProjectPreferences);
-
-            // Update database
-            await _appDBContext.SaveChangesAsync();
+            // If user has preferences
+            if(user.UserProjectPreferences != null)
+                // Remove current preferences
+                _appDBContext.UserProjectPreferences.RemoveRange(user.UserProjectPreferences);
 
             // Update user project preferences
             user.UserProjectPreferences = new List<UserProjectPreference>(
