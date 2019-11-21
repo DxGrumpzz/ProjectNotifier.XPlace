@@ -124,7 +124,6 @@
             var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
 
 
-
             if (userProfile.UserProjectPreferences != null)
             {
                 // Setup project preferences list by...
@@ -154,7 +153,6 @@
             };
 
 
-
             ShowProjectPreferencesMenuCommand = new RelayCommand(ExecuteShowProjectPreferencesMenuCommand);
             SaveChangesCommand = new RelayCommand(ExecuteSaveChangesCommand);
         }
@@ -175,12 +173,16 @@
                 var updateProfileRequest = await DI.GetService<IServerConnection>().Client
                     .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{projectTypes}", newPreferences);
 
-
                 // If request was succesfull
                 if (updateProfileRequest.IsSuccessStatusCode == true)
                 {
                     // Update user profile
                     userProfile.UserProjectPreferences = newPreferences;
+
+                    // log new profile update
+                    DI.Logger().Log(
+                       logMessage: $"User updated profile", 
+                       LogLevel.Informative);
                 }
                 // If request failed
                 else
