@@ -52,6 +52,9 @@
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _hasPreferences;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool _working;
+
         #endregion
 
 
@@ -89,6 +92,20 @@
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// A boolean flag that indicates if the user's preferences are being saved
+        /// </summary>
+        public bool Working
+        {
+            get => _working;
+            set
+            {
+                _working = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         #endregion
 
@@ -145,10 +162,35 @@
 
         private async Task ExecuteSaveChangesCommand()
         {
-            // Update user's profile for project preference changes
-            await DI.GetService<IServerConnection>().Client.PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{projectTypes}}",
-                ProjectPreferences
-                .Select(projectType => projectType.ProjectType));
+            await RunCommandAsync(() => Working,
+            async () =>
+            {
+                // The user's profile
+                var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
+
+                // Get the user's preferences as an enumerable of ProjectTypes
+                var newPreferences = ProjectPreferences.Select(projectType => projectType.ProjectType);
+
+                // Update user's profile for project preference changes
+                var updateProfileRequest = await DI.GetService<IServerConnection>().Client
+                    .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{projectTypes}", newPreferences);
+
+
+                // If request was succesfull
+                if (updateProfileRequest.IsSuccessStatusCode == true)
+                {
+                    // Update user profile
+                    userProfile.UserProjectPreferences = newPreferences;
+                }
+                // If request failed
+                else
+                {
+                    // Display in logger the error
+                    DI.Logger().Log(
+                        logMessage: $"Something happend while updating preferences \n[Server returned {(int)updateProfileRequest.StatusCode}/{updateProfileRequest.StatusCode}]",
+                        logLevel: LogLevel.Critical);
+                };
+            });
         }
 
         private void ExecuteShowProjectPreferencesMenuCommand()
