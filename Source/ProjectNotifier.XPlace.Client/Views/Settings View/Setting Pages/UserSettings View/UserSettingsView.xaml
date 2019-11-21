@@ -277,38 +277,10 @@
                 
                 Content="שמור שינויים"
                 
-                Command="{Binding SaveChangesCommand}">
-
-            <Button.Style>
+                IsEnabled="{Binding SaveChangesEnbaled}"
                 
-                <Style TargetType="{x:Type Button}" 
-                       BasedOn="{StaticResource AppButtonStyle1}">
-                    
-                    <Style.Triggers>
-
-                        <!-- If HasPreferences flag is false -->
-                        <DataTrigger Binding="{Binding HasPreferences}" Value="false">
-
-                            <!-- Disable control -->
-                            <Setter Property="IsEnabled" Value="False"/>
-
-                        </DataTrigger>
-
-                        <!-- If Working flag is true -->
-                        <DataTrigger Binding="{Binding Working}" Value="true">
-
-                            <!-- Disable control -->
-                            <Setter Property="IsEnabled" Value="False"/>
-                        
-                        </DataTrigger>
-                        
-                    </Style.Triggers>
-                    
-                </Style>
-                
-            </Button.Style>
-            
-        </Button>
+                Style="{StaticResource AppButtonStyle1}"
+                Command="{Binding SaveChangesCommand}"/>
 
 
         <!-- Project preferences menu -->
