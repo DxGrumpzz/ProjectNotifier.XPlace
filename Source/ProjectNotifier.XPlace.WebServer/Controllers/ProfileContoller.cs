@@ -3,7 +3,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-
+    using Microsoft.EntityFrameworkCore;
     using ProjectNotifier.XPlace.Core;
     using System;
     using System.Collections.Generic;
@@ -33,10 +33,26 @@
         public async Task<IActionResult> UpdateUserPreferencesAsync(IEnumerable<ProjectTypes> projectTypes)
         {
             // Find the user
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = _appDBContext.Users.Find((await _userManager.GetUserAsync(HttpContext.User)).Id);
+
+            // Load-up user's project preferences
+            _appDBContext.UserProjectPreferences
+                // Find the user in question
+                .Where(row => row.User == user)
+                // Load it's project preferences
+                .Include(p => p)
+                // Activate query
+                .ToList();
+
+            // Remove current preferences
+            _appDBContext.UserProjectPreferences
+                .RemoveRange(user.UserProjectPreferences);
+
+            // Update database
+            await _appDBContext.SaveChangesAsync();
 
             // Update user project preferences
-            _appDBContext.Users.Find(user.Id).UserProjectPreferences = new List<UserProjectPreference>(
+            user.UserProjectPreferences = new List<UserProjectPreference>(
                 projectTypes.Select(projectType => 
                 new UserProjectPreference()
                 {
@@ -44,7 +60,9 @@
                     User = user,
                 }));
 
+            // Update database
             await _appDBContext.SaveChangesAsync();
+
 
             return Ok();
         }
