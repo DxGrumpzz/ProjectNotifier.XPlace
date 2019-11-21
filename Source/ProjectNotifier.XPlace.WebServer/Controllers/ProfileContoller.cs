@@ -37,10 +37,10 @@
 
             // Update user project preferences
             _appDBContext.Users.Find(user.Id).UserProjectPreferences = new List<UserProjectPreference>(
-                projectTypes.Select(projectType => new UserProjectPreference()
+                projectTypes.Select(projectType => 
+                new UserProjectPreference()
                 {
                     ProjectType = projectType,
-                    RowID = Guid.NewGuid().ToString(),
                     User = user,
                 }));
 
