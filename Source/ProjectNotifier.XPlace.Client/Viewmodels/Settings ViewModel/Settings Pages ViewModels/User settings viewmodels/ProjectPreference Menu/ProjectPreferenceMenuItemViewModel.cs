@@ -57,6 +57,8 @@
 
             // Update HasPreferences flag
             vm.HasPreferences = true;
+            // Update save changes button
+            vm.SaveChangesEnbaled = true;
 
             // If user added last project type
             if (vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Count == 0)

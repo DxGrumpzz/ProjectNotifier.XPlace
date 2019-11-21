@@ -49,12 +49,14 @@
             });
 
 
-
-
             // If user has removed every preference
             if (vm.ProjectPreferences.Count == 0)
+            {
                 // Update HasPreferences flag
                 vm.HasPreferences = false;
+                // Update save changes button flag
+                vm.SaveChangesEnbaled = false;
+            };
         }
     };
 };
