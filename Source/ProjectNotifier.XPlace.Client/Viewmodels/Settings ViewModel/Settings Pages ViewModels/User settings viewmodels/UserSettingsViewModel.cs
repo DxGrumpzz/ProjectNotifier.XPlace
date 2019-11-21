@@ -1,7 +1,7 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
-    using System;
+
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
@@ -53,7 +53,7 @@
         private bool _hasPreferences;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool _working;
+        private bool _saveChangesEnbaled = true;
 
         #endregion
 
@@ -94,18 +94,17 @@
         }
 
         /// <summary>
-        /// A boolean flag that indicates if the user's preferences are being saved
+        /// A boolean flag that indicates if the save changes button is enabled
         /// </summary>
-        public bool Working
+        public bool SaveChangesEnbaled
         {
-            get => _working;
+            get => _saveChangesEnbaled;
             set
             {
-                _working = value;
+                _saveChangesEnbaled = value;
                 OnPropertyChanged();
             }
         }
-
 
         #endregion
 
@@ -160,7 +159,7 @@
 
         private async Task ExecuteSaveChangesCommand()
         {
-            await RunCommandAsync(() => Working,
+            await RunCommandAsync(() => !SaveChangesEnbaled,
             async () =>
             {
                 // The user's profile
