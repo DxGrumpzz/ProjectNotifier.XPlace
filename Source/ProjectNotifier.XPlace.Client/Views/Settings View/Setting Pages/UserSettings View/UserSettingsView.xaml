@@ -269,18 +269,46 @@
         </Grid>
 
 
+        
         <!-- Save changes button -->
         <Button HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                
-                IsEnabled="{Binding HasPreferences}"
-                
                 Margin="0, 10"
                 
                 Content="שמור שינויים"
                 
-                Command="{Binding SaveChangesCommand}"
-                Style="{StaticResource AppButtonStyle1}"/>
+                Command="{Binding SaveChangesCommand}">
+
+            <Button.Style>
+                
+                <Style TargetType="{x:Type Button}" 
+                       BasedOn="{StaticResource AppButtonStyle1}">
+                    
+                    <Style.Triggers>
+
+                        <!-- If HasPreferences flag is false -->
+                        <DataTrigger Binding="{Binding HasPreferences}" Value="false">
+
+                            <!-- Disable control -->
+                            <Setter Property="IsEnabled" Value="False"/>
+
+                        </DataTrigger>
+
+                        <!-- If Working flag is true -->
+                        <DataTrigger Binding="{Binding Working}" Value="true">
+
+                            <!-- Disable control -->
+                            <Setter Property="IsEnabled" Value="False"/>
+                        
+                        </DataTrigger>
+                        
+                    </Style.Triggers>
+                    
+                </Style>
+                
+            </Button.Style>
+            
+        </Button>
 
 
         <!-- Project preferences menu -->
