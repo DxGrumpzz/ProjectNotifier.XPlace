@@ -102,7 +102,7 @@
                         5;
 
                     // Get a chunk out of the cached projectlist
-                    DI.GetService<IClientCache>().ProjectListCache
+                    DI.GetService<IClientCache>().UserPrefferedProjectsCache
                     // Convert it to a List<> to get more functionality
                     .ToList()
                     // Get a "Chuck" that contians the missing projects
@@ -123,6 +123,7 @@
         #endregion
 
 
+        #region Public helpers
 
         /// <summary>
         /// Updates/refreshes the displayed project list depending on the passed <paramref name="projectTypes"/> 
@@ -130,8 +131,7 @@
         /// <param name="projectTypes"></param>
         public void UpdateProjectsList(IEnumerable<ProjectType> projectTypes)
         {
-            ProjectList = new ObservableCollection<ProjectItemViewModel>(
-            DI.GetService<IClientCache>().ProjectListCache
+            var projectList = DI.GetService<IClientCache>().ProjectListCache
             // Match projects where the user's project preference matches the project's
             .Where(project =>
             {
@@ -144,9 +144,16 @@
                 };
 
                 return false;
-            })
+            });
+
+            // Update clinet cache
+            DI.GetService<IClientCache>().UserPrefferedProjectsCache = projectList;
+
+            // Update current project list 
+            ProjectList = new ObservableCollection<ProjectItemViewModel>(
+            projectList
             // Convert the ProjectModels to a ProjectItemViewModel
-            .Select((p) => 
+            .Select((p) =>
             new ProjectItemViewModel()
             {
                 ProjectModel = p,
@@ -155,6 +162,7 @@
             .Take(10));
         }
 
+        #endregion
 
         #region Private helpers
 
