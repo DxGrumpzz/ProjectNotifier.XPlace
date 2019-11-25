@@ -73,11 +73,15 @@ namespace ProjectNotifier.XPlace.WebServer
                 config.EnableEndpointRouting = false;
             });
 
-
+            // Adds ProjectTypeProcessor as a transient instance
+            services.AddTransient<IProjectTypeProcessor, ProjectTypeProcessor>();
 
             // Add the project loader
             services.AddScoped<IProjectLoader, ProjectLoader>((provider) =>
-                new ProjectLoader(_confg["ProjectLoderUrl"]));
+                new ProjectLoader( 
+                    projectTypeProcessor: provider.GetService<IProjectTypeProcessor>(),
+                    url: _confg["ProjectLoderUrl"]));
+
 
             // Add project list as a singelton
             services.AddSingleton(
