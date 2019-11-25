@@ -7,13 +7,32 @@
     /// <summary>
     /// 
     /// </summary>
-    public enum ProjectTypes
+    public enum ProjectType
     {
+
         WebDevelopment,
 
-        DesignAndGraphics,
+        DesktopDevelopment,
 
-        DekstopAndAppDevelopment,
+        MobileDevelopment,
+
+        SysAdmins,
+
+        FullStackDevelopment,
+
+        BackendDevelopment,
+
+        FrontEndDevelopment,
+
+        VideoEditing,
+
+        Filming,
+
+        Electronics,
+
+        BlockchainAndCryptoCurrencies,
+
+        DesignAndGraphics,
 
         Technologies,
 
@@ -29,7 +48,7 @@
 
         Administration,
 
-        TeachersAndProffesors,
+        TeachersAndProfessors,
 
         Executives,
 
@@ -49,6 +68,5 @@
 
         ProductionsAndShows,
 
-        BlockchainAndCryptoCurrencies,
     };
 };
