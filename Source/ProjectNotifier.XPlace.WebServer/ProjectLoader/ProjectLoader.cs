@@ -14,16 +14,19 @@
     /// </summary>
     public class ProjectLoader : IProjectLoader
     {
-        
+
         #region Private fields
 
         private readonly string _url;
 
+        private readonly IProjectTypeProcessor _projectTypeProcessor;
+
         #endregion
 
 
-        public ProjectLoader(string url)
+        public ProjectLoader(IProjectTypeProcessor projectTypeProcessor, string url)
         {
+            _projectTypeProcessor = projectTypeProcessor;
             _url = url;
         }
 
@@ -60,6 +63,15 @@
 
                     ProjectID = projectID,
                 };
+            })
+            .ToList();
+
+            projects
+            .ForEach(project =>
+            {
+                var projectTypes = _projectTypeProcessor.GetProjectType(project);
+
+                project.ProjectTypes = projectTypes;
             });
 
             return projects;
