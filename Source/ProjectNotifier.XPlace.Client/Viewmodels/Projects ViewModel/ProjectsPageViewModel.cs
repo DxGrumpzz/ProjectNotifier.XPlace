@@ -1,15 +1,15 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
+    using Microsoft.AspNetCore.SignalR.Client;
+
     using ProjectNotifier.XPlace.Core;
+
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
-    using Microsoft.AspNetCore.SignalR.Client;
-    using System.Net.Http;
-    using System;
-    using System.Windows.Input;
     using System.Windows.Controls;
+    using System.Windows.Input;
 
     /// <summary>
     /// 
@@ -67,12 +67,9 @@
             ProjectListScrolledCommand = new RelayCommand<ScrollChangedEventArgs>(ExecuteProjectListScrolled);
 
 
-
             // Bind hub events
             DI.GetService<IServerConnection>().ProjectsHubConnection.On<IEnumerable<ProjectModel>>("ProjectListUpdated", ProjectListUpdated);
         }
-
-
 
 
         #region Command Callbacks
@@ -124,6 +121,39 @@
         }
 
         #endregion
+
+
+
+        /// <summary>
+        /// Updates/refreshes the displayed project list depending on the passed <paramref name="projectTypes"/> 
+        /// </summary>
+        /// <param name="projectTypes"></param>
+        public void UpdateProjectsList(IEnumerable<ProjectType> projectTypes)
+        {
+            ProjectList = new ObservableCollection<ProjectItemViewModel>(
+            DI.GetService<IClientCache>().ProjectListCache
+            // Match projects where the user's project preference matches the project's
+            .Where(project =>
+            {
+                foreach (var userProject in projectTypes)
+                {
+                    if (project.ProjectTypes.Contains(userProject))
+                    {
+                        return true;
+                    };
+                };
+
+                return false;
+            })
+            // Convert the ProjectModels to a ProjectItemViewModel
+            .Select((p) => 
+            new ProjectItemViewModel()
+            {
+                ProjectModel = p,
+            })
+            // Take the first 10
+            .Take(10));
+        }
 
 
         #region Private helpers
