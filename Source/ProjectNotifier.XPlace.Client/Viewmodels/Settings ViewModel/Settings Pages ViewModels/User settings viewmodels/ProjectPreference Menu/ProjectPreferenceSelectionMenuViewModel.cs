@@ -14,12 +14,12 @@
     public class ProjectPreferenceSelectionMenuViewModel : BaseViewModel
     {
         public static ProjectPreferenceSelectionMenuViewModel DesignInstance => new ProjectPreferenceSelectionMenuViewModel(
-            new List<ProjectTypes>()
+            new List<ProjectType>()
             {
-                ProjectTypes.Administration,
-                ProjectTypes.Translations,
-                ProjectTypes.WritingAndEditing,
-                ProjectTypes.SAP,
+                ProjectType.Administration,
+                ProjectType.Translations,
+                ProjectType.WritingAndEditing,
+                ProjectType.SAP,
             })
         {
             IsMenuOpen = true,
@@ -38,7 +38,7 @@
         /// <summary>
         /// The list of project types that the user can select from 
         /// </summary>
-        public ObservableCollection<ProjectPreferenceMenuItemViewModel> AvailableProjectTypes { get; set; }
+        public ObservableCollection<ProjectPreferenceMenuItemViewModel> AvailableProjectType { get; set; }
 
         /// <summary>
         /// A boolean flag that indicates if the menu is open
@@ -67,10 +67,10 @@
         /// Default constructor, Takes a list of the user's already selected/prefered project types
         /// </summary>
         /// <param name="userProjects"> The user's prefered project types </param>
-        public ProjectPreferenceSelectionMenuViewModel(IEnumerable<ProjectTypes> userProjects)
+        public ProjectPreferenceSelectionMenuViewModel(IEnumerable<ProjectType> userProjects)
         {
             // Load available projects
-            AvailableProjectTypes = new ObservableCollection<ProjectPreferenceMenuItemViewModel>(GetNeccessaryProjects(userProjects));
+            AvailableProjectType = new ObservableCollection<ProjectPreferenceMenuItemViewModel>(GetNeccessaryProjects(userProjects));
 
 
             CloseMenuCommand = new RelayCommand(ExecuteCloseMenuCommand);
@@ -92,15 +92,15 @@
         /// Retrieves a list of preffered project types depending on the user's already existing list
         /// </summary>
         /// <param name="userProjects"> The list of the user's preffered projects </param>
-        private IEnumerable<ProjectPreferenceMenuItemViewModel> GetNeccessaryProjects(IEnumerable<ProjectTypes> userProjects)
+        private IEnumerable<ProjectPreferenceMenuItemViewModel> GetNeccessaryProjects(IEnumerable<ProjectType> userProjects)
         {
-            // Get a array of integers representing each value in ProjectTypes
-            var projectTypeNumericValues = ((int[])Enum.GetValues(typeof(ProjectTypes)))
-                .Select(projectTypeValue => (ProjectTypes)projectTypeValue);
+            // Get a array of integers representing each value in ProjectType
+            var projectTypeNumericValues = ((int[])Enum.GetValues(typeof(ProjectType)))
+                .Select(projectTypeValue => (ProjectType)projectTypeValue);
 
             // Get only the project types that aren't in the user's projects list
             var differences = projectTypeNumericValues.Except(userProjects)
-                // Convert list of ProjectTypes to ProjectPreferenceMenuItemViewModel
+                // Convert list of ProjectType to ProjectPreferenceMenuItemViewModel
                 .Select(projectType => new ProjectPreferenceMenuItemViewModel()
                 {
                     ProjectType = projectType,

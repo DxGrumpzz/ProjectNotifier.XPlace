@@ -17,7 +17,7 @@
         /// <summary>
         /// The project types that the user can select 
         /// </summary>
-        public ProjectTypes ProjectType { get; set; }
+        public ProjectType ProjectType { get; set; }
 
         #endregion
 
@@ -52,7 +52,7 @@
             });
 
             // Remove this item from project preference selection menu
-            vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Remove(this);
+            vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType.Remove(this);
 
 
             // Update HasPreferences flag
@@ -61,7 +61,7 @@
             vm.SaveChangesEnbaled = true;
 
             // If user added last project type
-            if (vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Count == 0)
+            if (vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType.Count == 0)
             {
                 // Close project preferce menu
                 vm.ProjectPreferenceSelectionMenuViewModel.IsMenuOpen = false;

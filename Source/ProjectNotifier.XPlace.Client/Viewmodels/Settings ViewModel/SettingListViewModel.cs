@@ -54,7 +54,7 @@
                             userProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
                                 // Getting the  user's project preferences
                                 userProfile.UserProjectPreferences
-                                // Cast the list of ProjectTypes to UserProjectPreferenceItemViewModel
+                                // Cast the list of ProjectType to UserProjectPreferenceItemViewModel
                                 .Select(projectType => 
                                 new UserProjectPreferenceItemViewModel()
                                 {

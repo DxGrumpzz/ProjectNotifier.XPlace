@@ -22,6 +22,6 @@
         /// <summary>
         /// The user's project preferences list
         /// </summary>
-        public IEnumerable<ProjectTypes> UserProjectPreferences { get; set; }
+        public IEnumerable<ProjectType> UserProjectPreferences { get; set; }
     };
 };

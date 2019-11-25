@@ -146,7 +146,7 @@
             <!-- The list of avaiable Sproject types -->
             <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-                <ItemsControl ItemsSource="{Binding AvailableProjectTypes}">
+                <ItemsControl ItemsSource="{Binding AvailableProjectType}">
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

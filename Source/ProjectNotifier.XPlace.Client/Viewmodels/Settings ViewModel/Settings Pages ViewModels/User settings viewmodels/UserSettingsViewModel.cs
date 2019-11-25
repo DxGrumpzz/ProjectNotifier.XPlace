@@ -22,22 +22,22 @@
             {
                 new UserProjectPreferenceItemViewModel()
                 {
-                    ProjectType = ProjectTypes.Administration,
+                    ProjectType = ProjectType.Administration,
                 },
 
                 new UserProjectPreferenceItemViewModel()
                 {
-                    ProjectType = ProjectTypes.ArchitectureAndInteriorDesign,
+                    ProjectType = ProjectType.ArchitectureAndInteriorDesign,
                 },
 
                 new UserProjectPreferenceItemViewModel()
                 {
-                    ProjectType = ProjectTypes.CoachingAndTraining,
+                    ProjectType = ProjectType.CoachingAndTraining,
                 },
 
                 new UserProjectPreferenceItemViewModel()
                 {
-                    ProjectType = ProjectTypes.Executives,
+                    ProjectType = ProjectType.Executives,
                 },
             },
 
@@ -148,7 +148,7 @@
             else
             {
                 // Setup ProjectPreferenceSelectionMenuViewModel with an empty project types list
-                ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(Enumerable.Empty<ProjectTypes>());
+                ProjectPreferenceSelectionMenuViewModel = new ProjectPreferenceSelectionMenuViewModel(Enumerable.Empty<ProjectType>());
             };
 
 
@@ -165,12 +165,12 @@
                 // The user's profile
                 var userProfile = DI.GetService<IClientDataStore>().GetUserProfile();
 
-                // Get the user's preferences as an enumerable of ProjectTypes
+                // Get the user's preferences as an enumerable of ProjectType
                 var newPreferences = ProjectPreferences.Select(projectType => projectType.ProjectType);
 
                 // Update user's profile for project preference changes
                 var updateProfileRequest = await DI.GetService<IServerConnection>().Client
-                    .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{projectTypes}", newPreferences);
+                    .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{ProjectType}", newPreferences);
 
                 // If request was succesfull
                 if (updateProfileRequest.IsSuccessStatusCode == true)

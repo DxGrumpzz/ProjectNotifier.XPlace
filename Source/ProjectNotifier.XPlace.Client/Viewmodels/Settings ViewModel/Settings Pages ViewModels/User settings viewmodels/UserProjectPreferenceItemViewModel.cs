@@ -14,7 +14,7 @@
 
         #region Public properties
 
-        public ProjectTypes ProjectType { get; set; }
+        public ProjectType ProjectType { get; set; }
 
         #endregion
 
@@ -43,7 +43,7 @@
             vm.ProjectPreferences.Remove(this);
 
             // Remove this item from project preference selection menu
-            vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectTypes.Add(new ProjectPreferenceMenuItemViewModel()
+            vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType.Add(new ProjectPreferenceMenuItemViewModel()
             {
                 ProjectType = ProjectType,
             });

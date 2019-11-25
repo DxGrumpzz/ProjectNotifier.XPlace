@@ -28,9 +28,9 @@
         }
 
 
-        [HttpPost("UpdateUserPreferences/{projectTypes}")]
+        [HttpPost("UpdateUserPreferences/{ProjectType}")]
         [Authorize()]
-        public async Task<IActionResult> UpdateUserPreferencesAsync(IEnumerable<ProjectTypes> projectTypes)
+        public async Task<IActionResult> UpdateUserPreferencesAsync(IEnumerable<ProjectType> ProjectType)
         {
             // Find the user
             var user = _appDBContext.Users.Find((await _userManager.GetUserAsync(HttpContext.User)).Id);
@@ -51,7 +51,7 @@
 
             // Update user project preferences
             user.UserProjectPreferences = new List<UserProjectPreference>(
-                projectTypes.Select(projectType => 
+                ProjectType.Select(projectType => 
                 new UserProjectPreference()
                 {
                     ProjectType = projectType,

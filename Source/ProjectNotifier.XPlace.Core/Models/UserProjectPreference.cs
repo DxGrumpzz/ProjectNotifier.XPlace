@@ -28,7 +28,7 @@ namespace ProjectNotifier.XPlace.Core
         /// <summary>
         /// The type of project the user prefers to work on
         /// </summary>
-        public ProjectTypes ProjectType { get; set; }
+        public ProjectType ProjectType { get; set; }
 
     };
 };
