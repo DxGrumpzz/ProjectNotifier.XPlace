@@ -1,12 +1,14 @@
 ﻿namespace ProjectNotifier.XPlace.Core
 {
 	using System;
+    using System.Collections.Generic;
 
-	/// <summary>
-	/// A class that represents a Project from XPlace
-	/// </summary>
-	public class ProjectModel
+    /// <summary>
+    /// A class that represents a Project from XPlace
+    /// </summary>
+    public class ProjectModel
 	{
+
 		/// <summary>
 		/// The proejct's title
 		/// </summary>
@@ -31,5 +33,11 @@
 		/// A unique ID number for this project
 		/// </summary>
 		public int ProjectID { get; set; }
-	};
+
+        /// <summary>
+        /// A list of ProjectTypes that are associated with this project
+        /// </summary>
+        public IEnumerable<ProjectType> ProjectTypes { get; set; }
+
+    };
 }
