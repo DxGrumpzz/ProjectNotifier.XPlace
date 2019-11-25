@@ -13,5 +13,10 @@
         /// </summary>
         public IEnumerable<ProjectModel> ProjectListCache { get; set; }
 
+        /// <summary>
+        /// A list that holds the user's preffered projects
+        /// </summary>
+        public IEnumerable<ProjectModel> UserPrefferedProjectsCache { get; set; }
+
     };
 }
