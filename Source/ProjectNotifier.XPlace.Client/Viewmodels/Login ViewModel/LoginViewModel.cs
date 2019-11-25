@@ -172,13 +172,8 @@
                     UnloadAnimation = ViewAnimation.SlideOutToTop;
                     WaitForUnloadAnimation = true;
 
+                    DI.GetService<ProjectsPageViewModel>().UpdateProjectsList(responseContent.UserProfile.UserProjectPreferences);
 
-                    DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
-                    .Select((p) => new ProjectItemViewModel()
-                    {
-                        ProjectModel = p,
-                    })
-                    .Take(10));
 
                     // Change to projects view
                     DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()

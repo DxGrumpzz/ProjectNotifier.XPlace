@@ -193,12 +193,7 @@
                 DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserProfile);
 
 
-                DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(responseContent.Projects
-                .Select((project) => new ProjectItemViewModel()
-                {
-                    ProjectModel = project,
-                })
-                .Take(10));
+                DI.GetService<ProjectsPageViewModel>().UpdateProjectsList(responseContent.UserProfile.UserProjectPreferences);
 
                 // Change to projects view
                 DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()

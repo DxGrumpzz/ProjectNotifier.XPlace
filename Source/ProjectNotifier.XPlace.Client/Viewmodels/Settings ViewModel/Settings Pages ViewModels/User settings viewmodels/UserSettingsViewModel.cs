@@ -159,7 +159,7 @@
 
         private async Task ExecuteSaveChangesCommand()
         {
-            await RunCommandAsync(() => !SaveChangesEnbaled,
+            await RunCommandAsync(() => SaveChangesEnbaled,
             async () =>
             {
                 // The user's profile
@@ -178,6 +178,10 @@
                     // Update user profile
                     userProfile.UserProjectPreferences = newPreferences;
 
+                    // Update projects page
+                    DI.GetService<ProjectsPageViewModel>().UpdateProjectsList(userProfile.UserProjectPreferences);
+
+
                     // log new profile update
                     DI.Logger().Log(
                        logMessage: $"User updated profile", 
@@ -191,7 +195,8 @@
                         logMessage: $"Something happend while updating preferences \n[Server returned {(int)updateProfileRequest.StatusCode}/{updateProfileRequest.StatusCode}]",
                         logLevel: LogLevel.Critical);
                 };
-            });
+            },
+            invertFlag: true);
         }
 
         private void ExecuteShowProjectPreferencesMenuCommand()
