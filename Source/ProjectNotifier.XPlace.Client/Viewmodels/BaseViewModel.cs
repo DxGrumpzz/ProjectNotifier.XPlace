@@ -44,7 +44,7 @@
         /// </summary>
         /// <param name="function"> The function to execute </param>
         /// <returns></returns>
-        protected async Task RunCommandAsync(Expression<Func<bool>> wrokingFlag, Func<Task> function)
+        protected async Task RunCommandAsync(Expression<Func<bool>> wrokingFlag, Func<Task> function, bool invertFlag = false)
         {
             lock (_synchronizingObject)
             {
@@ -60,7 +60,7 @@
             {
                 // Set working flag to true
                 if (wrokingFlag != null)
-                    SetFlagValue(wrokingFlag, true);
+                    SetFlagValue(wrokingFlag, invertFlag == true ? false : true);
                 
 
                 // Invoke and wait for command to finish execution
@@ -70,7 +70,7 @@
             {
                 // Set working flag to false
                 if (wrokingFlag != null)
-                    SetFlagValue(wrokingFlag, false);
+                    SetFlagValue(wrokingFlag, invertFlag == true ? true : false);
 
                 // No matter what happens during execution (execptions and such) make sure that command is removed
                 _runningCommands.Remove(function.Method.MetadataToken);
