@@ -64,14 +64,17 @@
                     ProjectID = projectID,
                 };
             })
-            .ToList();
-
-            projects
-            .ForEach(project =>
+            // Get project type
+            .Select(project =>
             {
+                // Find project type
                 var projectTypes = _projectTypeProcessor.GetProjectType(project);
 
+                // assign 
                 project.ProjectTypes = projectTypes;
+
+                // return the project
+                return project;
             });
 
             return projects;
