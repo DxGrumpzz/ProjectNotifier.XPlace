@@ -87,22 +87,31 @@
             // Update max viewport height
             UpdateViewportHeight(sender.ScrollableHeight);
 
+            var appSettings = DI.ClientAppSettings();
+
             // Check if loading the projects is even neccessary 
-            if (ProjectList.Count < DI.ClientAppSettings().ProjectsToDisplay)
+            if (ProjectList.Count < appSettings.ProjectsToDisplay)
             {
                 // Check if the vertical position of the scrollbar is low enough
                 if (sender.VerticalOffset >= (_viewportHeight - 10))
                 {
+
+                    var userPrefferdProjects = DI.GetService<IClientCache>().UserPrefferedProjectsCache;
+
                     // The number of projects avaiable to load
-                    int projectsCount = DI.ClientAppSettings().ProjectsToDisplay - ProjectList.Count;
+                    int projectsCount = appSettings.ProjectsToDisplay - ProjectList.Count;
 
                     // How big of a chuck to take out of the cached project list
                     int chunccSize = 5 > projectsCount ?
                         projectsCount :
                         5;
 
+                    // Check if in project loading chunk is within the bounds of the UserPrefferedProjectsCache 
+                    if ((chunccSize + ProjectList.Count) >= userPrefferdProjects.Count())
+                        return;
+
                     // Get a chunk out of the cached projectlist
-                    DI.GetService<IClientCache>().UserPrefferedProjectsCache
+                    userPrefferdProjects
                     // Convert it to a List<> to get more functionality
                     .ToList()
                     // Get a "Chuck" that contians the missing projects
@@ -160,6 +169,10 @@
             })
             // Take the first 10
             .Take(10));
+
+
+            // Reset viewport height 
+            _viewportHeight = 0.0;
         }
 
         #endregion
