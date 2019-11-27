@@ -16,7 +16,7 @@
         /// <summary>
         /// A list that holds the user's preffered projects
         /// </summary>
-        public IEnumerable<ProjectModel> UserPrefferedProjectsCache { get; set; }
+        public IEnumerable<ProjectModel> UserPrefferedProjectsCache { get; }
 
     };
 }
