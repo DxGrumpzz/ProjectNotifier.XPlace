@@ -135,32 +135,15 @@
         #region Public helpers
 
         /// <summary>
-        /// Updates/refreshes the displayed project list depending on the passed <paramref name="projectTypes"/> 
+        /// Updates/refreshes the displayed project list depending on the the user's project preferences/> 
         /// </summary>
-        /// <param name="projectTypes"></param>
-        public void UpdateProjectsList(IEnumerable<ProjectType> projectTypes)
+        public void UpdateProjectsList()
         {
-            var projectList = DI.GetService<IClientCache>().ProjectListCache
-            // Match projects where the user's project preference matches the project's
-            .Where(project =>
-            {
-                foreach (var userProject in projectTypes)
-                {
-                    if (project.ProjectTypes.Contains(userProject))
-                    {
-                        return true;
-                    };
-                };
-
-                return false;
-            });
-
-            // Update clinet cache
-            DI.GetService<IClientCache>().UserPrefferedProjectsCache = projectList;
+            var preferredProjectsList = DI.GetService<IClientCache>().UserPrefferedProjectsCache;
 
             // Update current project list 
             ProjectList = new ObservableCollection<ProjectItemViewModel>(
-            projectList
+            preferredProjectsList
             // Convert the ProjectModels to a ProjectItemViewModel
             .Select((p) =>
             new ProjectItemViewModel()
