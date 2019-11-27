@@ -145,19 +145,16 @@
 
                 // Load new project list
                 DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(
-                 // Get cached project list
-                 DI.GetService<IClientCache>().UserPrefferedProjectsCache
-                 // Take however necessary
-                 .Take(setting.Value)
-                 // Select ProjectModel list to a list of ProjectItemViewModel
-                 .Select((project) => new ProjectItemViewModel()
-                 {
-                     ProjectModel = project,
-                 }));
-
-
-                // Update config value
-                //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.ProjectsToDisplay), setting.Value);
+                // Get cached project list
+                DI.GetService<IClientCache>().UserPrefferedProjectsCache
+                // Take however necessary
+                .Take(setting.Value)
+                // Select ProjectModel list to a list of ProjectItemViewModel
+                .Select((project) => 
+                new ProjectItemViewModel()
+                {
+                    ProjectModel = project,
+                }));
 
                 // Show settings saved notification
                 await ShowSavedNotificationAsync();
@@ -196,9 +193,6 @@
                 settings.KeepNotificationOpenSeconds = setting.Value;
 
                 await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
-
-                // Update config value
-                //DI.GetService<JsonConfigManager>().WriteSetting(nameof(ClientAppSettingsModel.KeepNotificationOpenSeconds), setting.Value);
 
                 // Show settings saved notification
                 await ShowSavedNotificationAsync();
