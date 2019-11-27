@@ -149,29 +149,6 @@
                 await DI.GetService<ISignInManager>().SignInAsync(Username, password.Password,
                 signSuccessfull: async (response) =>
                 {
-                    // Build and start projects hub connection
-                    await DI.GetService<IServerConnection>().StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", DI.GetService<IServerConnection>().Cookies);
-
-                    // Save cookie
-                    await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
-                    {
-                        DataModelID = Guid.NewGuid().ToString(),
-                        Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
-                    });
-
-                    // Read response content
-                    var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
-
-
-                    // Update cache
-                    DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
-
-                    // Save user profile 
-                    DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserProfile);
-
-                    DI.GetService<ProjectsPageViewModel>().UpdateProjectsList();
-
-
                     // Move page out of view
                     UnloadAnimation = ViewAnimation.SlideOutToTop;
                     WaitForUnloadAnimation = true;
@@ -181,6 +158,8 @@
                     {
                         ViewModel = DI.GetService<ProjectsPageViewModel>(),
                     };
+
+                    await Task.Delay(0);
                 },
                 signInFailed: async (response) =>
                 {
@@ -195,6 +174,7 @@
                 });
             });
         }
+
 
         public void ExecuteGotoRegisterPageCommand()
         {

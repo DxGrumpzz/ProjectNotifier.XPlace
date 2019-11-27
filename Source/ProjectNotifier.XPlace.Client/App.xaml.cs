@@ -8,6 +8,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -180,37 +181,23 @@
             await DI.GetService<ISignInManager>().CookieSignInAsync(dataStore.Cookie,
             signSuccessfull: async (response) =>
             {
-                // Convert response to a list of projects
-                var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
-
-                // Build hub connection
-                await DI.GetService<IServerConnection>().StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", DI.GetService<IServerConnection>().Cookies);
-
-                // Update cache
-                DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
-
-                // Save profile 
-                DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserProfile);
-
-
-                DI.GetService<ProjectsPageViewModel>().UpdateProjectsList();
-
                 // Change to projects view
                 DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
                 {
                     ViewModel = DI.GetService<ProjectsPageViewModel>(),
                 };
 
-                DI.Logger().Log("Succesfully logged in", LogLevel.Informative);
+                await Task.Delay(0);
             },
             signInFailed: async (response) =>
             {
-                DI.Logger().Log($"Auto sign-in failed, Server error response {response.StatusCode}/{(int)response.StatusCode}", LogLevel.Verbose);
-
                 settings.RememberMe = false;
 
                 await DI.GetService<IClientDataStore>().SaveClientAppSettingsAsync();
+
+                await Task.Delay(0);
             });
         }
-    }
-}
+
+    };
+};
