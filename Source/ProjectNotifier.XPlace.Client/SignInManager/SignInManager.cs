@@ -33,19 +33,25 @@
             _serverConnection.Cookies.SetCookies(new Uri("https://localhost:5001"), cookie);
 
             // Get project list
-            var response = await DI.GetService<IServerConnection>().Client.PostAsync($"https://localhost:5001/Account/Login", null);//$"https://localhost:5001/Projects");
+                var response = await DI.GetService<IServerConnection>().Client.GetAsync($"https://localhost:5001/Account/Login");
+
 
             // If sign in has failed
             if (response.IsSuccessStatusCode == false)
             {
                 // Call sign in failed action
                 await signInFailed?.Invoke(response);
+             
+                DI.Logger().Log($"Sign-in failed, Server error response {response.StatusCode}/{(int)response.StatusCode}", LogLevel.Verbose);
             }
             // If sign in was succesfull
             else
             {
+                await LoginSuccess(response);
+
                 // Call sign in succeded action
                 await signSuccessfull?.Invoke(response);
+                DI.Logger().Log("Succesfully logged in", LogLevel.Informative);
             };
 
             return response;
@@ -75,15 +81,48 @@
             {
                 // Call sign in failed action
                 await signInFailed?.Invoke(response);
+             
+                DI.Logger().Log($"Sign-in failed, Server error response {response.StatusCode}/{(int)response.StatusCode}", LogLevel.Verbose);
             }
             // If sign in was succesfull
             else
             {
+                await LoginSuccess(response);
+
                 // Call sign in succeded action
                 await signSuccessfull?.Invoke(response);
+              
+                DI.Logger().Log("Succesfully logged in", LogLevel.Informative);
             };
 
             return response;
+        }
+
+
+        private async Task LoginSuccess(HttpResponseMessage response)
+        {
+            // Convert response to a list of projects
+            var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
+
+            // Build hub connection
+            await DI.GetService<IServerConnection>().StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", DI.GetService<IServerConnection>().Cookies);
+
+            // Save cookie
+            await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
+            {
+                DataModelID = Guid.NewGuid().ToString(),
+                Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
+            });
+
+            // Update cache
+            DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
+
+            // Save profile 
+            DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserProfile);
+
+
+            // Display the user's project preferences
+            DI.GetService<ProjectsPageViewModel>().UpdateProjectsList();
         }
     };
 };
