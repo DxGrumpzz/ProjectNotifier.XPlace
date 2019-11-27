@@ -146,7 +146,7 @@
                 // Load new project list
                 DI.GetService<ProjectsPageViewModel>().ProjectList = new ObservableCollection<ProjectItemViewModel>(
                  // Get cached project list
-                 DI.GetService<IClientCache>().ProjectListCache
+                 DI.GetService<IClientCache>().UserPrefferedProjectsCache
                  // Take however necessary
                  .Take(setting.Value)
                  // Select ProjectModel list to a list of ProjectItemViewModel
