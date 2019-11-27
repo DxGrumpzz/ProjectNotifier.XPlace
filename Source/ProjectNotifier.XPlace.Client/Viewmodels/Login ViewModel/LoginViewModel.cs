@@ -162,18 +162,19 @@
                     // Read response content
                     var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
+
                     // Update cache
                     DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
 
                     // Save user profile 
                     DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserProfile);
 
+                    DI.GetService<ProjectsPageViewModel>().UpdateProjectsList();
+
+
                     // Move page out of view
                     UnloadAnimation = ViewAnimation.SlideOutToTop;
                     WaitForUnloadAnimation = true;
-
-                    DI.GetService<ProjectsPageViewModel>().UpdateProjectsList(responseContent.UserProfile.UserProjectPreferences);
-
 
                     // Change to projects view
                     DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()

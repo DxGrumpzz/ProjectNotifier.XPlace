@@ -179,7 +179,7 @@
                     userProfile.UserProjectPreferences = newPreferences;
 
                     // Update projects page
-                    DI.GetService<ProjectsPageViewModel>().UpdateProjectsList(userProfile.UserProjectPreferences);
+                    DI.GetService<ProjectsPageViewModel>().UpdateProjectsList();
 
 
                     // log new profile update

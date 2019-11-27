@@ -193,7 +193,7 @@
                 DI.GetService<IClientDataStore>().SaveUserProfile(responseContent.UserProfile);
 
 
-                DI.GetService<ProjectsPageViewModel>().UpdateProjectsList(responseContent.UserProfile.UserProjectPreferences);
+                DI.GetService<ProjectsPageViewModel>().UpdateProjectsList();
 
                 // Change to projects view
                 DI.GetService<MainWindowViewModel>().CurrentPage = new ProjectsPageView()
