@@ -2,6 +2,7 @@
 {
     using ProjectNotifier.XPlace.Core;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
     using System.Windows.Input;
@@ -51,8 +52,20 @@
                 ProjectType = ProjectType,
             });
 
+            // Sort list alphabetically
+            vm.ProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
+            vm.ProjectPreferences
+            .OrderBy(project => project.ProjectType.ToString()));
+
+
             // Remove this item from project preference selection menu
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType.Remove(this);
+
+
+            // Sort list alphabetically
+            vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType = new ObservableCollection<ProjectPreferenceMenuItemViewModel>(
+            vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType
+            .OrderBy(project => project.ProjectType.ToString()));
 
 
             // Update HasPreferences flag
@@ -66,7 +79,7 @@
                 // Close project preferce menu
                 vm.ProjectPreferenceSelectionMenuViewModel.IsMenuOpen = false;
             };
-        } 
+        }
 
         #endregion
 

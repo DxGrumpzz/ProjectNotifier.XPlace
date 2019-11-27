@@ -100,11 +100,12 @@
 
             // Get only the project types that aren't in the user's projects list
             var differences = projectTypeNumericValues.Except(userProjects)
-                // Convert list of ProjectType to ProjectPreferenceMenuItemViewModel
-                .Select(projectType => new ProjectPreferenceMenuItemViewModel()
-                {
-                    ProjectType = projectType,
-                });
+            // Convert list of ProjectType to ProjectPreferenceMenuItemViewModel
+            .Select(projectType => new ProjectPreferenceMenuItemViewModel()
+            {
+                ProjectType = projectType,
+            })
+            .OrderBy(project => project.ProjectType.ToString());
 
             return differences;
         }
