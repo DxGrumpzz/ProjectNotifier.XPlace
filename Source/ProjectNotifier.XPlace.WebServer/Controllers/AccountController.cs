@@ -88,7 +88,7 @@
         }
 
 
-        [HttpPost("Login")]
+        [HttpGet("Login")]
         [Authorize(Roles = "User")]
         public async Task<ActionResult<LoginResponseModel>> CookieLoginAsync()
         {
