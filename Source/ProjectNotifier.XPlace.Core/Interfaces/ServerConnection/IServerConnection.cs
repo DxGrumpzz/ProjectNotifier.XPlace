@@ -1,7 +1,9 @@
 ﻿namespace ProjectNotifier.XPlace.Core
 {
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Security;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR.Client;
 
@@ -10,6 +12,9 @@
     /// </summary>
     public interface IServerConnection
     {
+
+        #region Public properties
+
         /// <summary>
         /// The client's Projects hub connection
         /// </summary>
@@ -30,6 +35,8 @@
         /// </summary>
         public HttpClientHandler ClientHandler { get; set; }
 
+        #endregion
+
 
         /// <summary>
         /// Build and start a connection to server hub
@@ -38,5 +45,16 @@
         /// <param name="cookies"> A cookie used as a form of authorization </param>
         /// <returns></returns>
         public Task StartHubConnectionAsync(string url, CookieContainer cookies);
+
+
+        public Task<HttpResponseMessage> CookieLoginAsync();
+
+        public Task<HttpResponseMessage> LoginAsync(string username, SecureString password);
+
+        public Task<HttpResponseMessage> RegsiterAsync(string username, SecureString password, SecureString confirmationPassword);
+
+        public Task<HttpResponseMessage> UpdateUserPreferencesAsync(IEnumerable<ProjectType> newProjectPreferences);
+
+
     };
 }

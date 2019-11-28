@@ -1,8 +1,10 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
+    using System.Security;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR.Client;
     using ProjectNotifier.XPlace.Core;
@@ -53,6 +55,7 @@
             Client = new HttpClient(ClientHandler);
         }
 
+
         /// <summary>
         /// Build and start a connection to server hub
         /// </summary>
@@ -71,6 +74,48 @@
             .Build())
             // Start the connection
             .StartAsync();
+        }
+
+
+        public async Task<HttpResponseMessage> CookieLoginAsync()
+        {
+            var response = await Client.GetAsync($"https://localhost:5001/Account/Login");
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> LoginAsync(string username, SecureString password)
+        {
+            var response = await Client.PostAsJsonAsync("https://localhost:5001/Account/Login/{LoginModel}",
+                new LoginRequestModel()
+                {
+                    Username = username,
+                    Password = password.Unsecure(),
+                });
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> RegsiterAsync(string username, SecureString password, SecureString confirmationPassword)
+        {
+            var response = await DI.GetService<IServerConnection>().Client
+            .PostAsJsonAsync("https://localhost:5001/Account/Register",
+            new RegisterModel()
+            {
+                Username = username,
+                Password = password.Unsecure(),
+                ConfirmationPassword = confirmationPassword.Unsecure(),
+            });
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> UpdateUserPreferencesAsync(IEnumerable<ProjectType> newProjectPreferences)
+        {
+            var updateProfileRequest = await Client
+                    .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{ProjectType}", newProjectPreferences);
+
+            return updateProfileRequest;
         }
     };
 };
