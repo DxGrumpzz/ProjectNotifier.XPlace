@@ -47,7 +47,7 @@
         public Task StartHubConnectionAsync(string url, CookieContainer cookies);
 
 
-        public Task<HttpResponseMessage> CookieLoginAsync();
+        public Task<HttpResponseMessage> CookieLoginAsync(string cookie);
 
         public Task<HttpResponseMessage> LoginAsync(string username, SecureString password);
 

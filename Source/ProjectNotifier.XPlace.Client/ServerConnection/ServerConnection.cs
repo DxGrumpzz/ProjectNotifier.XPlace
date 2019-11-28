@@ -77,8 +77,10 @@
         }
 
 
-        public async Task<HttpResponseMessage> CookieLoginAsync()
+        public async Task<HttpResponseMessage> CookieLoginAsync(string cookie)
         {
+            Cookies.SetCookies(new Uri("https://localhost:5001"), cookie);
+
             var response = await Client.GetAsync($"https://localhost:5001/Account/Login");
 
             return response;
