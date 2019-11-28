@@ -15,44 +15,47 @@
     public class ServerConnection : IServerConnection
     {
 
-        #region Public proeprties
-
-        /// <summary>
-        /// The client's Projects hub connection
-        /// </summary>
-        public HubConnection ProjectsHubConnection { get; set; }
-
+        #region Private fields
 
         /// <summary>
         /// The HTTP connection to the server
         /// </summary>
-        public HttpClient Client { get; set; }
-
-
-        /// <summary>
-        /// A cookie "jar" that contains information about the connection, user authorization, and more
-        /// </summary>
-        public CookieContainer Cookies { get; private set; }
+        private readonly HttpClient _client;
 
 
         /// <summary>
         /// A client handler for cookie storage
         /// </summary>
-        public HttpClientHandler ClientHandler { get; set; }
+        private readonly HttpClientHandler _clientHandler;
+
+        #endregion
+
+
+        #region Public properties
+   
+        /// <summary>
+        /// A cookie "jar" that contains information about the connection, user authorization, and more
+        /// </summary>
+        public CookieContainer CookieContainer { get; }
+
+        /// <summary>
+        /// The client's Projects hub connection
+        /// </summary>
+        public HubConnection ProjectsHub { get; private set; }
 
         #endregion
 
 
         public ServerConnection()
         {
-            Cookies = new CookieContainer();
+            CookieContainer = new CookieContainer();
 
-            ClientHandler = new HttpClientHandler()
+            _clientHandler = new HttpClientHandler()
             {
-                CookieContainer = Cookies,
+                CookieContainer = CookieContainer,
             };
 
-            Client = new HttpClient(ClientHandler);
+            _client = new HttpClient(_clientHandler);
         }
 
 
@@ -65,7 +68,7 @@
         public async Task StartHubConnectionAsync(string url, CookieContainer cookies)
         {
             // Build hub connection
-            await (ProjectsHubConnection = new HubConnectionBuilder()
+            await (ProjectsHub = new HubConnectionBuilder()
             // Connect to project hub url
             .WithUrl(url,
             // Authorize user with cookies
@@ -79,16 +82,16 @@
 
         public async Task<HttpResponseMessage> CookieLoginAsync(string cookie)
         {
-            Cookies.SetCookies(new Uri("https://localhost:5001"), cookie);
+            CookieContainer.SetCookies(new Uri("https://localhost:5001"), cookie);
 
-            var response = await Client.GetAsync($"https://localhost:5001/Account/Login");
+            var response = await _client.GetAsync($"https://localhost:5001/Account/Login");
 
             return response;
         }
 
         public async Task<HttpResponseMessage> LoginAsync(string username, SecureString password)
         {
-            var response = await Client.PostAsJsonAsync("https://localhost:5001/Account/Login/{LoginModel}",
+            var response = await _client.PostAsJsonAsync("https://localhost:5001/Account/Login/{LoginModel}",
                 new LoginRequestModel()
                 {
                     Username = username,
@@ -100,8 +103,7 @@
 
         public async Task<HttpResponseMessage> RegsiterAsync(string username, SecureString password, SecureString confirmationPassword)
         {
-            var response = await DI.GetService<IServerConnection>().Client
-            .PostAsJsonAsync("https://localhost:5001/Account/Register",
+            var response = await _client.PostAsJsonAsync("https://localhost:5001/Account/Register",
             new RegisterModel()
             {
                 Username = username,
@@ -114,10 +116,13 @@
 
         public async Task<HttpResponseMessage> UpdateUserPreferencesAsync(IEnumerable<ProjectType> newProjectPreferences)
         {
-            var updateProfileRequest = await Client
-                    .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{ProjectType}", newProjectPreferences);
+            var updateProfileRequest = await _client
+                .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{ProjectType}", newProjectPreferences);
 
             return updateProfileRequest;
         }
+
+
+
     };
 };
