@@ -152,7 +152,8 @@
                         <DataTemplate>
 
                                 <!-- The type of project -->
-                                <Button Content="{Binding ProjectType}"
+                                <Button Content="{Binding ProjectType,
+                                        Converter={local:ProjectTypeToHebrewValueConverter}}"
                                         
                                         Margin="2,2,0,2"
                                         HorizontalAlignment="Center"
