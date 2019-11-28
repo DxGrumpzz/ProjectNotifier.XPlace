@@ -181,6 +181,8 @@
                     // Update projects page
                     DI.GetService<ProjectsPageViewModel>().UpdateProjectsList();
 
+                    // Show to user that changes haves been saves
+                    await DI.GetService<ProjectsPageViewModel>().SettingsViewModel.ShowSavedNotificationAsync();
 
                     // log new profile update
                     DI.Logger().Log(
