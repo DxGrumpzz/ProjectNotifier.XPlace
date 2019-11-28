@@ -169,8 +169,7 @@
                 var newPreferences = ProjectPreferences.Select(projectType => projectType.ProjectType);
 
                 // Update user's profile for project preference changes
-                var updateProfileRequest = await DI.GetService<IServerConnection>().Client
-                    .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{ProjectType}", newPreferences);
+                var updateProfileRequest = await DI.GetService<IServerConnection>().UpdateUserPreferencesAsync(newPreferences);
 
                 // If request was succesfull
                 if (updateProfileRequest.IsSuccessStatusCode == true)

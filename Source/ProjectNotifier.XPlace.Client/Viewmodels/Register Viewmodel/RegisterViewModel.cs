@@ -144,14 +144,7 @@
             {
 
                 // Send a registration request to the server
-                var response = await DI.GetService<IServerConnection>().Client
-                .PostAsJsonAsync("https://localhost:5001/Account/Register", 
-                new RegisterModel()
-                {
-                    Username = Username,
-                    Password = passwords.Password.Unsecure(),
-                    ConfirmationPassword = passwords.ConfirmPassword.Unsecure(),
-                });
+                var response = await DI.GetService<IServerConnection>().RegsiterAsync(Username, passwords.Password, passwords.ConfirmPassword);
 
 
                 // If registration was unsuccesful
@@ -176,7 +169,7 @@
                     // Move to login page
                     DI.GetService<MainWindowViewModel>().CurrentPage = new LoginView()
                     {
-                        ViewModel = new LoginViewModel(/*DI.GetService<ClientAppSettingsModel>()*/)
+                        ViewModel = new LoginViewModel()
                         {
                             Username = Username,
                         },

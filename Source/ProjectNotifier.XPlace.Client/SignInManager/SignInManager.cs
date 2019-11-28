@@ -29,11 +29,8 @@
         /// <returns></returns>
         public async Task<HttpResponseMessage> CookieSignInAsync(string cookie, Func<HttpResponseMessage, Task> signSuccessfull, Func<HttpResponseMessage, Task> signInFailed)
         {
-            // Set the cookies
-            _serverConnection.Cookies.SetCookies(new Uri("https://localhost:5001"), cookie);
-
             // Get project list
-                var response = await DI.GetService<IServerConnection>().Client.GetAsync($"https://localhost:5001/Account/Login");
+            var response = await DI.GetService<IServerConnection>().CookieLoginAsync(cookie);
 
 
             // If sign in has failed
@@ -69,12 +66,7 @@
         public async Task<HttpResponseMessage> SignInAsync(string username, SecureString password, Func<HttpResponseMessage, Task> signSuccessfull, Func<HttpResponseMessage, Task> signInFailed)
         {
             // Attemp sign in
-            var response = await _serverConnection.Client.PostAsJsonAsync("https://localhost:5001/Account/Login/{LoginModel}",
-                new LoginRequestModel()
-                {
-                    Username = username,
-                    Password = password.Unsecure(),
-                });
+            var response = await _serverConnection.LoginAsync(username, password);
 
             // If sign in has failed
             if (response.IsSuccessStatusCode == false)
