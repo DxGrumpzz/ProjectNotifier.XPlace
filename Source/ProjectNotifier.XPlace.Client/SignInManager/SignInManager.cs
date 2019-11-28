@@ -96,15 +96,17 @@
             // Convert response to a list of projects
             var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
-            // Build hub connection
-            await _serverConnection.StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", _serverConnection.Cookies);
-
             // Save cookie
-            await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
-            {
-                DataModelID = Guid.NewGuid().ToString(),
-                Cookie = _serverConnection.Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
-            });
+            await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(
+                new LoginCredentialsDataModel()
+                {
+                    Cookie = _serverConnection.CookieContainer.GetCookieHeader(new Uri("Https://LocalHost:5001"))
+                });
+
+
+            // Build hub connection
+            await _serverConnection.StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", _serverConnection.CookieContainer);
+
 
             // Update cache
             DI.GetService<IClientCache>().ProjectListCache = responseContent.Projects;
