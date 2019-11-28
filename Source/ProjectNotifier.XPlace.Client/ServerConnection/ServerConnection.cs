@@ -79,18 +79,31 @@
             .StartAsync();
         }
 
-
+        /// <summary>
+        /// Login using a saved cookie 
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> CookieLoginAsync(string cookie)
         {
+            // Setup cookies
             CookieContainer.SetCookies(new Uri("https://localhost:5001"), cookie);
 
+            // Set login request
             var response = await _client.GetAsync($"https://localhost:5001/Account/Login");
 
             return response;
         }
 
+        /// <summary>
+        /// Login using normal user credentials
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> LoginAsync(string username, SecureString password)
         {
+            // Set login request
             var response = await _client.PostAsJsonAsync("https://localhost:5001/Account/Login/{LoginModel}",
                 new LoginRequestModel()
                 {
@@ -101,8 +114,16 @@
             return response;
         }
 
+        /// <summary>
+        /// Send a registration request to the server
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="confirmationPassword"></param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> RegsiterAsync(string username, SecureString password, SecureString confirmationPassword)
         {
+            // Send registration request
             var response = await _client.PostAsJsonAsync("https://localhost:5001/Account/Register",
             new RegisterModel()
             {
@@ -114,14 +135,20 @@
             return response;
         }
 
+
+        /// <summary>
+        /// Sends a request to the server that will update the user's project preferences
+        /// </summary>
+        /// <param name="newProjectPreferences"> The user's new preferences</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> UpdateUserPreferencesAsync(IEnumerable<ProjectType> newProjectPreferences)
         {
+            // Send a request to update project preferences
             var updateProfileRequest = await _client
                 .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{ProjectType}", newProjectPreferences);
 
             return updateProfileRequest;
         }
-
 
 
     };
