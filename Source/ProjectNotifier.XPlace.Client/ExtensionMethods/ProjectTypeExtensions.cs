@@ -15,8 +15,6 @@
         /// <returns></returns>
         public static string ToHebrewString(this ProjectType projectType)
         {
-            var s = ProjectType.;
-
             switch (projectType)
             {
                 case ProjectType.WebDevelopment:
