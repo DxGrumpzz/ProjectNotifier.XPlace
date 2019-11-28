@@ -30,7 +30,7 @@
         public async Task<HttpResponseMessage> CookieSignInAsync(string cookie, Func<HttpResponseMessage, Task> signSuccessfull, Func<HttpResponseMessage, Task> signInFailed)
         {
             // Get project list
-            var response = await DI.GetService<IServerConnection>().CookieLoginAsync(cookie);
+            var response = await _serverConnection.CookieLoginAsync(cookie);
 
 
             // If sign in has failed
@@ -97,13 +97,13 @@
             var responseContent = await response.Content.ReadAsAsync<LoginResponseModel>();
 
             // Build hub connection
-            await DI.GetService<IServerConnection>().StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", DI.GetService<IServerConnection>().Cookies);
+            await _serverConnection.StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", _serverConnection.Cookies);
 
             // Save cookie
             await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(new LoginCredentialsDataModel()
             {
                 DataModelID = Guid.NewGuid().ToString(),
-                Cookie = DI.GetService<IServerConnection>().Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
+                Cookie = _serverConnection.Cookies.GetCookieHeader(new Uri("Https://LocalHost:5001"))
             });
 
             // Update cache
