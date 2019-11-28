@@ -1,9 +1,11 @@
 ﻿namespace ProjectNotifier.XPlace.Client
 {
     using ProjectNotifier.XPlace.Core;
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using System.Windows.Input;
 
@@ -55,7 +57,7 @@
             // Sort list alphabetically
             vm.ProjectPreferences = new ObservableCollection<UserProjectPreferenceItemViewModel>(
             vm.ProjectPreferences
-            .OrderBy(project => project.ProjectType.ToString()));
+            .OrderBy(project => project.ProjectType.ToHebrewString(), StringComparer.Create(new CultureInfo("he-IL"), true)));
 
 
             // Remove this item from project preference selection menu
@@ -65,7 +67,7 @@
             // Sort list alphabetically
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType = new ObservableCollection<ProjectPreferenceMenuItemViewModel>(
             vm.ProjectPreferenceSelectionMenuViewModel.AvailableProjectType
-            .OrderBy(project => project.ProjectType.ToString()));
+            .OrderBy(project => project.ProjectType.ToHebrewString(), StringComparer.Create(new CultureInfo("he-IL"), true)));
 
 
             // Update HasPreferences flag
