@@ -68,7 +68,7 @@
 
 
             // Bind hub events
-            DI.GetService<IServerConnection>().ProjectsHubConnection.On<IEnumerable<ProjectModel>>("ProjectListUpdated", ProjectListUpdated);
+            DI.GetService<IServerConnection>().ProjectsHub.On<IEnumerable<ProjectModel>>("ProjectListUpdated", ProjectListUpdated);
         }
 
 
@@ -160,6 +160,7 @@
 
         #endregion
 
+
         #region Private helpers
 
         private void UpdateViewportHeight(double newviewportHeight)
@@ -172,29 +173,28 @@
 
         private void ProjectListUpdated(IEnumerable<ProjectModel> projects)
         {
+            // Get cache
+            var clientCache = DI.GetService<IClientCache>();
+
             // Update project list cache 
-            DI.GetService<IClientCache>().ProjectListCache = projects;
-
-
-            // Reset project list
-            ProjectList = new ObservableCollection<ProjectItemViewModel>();
-
-            // Display loading text
-            //IsLoading = true
+            clientCache.ProjectListCache = projects;
 
             // Load new project list
             ProjectList = new ObservableCollection<ProjectItemViewModel>(
-                projects
-                .Select((project) => new ProjectItemViewModel()
+                clientCache.UserPrefferedProjectsCache.Select((project) => 
+                new ProjectItemViewModel()
                 {
                     ProjectModel = project,
                 })
-                .Take(DI.ClientAppSettings().ProjectsToDisplay)
-                .AsEnumerable());
+                .Take(DI.ClientAppSettings().ProjectsToDisplay));
 
-            DI.UIManager().ShowProjectNotification(projects.Take(8));
+            // Display new projects notification
+            DI.UIManager().ShowProjectNotification(
+                // Take first 8 projects that appeal to the user
+                clientCache.UserPrefferedProjectsCache.Take(8));
         }
 
         #endregion
+
     };
 };
