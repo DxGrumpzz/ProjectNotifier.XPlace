@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Linq;
     using System.Windows.Input;
 
@@ -30,6 +31,8 @@
 
         private bool _isMenuOpen;
 
+        private ObservableCollection<ProjectPreferenceMenuItemViewModel> _availableProjectType; 
+
         #endregion
 
 
@@ -38,7 +41,15 @@
         /// <summary>
         /// The list of project types that the user can select from 
         /// </summary>
-        public ObservableCollection<ProjectPreferenceMenuItemViewModel> AvailableProjectType { get; set; }
+        public ObservableCollection<ProjectPreferenceMenuItemViewModel> AvailableProjectType
+        {
+            get => _availableProjectType;
+            set
+            {
+                _availableProjectType = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// A boolean flag that indicates if the menu is open
@@ -105,7 +116,7 @@
             {
                 ProjectType = projectType,
             })
-            .OrderBy(project => project.ProjectType.ToString());
+            .OrderBy(project => project.ProjectType.ToHebrewString(), StringComparer.Create(new CultureInfo("he-IL"), true));
 
             return differences;
         }
