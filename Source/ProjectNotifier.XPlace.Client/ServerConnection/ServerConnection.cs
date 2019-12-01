@@ -87,10 +87,10 @@
         public async Task<HttpResponseMessage> CookieLoginAsync(string cookie)
         {
             // Setup cookies
-            CookieContainer.SetCookies(new Uri("https://localhost:5001"), cookie);
+            CookieContainer.SetCookies(new Uri(ApiRoutes.API_URL), cookie);
 
             // Set login request
-            var response = await _client.GetAsync($"https://localhost:5001/Account/Login");
+            var response = await _client.GetAsync($"{ApiRoutes.API_URL}/{ApiRoutes.API_ACCOUNT_CONTROLLER}/{ApiRoutes.API_ACCOUNT_CONTROLLER_LOGIN}");
 
             return response;
         }
@@ -104,7 +104,7 @@
         public async Task<HttpResponseMessage> LoginAsync(string username, SecureString password)
         {
             // Set login request
-            var response = await _client.PostAsJsonAsync("https://localhost:5001/Account/Login/{LoginModel}",
+            var response = await _client.PostAsJsonAsync($"{ApiRoutes.API_URL}/{ApiRoutes.API_ACCOUNT_CONTROLLER}/{ApiRoutes.API_ACCOUNT_CONTROLLER_LOGIN}/{{LoginModel}}",
                 new LoginRequestModel()
                 {
                     Username = username,
@@ -124,7 +124,7 @@
         public async Task<HttpResponseMessage> RegsiterAsync(string username, SecureString password, SecureString confirmationPassword)
         {
             // Send registration request
-            var response = await _client.PostAsJsonAsync("https://localhost:5001/Account/Register",
+            var response = await _client.PostAsJsonAsync($"{ApiRoutes.API_URL}/{ApiRoutes.API_ACCOUNT_CONTROLLER}/{ApiRoutes.API_ACCOUNT_CONTROLLER_REGISTER}",
             new RegisterModel()
             {
                 Username = username,
@@ -145,7 +145,7 @@
         {
             // Send a request to update project preferences
             var updateProfileRequest = await _client
-                .PostAsJsonAsync("Https://localhost:5001/Profile/UpdateUserPreferences/{ProjectType}", newProjectPreferences);
+                .PostAsJsonAsync($"{ApiRoutes.API_URL}/{ApiRoutes.API_PROFILE_CONTROLLER}/{ApiRoutes.API_PROFILE_UPDATE_USER_PREFERENCES}/{{ProjectTypes}}", newProjectPreferences);
 
             return updateProfileRequest;
         }
