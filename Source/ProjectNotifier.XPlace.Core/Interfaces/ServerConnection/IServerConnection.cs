@@ -22,7 +22,7 @@
         /// <param name="url"> The url for the hub's connection </param>
         /// <param name="cookies"> A cookie used as a form of authorization </param>
         /// <returns></returns>
-        public Task StartHubConnectionAsync(string url, CookieContainer cookies);
+        public Task StartHubConnectionAsync();
 
         /// <summary>
         /// Login using a saved cookie 

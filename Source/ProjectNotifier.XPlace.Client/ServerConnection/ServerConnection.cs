@@ -1,4 +1,4 @@
-﻿namespace ProjectNotifier.XPlace.Client
+namespace ProjectNotifier.XPlace.Client
 {
     using System;
     using System.Collections.Generic;
@@ -65,7 +65,7 @@
         /// <param name="url"> The url for the hub's connection </param>
         /// <param name="cookies"> A cookie used as a form of authorization </param>
         /// <returns></returns>
-        public async Task StartHubConnectionAsync(string url, CookieContainer cookies)
+        public async Task StartHubConnectionAsync()
         {
             // Build hub connection
             await (ProjectsHub = new HubConnectionBuilder()

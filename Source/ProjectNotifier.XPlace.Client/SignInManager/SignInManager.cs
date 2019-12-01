@@ -1,4 +1,4 @@
-namespace ProjectNotifier.XPlace.Client
+﻿namespace ProjectNotifier.XPlace.Client
 {
     using System;
     using System.Net.Http;
@@ -105,7 +105,7 @@ namespace ProjectNotifier.XPlace.Client
 
 
             // Build hub connection
-            await _serverConnection.StartHubConnectionAsync("Https://LocalHost:5001/ProjectsHub", _serverConnection.CookieContainer);
+            await _serverConnection.StartHubConnectionAsync();
 
 
             // Update cache
