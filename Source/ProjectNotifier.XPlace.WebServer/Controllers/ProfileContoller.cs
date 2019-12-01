@@ -27,9 +27,9 @@
         }
 
 
-        [HttpPost(ApiRoutes.API_PROFILE_UPDATE_USER_PREFERENCES + "/{ProjectType}")]
+        [HttpPost(ApiRoutes.API_PROFILE_UPDATE_USER_PREFERENCES + "/{ProjectTypes}")]
         [Authorize()]
-        public async Task<IActionResult> UpdateUserPreferencesAsync(IEnumerable<ProjectType> ProjectType)
+        public async Task<IActionResult> UpdateUserPreferencesAsync(IEnumerable<ProjectType> ProjectTypes)
         {
             // Find the user
             var user = _appDBContext.Users.Find((await _userManager.GetUserAsync(HttpContext.User)).Id);
@@ -50,7 +50,7 @@
 
             // Update user project preferences
             user.UserProjectPreferences = new List<UserProjectPreference>(
-                ProjectType.Select(projectType => 
+                ProjectTypes.Select(projectType => 
                 new UserProjectPreference()
                 {
                     ProjectType = projectType,
