@@ -1,4 +1,4 @@
-namespace ProjectNotifier.XPlace.Client
+﻿namespace ProjectNotifier.XPlace.Client
 {
     using System;
     using System.Collections.Generic;
@@ -70,9 +70,9 @@ namespace ProjectNotifier.XPlace.Client
             // Build hub connection
             await (ProjectsHub = new HubConnectionBuilder()
             // Connect to project hub url
-            .WithUrl(url,
+            .WithUrl($"{ApiRoutes.API_URL}/{ApiRoutes.API_PROJECTS_HUB}",
             // Authorize user with cookies
-            options => options.Cookies = cookies)
+            options => options.Cookies = CookieContainer)
             // Build hub connection
             .Build())
             // Start the connection
