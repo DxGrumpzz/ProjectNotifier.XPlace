@@ -9,7 +9,13 @@
     /// </summary>
     public static class ApiRoutes
     {
+
+        /// <summary>
+        /// The web server's url 
+        /// </summary>
+        public const string WEB_SERVER = "Https://LocalHost:5001";
         
+
         #region Account Controller
 
         /// <summary>
