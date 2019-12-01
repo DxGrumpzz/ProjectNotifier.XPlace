@@ -13,7 +13,7 @@
         /// <summary>
         /// The web server's url 
         /// </summary>
-        public const string WEB_SERVER = "Https://LocalHost:5001";
+        public const string API_URL = "Https://LocalHost:5001";
         
 
         #region Account Controller
