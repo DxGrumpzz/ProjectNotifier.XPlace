@@ -96,6 +96,9 @@ namespace ProjectNotifier.XPlace.Client
                 if (sender.VerticalOffset >= (_viewportHeight - 10))
                 {
 
+                // Check if scrollbar is at the bottom
+                if (eventArg.VerticalOffset + eventArg.ViewportHeight == eventArg.ExtentHeight)
+                {
                     var userPrefferdProjects = DI.GetService<IClientCache>().UserPrefferedProjectsCache;
 
                     // The number of projects avaiable to load
