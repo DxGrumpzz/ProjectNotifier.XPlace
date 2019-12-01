@@ -1,4 +1,4 @@
-﻿namespace ProjectNotifier.XPlace.Client
+namespace ProjectNotifier.XPlace.Client
 {
     using System;
     using System.Net.Http;
@@ -100,7 +100,7 @@
             await DI.GetService<IClientDataStore>().SaveLoginCredentialsAsync(
                 new LoginCredentialsDataModel()
                 {
-                    Cookie = _serverConnection.CookieContainer.GetCookieHeader(new Uri("Https://LocalHost:5001"))
+                    Cookie = _serverConnection.CookieContainer.GetCookieHeader(new Uri(ApiRoutes.API_URL))
                 });
 
 
