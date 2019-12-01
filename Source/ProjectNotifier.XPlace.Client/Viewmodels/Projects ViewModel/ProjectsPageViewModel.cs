@@ -1,4 +1,4 @@
-﻿namespace ProjectNotifier.XPlace.Client
+namespace ProjectNotifier.XPlace.Client
 {
     using Microsoft.AspNetCore.SignalR.Client;
 
@@ -108,6 +108,12 @@
 
                     // Check if in project loading chunk is within the bounds of the UserPrefferedProjectsCache 
                     if ((chunccSize + ProjectList.Count) >= userPrefferdProjects.Count())
+                        // If not try to get last remaning projects 
+                        chunccSize = userPrefferdProjects.Count() - ProjectList.Count;
+
+                        // It there are none
+                        if (chunccSize <= 0)
+                            // Exit method
                         return;
 
                     // Get a chunk out of the cached projectlist
