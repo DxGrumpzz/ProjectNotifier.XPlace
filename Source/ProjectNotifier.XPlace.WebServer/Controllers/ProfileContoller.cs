@@ -4,15 +4,14 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+
     using ProjectNotifier.XPlace.Core;
-    using System;
+
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
-    using System.Net;
     using System.Threading.Tasks;
 
-    [Route("[controller]")]
+    [Route(ApiRoutes.API_PROFILE_CONTROLLER)]
     [ApiController]
     public class ProfileController : ControllerBase
     {
@@ -28,7 +27,7 @@
         }
 
 
-        [HttpPost("UpdateUserPreferences/{ProjectType}")]
+        [HttpPost(ApiRoutes.API_PROFILE_UPDATE_USER_PREFERENCES + "/{ProjectType}")]
         [Authorize()]
         public async Task<IActionResult> UpdateUserPreferencesAsync(IEnumerable<ProjectType> ProjectType)
         {

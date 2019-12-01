@@ -12,7 +12,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    [Route("[controller]")]
+    [Route(ApiRoutes.API_ACCOUNT_CONTROLLER)]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -32,7 +32,7 @@
 
 
 
-        [HttpPost("Login/{loginModel}")]
+        [HttpPost(ApiRoutes.API_ACCOUNT_CONTROLLER_LOGIN + "/{loginModel}")]
         public async Task<ActionResult<LoginResponseModel>> LoginAsync(LoginRequestModel loginModel)
         {
             // Attemp user sing in
@@ -81,7 +81,7 @@
         }
 
 
-        [HttpGet("Login")]
+        [HttpGet(ApiRoutes.API_ACCOUNT_CONTROLLER_LOGIN)]
         [Authorize(Roles = "User")]
         public async Task<ActionResult<LoginResponseModel>> CookieLoginAsync()
         {
@@ -112,7 +112,7 @@
         }
 
 
-        [HttpPost("Register")]
+        [HttpPost(ApiRoutes.API_ACCOUNT_CONTROLLER_REGISTER)]
         public async Task<ActionResult> RegisterAsync(RegisterModel registerModel)
         {
             // Check if password and confirmation password match
