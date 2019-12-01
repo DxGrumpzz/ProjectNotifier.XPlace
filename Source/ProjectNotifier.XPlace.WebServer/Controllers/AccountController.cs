@@ -32,13 +32,6 @@
 
 
 
-        [HttpGet("Index")]
-        public IActionResult Index()
-        {
-            return Content("Account index");
-        }
-
-
         [HttpPost("Login/{loginModel}")]
         public async Task<ActionResult<LoginResponseModel>> LoginAsync(LoginRequestModel loginModel)
         {
