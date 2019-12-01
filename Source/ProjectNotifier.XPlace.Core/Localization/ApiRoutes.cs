@@ -50,5 +50,15 @@
 
         #endregion
 
+
+        #region Hubs
+
+        /// <summary>
+        /// SinglaR's projects hub url
+        /// </summary>
+        public const string API_PROJECTS_HUB = "ProjectsHub";
+
+        #endregion
+
     };
 };
