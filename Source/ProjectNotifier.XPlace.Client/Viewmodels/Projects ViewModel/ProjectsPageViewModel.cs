@@ -1,4 +1,4 @@
-namespace ProjectNotifier.XPlace.Client
+﻿namespace ProjectNotifier.XPlace.Client
 {
     using Microsoft.AspNetCore.SignalR.Client;
 
@@ -9,6 +9,7 @@ namespace ProjectNotifier.XPlace.Client
     using System.Diagnostics;
     using System.Linq;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
 
     /// <summary>
@@ -21,11 +22,6 @@ namespace ProjectNotifier.XPlace.Client
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObservableCollection<ProjectItemViewModel> _projectList;
-
-        /// <summary>
-        /// Holds the max height of the viewport
-        /// </summary>
-        private double _viewportHeight;
 
         #endregion
 
@@ -41,7 +37,6 @@ namespace ProjectNotifier.XPlace.Client
                 OnPropertyChanged();
             }
         }
-
 
         public SettingsViewModel SettingsViewModel { get; set; }
 
@@ -83,19 +78,14 @@ namespace ProjectNotifier.XPlace.Client
         {
             // Get the event source/sender (the scrollviwer object)
             ScrollViewer sender = eventArg.Source as ScrollViewer;
-
-            // Update max viewport height
-            UpdateViewportHeight(sender.ScrollableHeight);
-
+            
+            
             var appSettings = DI.ClientAppSettings();
 
             // Check if loading the projects is even neccessary 
             if (ProjectList.Count < appSettings.ProjectsToDisplay)
             {
-                // Check if the vertical position of the scrollbar is low enough
-                if (sender.VerticalOffset >= (_viewportHeight - 10))
-                {
-
+                
                 // Check if scrollbar is at the bottom
                 if (eventArg.VerticalOffset + eventArg.ViewportHeight == eventArg.ExtentHeight)
                 {
@@ -111,13 +101,15 @@ namespace ProjectNotifier.XPlace.Client
 
                     // Check if in project loading chunk is within the bounds of the UserPrefferedProjectsCache 
                     if ((chunccSize + ProjectList.Count) >= userPrefferdProjects.Count())
+                    {
                         // If not try to get last remaning projects 
                         chunccSize = userPrefferdProjects.Count() - ProjectList.Count;
 
                         // It there are none
                         if (chunccSize <= 0)
                             // Exit method
-                        return;
+                            return;
+                    };
 
                     // Get a chunk out of the cached projectlist
                     userPrefferdProjects
@@ -161,25 +153,12 @@ namespace ProjectNotifier.XPlace.Client
             })
             // Take the first 10
             .Take(10));
-
-
-            // Reset viewport height 
-            _viewportHeight = 0.0;
         }
 
         #endregion
 
 
         #region Private helpers
-
-        private void UpdateViewportHeight(double newviewportHeight)
-        {
-            // Set viewport height if it is bigger
-            if (newviewportHeight > _viewportHeight)
-                _viewportHeight = newviewportHeight;
-        }
-
-
         private void ProjectListUpdated(IEnumerable<ProjectModel> projects)
         {
             // Get cache
