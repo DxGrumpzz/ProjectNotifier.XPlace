@@ -76,40 +76,35 @@
         /// <param name="eventArg"></param>
         private void ExecuteProjectListScrolled(ScrollChangedEventArgs eventArg)
         {
-            // Get the event source/sender (the scrollviwer object)
-            ScrollViewer sender = eventArg.Source as ScrollViewer;
-            
-            
-            var appSettings = DI.ClientAppSettings();
-
-            // Check if loading the projects is even neccessary 
-            if (ProjectList.Count < appSettings.ProjectsToDisplay)
+            // Check if scrollbar is at the bottom
+            if (eventArg.VerticalOffset + eventArg.ViewportHeight == eventArg.ExtentHeight)
             {
-                
-                // Check if scrollbar is at the bottom
-                if (eventArg.VerticalOffset + eventArg.ViewportHeight == eventArg.ExtentHeight)
+                var appSettings = DI.ClientAppSettings();
+
+                var userPrefferdProjects = DI.GetService<IClientCache>().UserPrefferedProjectsCache;
+              
+                int userPrefferdProjectsCount = userPrefferdProjects.Count();
+
+
+                // Check if loading the projects is even neccessary 
+                if ((ProjectList.Count < appSettings.ProjectsToDisplay) &&
+                    (ProjectList.Count < userPrefferdProjectsCount))
                 {
-                    var userPrefferdProjects = DI.GetService<IClientCache>().UserPrefferedProjectsCache;
-
-                    // The number of projects avaiable to load
-                    int projectsCount = appSettings.ProjectsToDisplay - ProjectList.Count;
-
                     // How big of a chuck to take out of the cached project list
-                    int chunccSize = 5 > projectsCount ?
-                        projectsCount :
-                        5;
+                    int chunccSize = 5;
 
-                    // Check if in project loading chunk is within the bounds of the UserPrefferedProjectsCache 
-                    if ((chunccSize + ProjectList.Count) >= userPrefferdProjects.Count())
+                    // Check if the next loaded chunk is within the bounds of the UserPrefferedProjectsCache 
+                    if ((chunccSize + ProjectList.Count) >= userPrefferdProjectsCount)
                     {
-                        // If not try to get last remaning projects 
-                        chunccSize = userPrefferdProjects.Count() - ProjectList.Count;
+                        // If not try to resize chunccSize to fit bounds
+                        chunccSize = userPrefferdProjectsCount - ProjectList.Count;
 
                         // It there are none
                         if (chunccSize <= 0)
                             // Exit method
                             return;
                     };
+
 
                     // Get a chunk out of the cached projectlist
                     userPrefferdProjects
@@ -169,7 +164,7 @@
 
             // Load new project list
             ProjectList = new ObservableCollection<ProjectItemViewModel>(
-                clientCache.UserPrefferedProjectsCache.Select((project) => 
+                clientCache.UserPrefferedProjectsCache.Select((project) =>
                 new ProjectItemViewModel()
                 {
                     ProjectModel = project,
