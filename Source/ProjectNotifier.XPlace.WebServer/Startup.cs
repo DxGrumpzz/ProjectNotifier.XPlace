@@ -8,7 +8,9 @@ namespace ProjectNotifier.XPlace.WebServer
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+
     using ProjectNotifier.XPlace.Core;
+
     using System;
 
     public class Startup
@@ -36,7 +38,18 @@ namespace ProjectNotifier.XPlace.WebServer
 
 
             // Add identity sotres for password hashers, UserManagers, and roles
-            services.AddIdentity<AppUserModel, IdentityRole>()
+            services.AddIdentity<AppUserModel, IdentityRole>(options =>
+            {
+                // Allow weak passwords, For now
+                options.Password = new PasswordOptions()
+                {
+                    RequireDigit = false,
+                    RequiredLength = 4,
+                    RequireLowercase = false,
+                    RequireNonAlphanumeric = false,
+                    RequireUppercase = false,
+                };
+            })
             // Add Hebrew identityErrors to error describer
             .AddErrorDescriber<HebrewIdentityErrorDescriber>()
             // Add AppDBContext as the identity provider
@@ -50,21 +63,6 @@ namespace ProjectNotifier.XPlace.WebServer
                 options.SlidingExpiration = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
-
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Allow weak passwords, For now
-                options.Password = new PasswordOptions()
-                {
-                    RequireDigit = false,
-                    RequiredLength = 4,
-                    RequireLowercase = false,
-                    RequireNonAlphanumeric = false,
-                    RequireUppercase = false,
-                };
-            });
-
 
             // Add controllers without views
             services.AddControllers(config =>
