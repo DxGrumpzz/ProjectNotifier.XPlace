@@ -8,9 +8,15 @@
     /// </summary>
     public class SettingsViewModel : BaseViewModel
     {
+        public static SettingsViewModel DesignInstance_ProjectsPageViewModel => new SettingsViewModel()
+        {
+            IsOpen = false,
+            CurrentSettingsPage = new BaseView(),
+        };
+
 
         #region Private fields
-      
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _isOpen;
 

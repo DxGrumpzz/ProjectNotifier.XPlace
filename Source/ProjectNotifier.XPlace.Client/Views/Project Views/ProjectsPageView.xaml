@@ -11,9 +11,7 @@
 			    mc:Ignorable="d" 
 			    
                 d:DesignHeight="450" 
-			    d:DesignWidth="800"
-                
-                >
+			    d:DesignWidth="800">
 
     <Grid ClipToBounds="True">
 
@@ -67,12 +65,28 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+
         
+        <!-- A Textblock that tells the user that he has no new project -->
+        <TextBlock Text="לא נמצאו פרוייקטים :( אוליי תנסו להגדיר העדפות פרוייקטים" 
+                   FontFamily="Open Sans Hebrew"
+                   FontSize="17"
+                   FontWeight="Light"
+                   
+                   Opacity="0.4"
+                   
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   
+                   Visibility="{Binding NoProjectsFoundTextVisible, 
+                   Converter={local:BoolToVisibilityValueConverter}}"/>
 
         <!-- Settings view -->
-        <local:SettingsView DataContext="{Binding SettingsViewModel}"
+        <local:SettingsView d:DataContext="{x:Static local:SettingsViewModel.DesignInstance_ProjectsPageViewModel}"
+                            DataContext="{Binding SettingsViewModel}"
                             
                             Panel.ZIndex="1"/>
 
     </Grid>
+    
 </local:BaseView>

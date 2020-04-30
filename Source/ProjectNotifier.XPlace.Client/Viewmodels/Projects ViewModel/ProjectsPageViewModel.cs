@@ -9,7 +9,6 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
 
     /// <summary>
@@ -22,6 +21,8 @@
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ObservableCollection<ProjectItemViewModel> _projectList;
+
+        private bool _noProjectsFoundTextVisible = true;
 
         #endregion
 
@@ -38,7 +39,22 @@
             }
         }
 
+
         public SettingsViewModel SettingsViewModel { get; set; }
+
+        /// <summary>
+        /// A boolean flag that indicates if the 'no new project available' textblock is visible
+        /// </summary>
+        public bool NoProjectsFoundTextVisible
+        {
+            get => _noProjectsFoundTextVisible;
+            set
+            {
+                _noProjectsFoundTextVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         #endregion
 
@@ -82,7 +98,7 @@
                 var appSettings = DI.ClientAppSettings();
 
                 var userPrefferdProjects = DI.GetService<IClientCache>().UserPrefferedProjectsCache;
-              
+
                 int userPrefferdProjectsCount = userPrefferdProjects.Count();
 
 
@@ -148,6 +164,12 @@
             })
             // Take the first 10
             .Take(10));
+
+
+            if (ProjectList.Count > 0)
+                NoProjectsFoundTextVisible = false;
+            else
+                NoProjectsFoundTextVisible = true;
         }
 
         #endregion
@@ -171,10 +193,18 @@
                 })
                 .Take(DI.ClientAppSettings().ProjectsToDisplay));
 
+            if (ProjectList.Count > 0)
+                NoProjectsFoundTextVisible = false;
+            else
+                NoProjectsFoundTextVisible = true;
+
+
             // Display new projects notification
             DI.UIManager().ShowProjectNotification(
-                // Take first 8 projects that appeal to the user
-                clientCache.UserPrefferedProjectsCache.Take(8));
+            // Take first 8 projects that appeal to the user
+            clientCache.UserPrefferedProjectsCache.Take(8));
+
+
         }
 
         #endregion
