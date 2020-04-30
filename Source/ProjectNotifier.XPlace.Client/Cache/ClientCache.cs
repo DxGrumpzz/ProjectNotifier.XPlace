@@ -31,7 +31,7 @@
                 .Where(project =>
                 {
                     // Get the user's project preferences
-                    var projects = userProfile.UserProjectPreferences
+                    var projects = userProfile.UserProjectPreferences?
                     .Where(preference =>
                     {
                         // Check if the current project has at least one of the user's project preferences
